@@ -1,0 +1,19 @@
+{
+    "theme": {
+        "full-black": "#000000",
+        "base-black": "#212121",
+        "soft-black": "#424242",
+        "dark-gray": "#757575",
+        "gray": "#D9D9D9",
+        "light-gray": "#EEEEEE",
+        "white": "#FAFAFA",
+        "full-white": "#FFFFFF",
+        "primary": "#27187E",
+        "secondary": "#6366F1",
+        "green-tag": "#C8E6C9",
+        "yellow-tag": "#FFF9C4",
+        "blue-tag": "#B3E5FC",
+        "purple-tag": "#E1BEE7",
+        "pink-tag": "#F8BBD0"
+    }
+}

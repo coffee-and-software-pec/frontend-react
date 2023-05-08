@@ -7,8 +7,6 @@ import { GoogleLogin } from "@react-oauth/google";
 
 
 function LandingPage() {
-    console.log(process.env.CLIENT_ID)
-
     return (
         <div className={styles.container}>
             <div className={styles.gridContainer}>

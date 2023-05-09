@@ -32,5 +32,51 @@
             "gender": "Male",
             "status": "Active"
         }
+    ],
+    "publications": [
+        {
+            "id": "1",
+            "title": "Title 1",
+            "tags": [
+                "ia",
+                "python"
+            ],
+            "userPhoto": "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png",
+            "visualizationsCount": 32,
+            "commentsCount": 4
+        },
+        {
+            "id": "2",
+            "title": "Title 2",
+            "tags": [
+                "devops",
+                "python"
+            ],
+            "userPhoto": "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png",
+            "visualizationsCount": 4,
+            "commentsCount": 1
+        },
+        {
+            "id": "3",
+            "title": "Title 3",
+            "tags": [
+                "ufcg",
+                "front-end"
+            ],
+            "userPhoto": "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png",
+            "visualizationsCount": 232,
+            "commentsCount": 40
+        },
+        {
+            "id": "4",
+            "title": "Title 4",
+            "tags": [
+                "backend",
+                "rust"
+            ],
+            "userPhoto": "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png",
+            "visualizationsCount": 150,
+            "commentsCount": 15
+        }
     ]
 }

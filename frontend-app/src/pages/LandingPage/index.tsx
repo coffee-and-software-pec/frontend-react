@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./LandingPage.module.css";
 
 import AppIcon from '../../assets/app_icon.svg'
 import { GoogleLogin } from "@react-oauth/google";
-
+import { useNavigate } from "react-router-dom";
+import { api } from "../../api/api";
+import LandingPublication from "../../components/LandingPublication";
+import Publication from "../../models/Publication";
 
 function LandingPage() {
+    const navigate = useNavigate();
+    const [publications, setPublications] = useState<Publication[]>([] as Publication[]);
+
+    useEffect(() => {
+        async function fetchPublications() {
+            const result = await api.get("/publications");
+            setPublications(result.data);
+        }
+        
+        fetchPublications();
+    }, [])
+
     return (
         <div className={styles.container}>
             <div className={styles.gridContainer}>
@@ -21,15 +36,11 @@ function LandingPage() {
                 <div className={styles.loginContainer}>
                     <p>Crie sua conta agora</p>
                     <GoogleLogin
-                        containerProps={{
-                            style: {
-                                width: "100%",
-                            }
-                        }}
                         logo_alignment="center"
                         shape="pill"
+                        width="300"
                         onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
+                            navigate("/home");
                         }}
                         onError={() => {
                             console.log('Login Failed');
@@ -40,6 +51,16 @@ function LandingPage() {
                         <input type="text" placeholder="Nome Sobrenome"/>
                         <input type="text" placeholder="email@email.com" />
                         <button>CRIAR CONTA</button>
+                    </div>
+                </div>
+                <div className={styles.popularPublicationsContainer}>
+                    <p>veja o que outras pessoas estão publicando agora</p>
+                    <div className={styles.publicationsGridContainer}>
+                        {
+                            publications.map(publication => (
+                                <LandingPublication publication={publication} />
+                            ))
+                        }
                     </div>
                 </div>
             </div>

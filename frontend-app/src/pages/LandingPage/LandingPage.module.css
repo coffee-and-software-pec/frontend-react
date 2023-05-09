@@ -9,13 +9,16 @@
 
     display: flex;
     flex-direction: column;
+    padding: 2rem;
+    overflow: hidden;
 }
 
 .gridContainer {
+    width: 100%;
+
     display: grid;
     grid-template-columns: auto auto;
-    gap: 8rem;
-    margin: 2rem
+    gap: 2rem;
 }
 
 .logoHeader {
@@ -27,6 +30,8 @@
     align-items: center;
     align-self: flex-start;
     gap: 0.5rem;
+
+    margin-bottom: 4rem;
 }
 
 .logoHeader h1 {
@@ -55,7 +60,6 @@
 }
 
 .loginContainer {
-    width: 25rem;
     background-color: var(--white);
     box-shadow: 0 4px 100px 15px rgba(0, 0, 0, 0.35);
 
@@ -66,6 +70,7 @@
     gap: 1rem;
 
     padding: 2rem 1.5rem;
+    margin-right: 2rem;
 }
 
 .loginContainer p {
@@ -96,4 +101,32 @@
     font-weight: 700;
     background-color: var(--secondary);
     color: var(--white);
+}
+
+.popularPublicationsContainer {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 2rem;
+}
+
+.popularPublicationsContainer > p {
+    color: var(--soft-black);
+    font-weight: 300;
+    font-size: 24px;
+    text-align: center;
+    width: 20%;
+}
+
+.popularPublicationsContainer .publicationsGridContainer {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2rem;
 }

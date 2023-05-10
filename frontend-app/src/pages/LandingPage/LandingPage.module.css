@@ -101,6 +101,12 @@
     font-weight: 700;
     background-color: var(--secondary);
     color: var(--white);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.loginContainer .formContainer button:hover {
+    transform: scale(1.025);
 }
 
 .popularPublicationsContainer {

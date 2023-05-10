@@ -1,0 +1,62 @@
+.container {
+    float: right;
+
+
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.container .userInfo {
+    color: var(--primary);
+    font-weight: 700;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 1rem 1rem 0.75rem 1rem;
+
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.container .userInfo .userImage {
+    background-color: var(--primary);
+    mask: url('../../assets/user_icon.svg') no-repeat center;
+}
+
+.container .menuOptionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    align-items: center;
+    margin-top: 0.5rem;
+    padding: 1rem;
+}
+
+.container .menuOptionsContainer .menuOptionBox {
+    border-bottom: 0.125rem solid var(--gray);
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.container .menuOptionsContainer .menuOption {
+    color: var(--primary);
+    font-weight: 500;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.container .menuOptionsContainer .menuOption:hover {
+    transform: scale(1.075);
+    font-weight: 700;
+}

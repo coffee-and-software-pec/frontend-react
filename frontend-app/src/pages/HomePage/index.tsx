@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { api } from "../../api/api";
+import TopBar from "../../components/TopBar";
+
+import styles from './HomePage.module.css';
 
 function HomePage() {
     const [employees, setEmployees] = useState([]);
@@ -14,7 +17,8 @@ function HomePage() {
     }, []);
 
     return (
-        <>
+        <div className={styles.container}>
+            <TopBar />
             <h2>Home Page</h2>
             <table style={{border: '1px solid black'}} rules="all">
                 <tr>
@@ -40,8 +44,7 @@ function HomePage() {
                     })
                 }
             </table>
-            
-        </>
+        </div>
     )
 }
 

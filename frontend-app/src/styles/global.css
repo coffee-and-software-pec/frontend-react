@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-  
+
 :root {
     --full-black: #000000;
     --base-black: #212121;
@@ -32,4 +32,13 @@ button {
 body {
     background-color: var(--white);
     color: var(--base-black);
+
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body #root {
+    width: 100vw;
+    height: 100vh;
 }

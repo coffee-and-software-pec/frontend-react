@@ -1,6 +1,8 @@
 .container {
-    float: right;
-
+    /* float: right; */
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
 
     width: fit-content;
     display: flex;
@@ -8,6 +10,7 @@
     justify-content: flex-end;
 
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    z-index: 9999;
 }
 
 .container .userInfo {

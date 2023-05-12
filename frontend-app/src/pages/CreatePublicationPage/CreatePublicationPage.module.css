@@ -1,0 +1,117 @@
+.outsideContainer {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 1rem;
+    padding: 2rem 0rem;
+
+    overflow-y: scroll;
+}
+
+.container .titleContainer {
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    padding: 1rem;
+    background-color: var(--secondary);
+    color: var(--white);
+
+    font-weight: 500;
+}
+
+.container .titleContainer input {
+    padding: 0.5rem 1rem;
+    color: var(--soft-black);
+    border: 0;
+    font-size: 0.75rem;
+}
+
+.container .titleContainer input:focus {
+    outline: none;
+}
+
+.container .subtitleContainer {
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    padding: 1rem;
+    background-color: var(--secondary);
+    color: var(--white);
+
+    font-weight: 500;
+}
+
+.container .subtitleContainer textarea {
+    padding: 0.5rem 1rem;
+    background-color: var(--white);
+    color: var(--soft-black);
+    resize: none;
+    font-size: 0.75rem;
+
+    border: 0;
+}
+
+.container .subtitleContainer textarea:focus {
+    outline: none;
+}
+
+.container .fullTextContainer {
+    width: 50%;
+    height: auto;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.container .fullTextContainer .markdownEditor {
+
+}
+
+.container .floatingButtonsContainer {
+    position: fixed;
+    bottom: 2rem;
+    right: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container .floatingButtonsContainer button {
+    padding: 0.75rem 1rem;
+    border: 0;
+    color: var(--white);
+    background-color: var(--secondary);
+    border-radius: 1rem;
+
+    font-weight: 500;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.container .floatingButtonsContainer button:hover {
+    transform: scale(1.05);
+}

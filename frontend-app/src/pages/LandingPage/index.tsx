@@ -7,19 +7,19 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../api/api";
 import LandingPublication from "../../components/LandingPublication";
-import Publication from "../../models/Publication";
+import LandPublication from "../../models/LandPublication";
 import { useAuth } from "../../contexts/AuthContext";
 import { checkAuthToken } from "../../utils/TokenUtil";
 
 function LandingPage() {
     const navigate = useNavigate();
-    const [publications, setPublications] = useState<Publication[]>([] as Publication[]);
+    const [publications, setPublications] = useState<LandPublication[]>([] as LandPublication[]);
 
     const { onSuccessGoogleLogin, onFailureGoogleLogin } = useAuth();
 
     useEffect(() => {
         async function fetchPublications() {
-            const result = await api.get("/publications");
+            const result = await api.get("/landingPublications");
             setPublications(result.data);
         }
 

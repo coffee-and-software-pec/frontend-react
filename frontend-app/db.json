@@ -33,7 +33,7 @@
             "status": "Active"
         }
     ],
-    "publications": [
+    "landingPublications": [
         {
             "id": "1",
             "title": "Title 1",
@@ -77,6 +77,41 @@
             "userPhoto": "https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png",
             "visualizationsCount": 150,
             "commentsCount": 15
+        }
+    ],
+    "publications": [
+        {
+            "id": 1,
+            "author": "Proin Fermentum",
+            "date": 1683897741,
+            "visualizationsCount": 4480,
+            "heartsCount": 300,
+            "commentsCount": 10,
+            "tags": [
+                "ia",
+                "devops"
+            ],
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus, eros ut sodales efficitur, purus risus facilisis orci, vel sodales ipsum ex quis leo. Aenean metus massa, porta in vulputate in, faucibus et lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat venenatis leo in lacinia. Cras auctor mauris eget magna facilisis, lobortis consectetur sem pellentesque. In gravida felis at metus condimentum, vel rhoncus sem elementum. In ex diam, commodo sit amet egestas quis, viverra sed ex. Nunc sit amet ante at tortor dignissim bibendum. Mauris porttitor eu ligula vel pulvinar. Maecenas luctus a sapien sit amet condimentum. Quisque varius euismod tellus, vitae fringilla urna. Morbi in purus nec risus congue pulvinar. Praesent pulvinar mi nec arcu consequat bibendum. Aliquam ultrices arcu interdum felis varius, sed egestas ligula vestibulum. Nunc imperdiet convallis molestie. Phasellus mattis facilisis libero at fermentum. Praesent vulputate egestas ultrices. Sed a dolor ut eros bibendum iaculis vitae ac ligula. Donec facilisis sem ac lectus imperdiet, ut commodo turpis lacinia. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut eros vel mauris imperdiet malesuada. Phasellus ullamcorper ultricies velit, a condimentum est tincidunt et. Aliquam laoreet, nunc pulvinar bibendum lobortis, sem enim semper felis, non rutrum augue sem sit amet urna. Phasellus imperdiet non felis sed auctor. Quisque eu magna elementum, euismod metus lacinia, pharetra eros. Phasellus et augue ultricies, condimentum elit sit amet, fermentum libero. Fusce egestas nisl mauris, ut aliquet tellus interdum eget. Duis quis dui aliquam, feugiat eros non, imperdiet nulla. Nulla facilisi. Nunc nec luctus lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris scelerisque eget velit ac vestibulum. In sed interdum nibh, quis hendrerit sapien. Quisque vitae tellus at velit egestas suscipit sit amet eu ligula. Praesent rhoncus eget eros eget dictum. Morbi in urna nec tellus consequat condimentum at vitae enim. Mauris viverra maximus tempus. Donec tempor dignissim sagittis. Praesent rhoncus, mauris et consectetur blandit, sem tellus auctor sapien, non auctor elit orci eu lacus. Nulla facilisi. Vestibulum fringilla porttitor sollicitudin. Pellentesque in laoreet magna. Praesent neque sapien, aliquam at semper ac, ultrices ut magna. Curabitur vitae dui diam. Nunc pharetra egestas tincidunt. Mauris a eros eu libero ullamcorper malesuada a eu nunc. Nunc mollis, dui eu molestie laoreet, neque nulla tincidunt enim, quis dictum metus lacus vel lacus. Mauris nec ex est. Nullam ut nisl malesuada, sagittis enim non, elementum velit. Phasellus pharetra mi in nisl imperdiet, sit amet viverra elit consequat. Vestibulum dictum volutpat laoreet. Nullam vitae augue nisi. ",
+            "comments": [
+                {
+                    "id": 1,
+                    "author": "Lunxinyo",
+                    "date": 1683724941,
+                    "content": "Lorem ipsum porttitor viverra orci maecenas semper dui molestie dapibus, litora luctus consequat lobortis aptent dui integer blandit, erat condimentum turpis cubilia donec tincidunt netus tempus."
+                },
+                {
+                    "id": 2,
+                    "author": "Zyuvo",
+                    "date": 1683728541,
+                    "content": "quisque vivamus ut porttitor tempus senectus nisi lectus senectus sapien amet cursus, leo inceptos vestibulum eleifend massa mattis nec mattis ante lectus ut, lorem elit netus quisque nulla fusce taciti quisque commodo tempus."
+                },
+                {
+                    "id": 3,
+                    "author": "Riri",
+                    "date": 1683732141,
+                    "content": "adipiscing litora quisque auctor feugiat elit arcu cras, in vitae quis nisi ornare bibendum iaculis porttitor, justo felis dictumst potenti auctor ut."
+                }
+            ]
         }
     ]
 }

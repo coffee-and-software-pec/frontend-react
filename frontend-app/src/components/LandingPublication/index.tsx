@@ -1,5 +1,4 @@
 import React from "react";
-import Publication from "../../models/Publication";
 
 import styles from "./LandingPublication.module.css";
 
@@ -7,9 +6,10 @@ import EyeIcon from '../../assets/eye_icon.svg';
 import CommentIcon from '../../assets/comment_icon.svg'
 import EnterPublication from '../../assets/enter_publication_icon.svg';
 import { Link } from "react-router-dom";
+import LandPublication from "../../models/LandPublication";
 
 interface LandingPublicationProps {
-    publication: Publication
+    publication: LandPublication
 }
 
 function LandingPublication({publication}: LandingPublicationProps) {

@@ -1,0 +1,110 @@
+.outsideContainer {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    /* width: 100%; */
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    overflow-y: scroll;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.container .mainContent {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    gap: 1rem;
+    
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        ". metadata ."
+        "reactions main-content related"
+        ". main-content ."
+        ". make-comment ."
+        ". comments .";
+}
+
+.container .mainContent .publicationData {
+    grid-area: metadata;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container .mainContent .publicationData .authorContainer {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .mainContent .publicationData .authorContainer .authorImage {
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--primary);
+    mask: url('../../assets/user_icon.svg') no-repeat center;
+}
+
+.container .mainContent .publicationData .authorContainer .author {
+    font-weight: 500;
+    color: var(--soft-black);
+}
+
+.container .mainContent .publicationData .editDate {
+    font-weight: 400;
+    color: var(--soft-black);
+}
+
+.container .mainContent .reactionsData {
+    grid-area: reactions;
+    justify-self: end;
+
+    display: grid;
+    row-gap: 0.5rem;
+    column-gap: 0.25rem;
+
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto;
+}
+
+.container .mainContent .reactionsData p {
+    color: var(--dark-gray);
+    font-weight: 700;
+}
+
+.container .mainContent .publicationContent {
+    grid-area: main-content;
+
+    /* width: 4rem; */
+}
+
+.container .mainContent .publicationContent .tagsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.container .mainContent .relatedPublications {
+    grid-area: related;
+}
+
+.container .mainContent .makeCommentContainer {
+    grid-area: make-comment;
+}
+
+.container .mainContent .commentContainer {
+    grid-area: comments;
+}

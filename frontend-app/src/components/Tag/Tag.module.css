@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+
+    color: var(--soft-black);
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.container:hover {
+    transform: scale(1.1);
+}

@@ -14,6 +14,10 @@ import { ReactComponent as CommentIcon } from '../../assets/comment_icon_filled.
 
 import colors from  '../../styles/colorsConfig.json';
 import { convertNumberToThousands } from "../../utils/NumberFormat";
+import Tag from "../../components/Tag";
+import MarkdownEditor from "@uiw/react-markdown-editor";
+import MarkdownPreview from '@uiw/react-markdown-preview';
+import Comment from "../../components/Comment";
 
 function PublicationPage() {
     const params = useParams();
@@ -53,25 +57,41 @@ function PublicationPage() {
                         <CommentIcon />
                         <p>{convertNumberToThousands(publication?.commentsCount)}</p>
                     </div>
+                    <div className={styles.tagsContainer}>
+                        {publication?.tags.map(tag => <Tag key={tag} name={tag} />)}
+                    </div>
                     <div className={styles.publicationContent}>
-                        <div className={styles.tagsContainer}>
-                            {publication?.tags.map(tag => <p key={tag}>{tag}</p>)}
+                        <div className={styles.contentContainer}>
+                            <MarkdownPreview 
+                                source={publication?.content}
+                                className={styles.markdownEditor}
+                            />
                         </div>
-                        <p>{publication?.content}</p>
                     </div>
                     <div className={styles.relatedPublications}></div>
-                    <div className={styles.makeCommentContainer}>make-comment</div>
+                    <div className={styles.makeCommentContainer}>
+                        <span>Faça um comentário:</span>
+                        <textarea 
+                            name="comment-text-area" 
+                            id="comment-text-area" 
+                            cols={30} 
+                            rows={10}
+                        >
+                        </textarea>
+                        <div className={styles.buttonsContainer}>
+                            <button className={styles.cancelButton}>cancelar</button>
+                            <button className={styles.sendButton}>enviar</button>
+                        </div>
+                    </div>
                     <div className={styles.commentContainer}>
-                        {publication?.comments.map(comment => {
+                        <h4>Comentários</h4>
+                        {publication?.comments.map((comment) => {
                             return (
-                                <div key={comment.id}>
-                                    <p>{comment.author}</p>
-                                    <p>{comment.content}</p>
-                                    <p>{comment.date}</p>
-                                </div>
+                                <Comment comment={comment} />
                             );
                         })}
                     </div>
+                    <div className={styles.space}></div>
                 </div>
             </div>
         </div>

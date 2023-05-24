@@ -2,9 +2,10 @@ import React from "react";
 
 import styles from "./LandingPublication.module.css";
 
-import EyeIcon from '../../assets/eye_icon.svg';
-import CommentIcon from '../../assets/comment_icon.svg'
-import EnterPublication from '../../assets/enter_publication_icon.svg';
+import { ReactComponent as EyeIcon } from '../../assets/eye_icon.svg';
+import { ReactComponent as CommentIcon } from '../../assets/comment_icon.svg'
+import { ReactComponent as EnterPublication } from '../../assets/enter_publication_icon.svg';
+
 import { Link } from "react-router-dom";
 import LandPublication from "../../models/LandPublication";
 
@@ -28,15 +29,15 @@ function LandingPublication({publication}: LandingPublicationProps) {
             </div>
             <div className={styles.publicationReactions}>
                 <div className={styles.publicationVisualizations}>
-                    <img src={EyeIcon} alt="" />
+                    <EyeIcon />
                     {publication.visualizationsCount}
                 </div>
                 <div className={styles.publicationCommentsCount}>
-                    <img src={CommentIcon} alt="" />
+                    <CommentIcon />
                     {publication.commentsCount}
                 </div>
                 <Link to={`/publication/${publication.id}`} className={styles.enterPublicationIcon}>
-                    <img src={EnterPublication} style={{opacity: '0'}} />
+                    <EnterPublication className={styles.enterPublicationIcon} />
                 </Link>
             </div>
         </div>

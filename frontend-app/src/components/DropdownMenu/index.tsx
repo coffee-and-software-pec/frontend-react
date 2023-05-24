@@ -29,7 +29,7 @@ function DropdownMenu({active, setActive}: DropDownMenuProps) {
             <div className={styles.userInfo}>
                 <p>Username</p>
                 <div className={styles.userImage}>
-                    <img src={UserIcon} alt="" style={{opacity: 0}}/>
+                    {/* <img src={UserIcon} alt="" style={{opacity: 0}}/> */}
                 </div>
             </div>
             <div className={styles.menuOptionsContainer}>

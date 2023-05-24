@@ -4,8 +4,8 @@ import TopBar from "../../components/TopBar";
 
 import styles from "./CreatePublicationPage.module.css";
 
-import SaveIcon from "../../assets/save_icon.svg";
-import PublishIcon from "../../assets/publish_icon.svg";
+import { ReactComponent as SaveIcon } from "../../assets/save_icon.svg";
+import { ReactComponent as PublishIcon } from "../../assets/publish_icon.svg";
 
 function CreatePublicationPage() {
     const [publicationText, setPublicationText] = useState<string>("");
@@ -46,11 +46,11 @@ function CreatePublicationPage() {
                 </div>
                 <div className={styles.floatingButtonsContainer}>
                     <button>
-                        <img src={SaveIcon} alt="Save icon" />
+                        <SaveIcon />
                         SALVAR
                     </button>
                     <button>
-                        <img src={PublishIcon} alt="Publish icon" />
+                        <PublishIcon />
                         PUBLICAR
                     </button>
                 </div>

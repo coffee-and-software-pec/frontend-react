@@ -81,11 +81,10 @@
 }
 
 .publicationContainer .publicationReactions .enterPublicationIcon {
-    background-color: var(--gray);
-    mask: url('../../assets/enter_publication_icon.svg') no-repeat center;
-    transition: background-color 0.2s;
+    transition: color 0.2s;
+    color: var(--gray);
 }
 
 .publicationContainer .publicationReactions .enterPublicationIcon:hover {
-    background-color: var(--secondary);
+    color: var(--secondary);
 }

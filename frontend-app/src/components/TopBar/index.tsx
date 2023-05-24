@@ -1,13 +1,16 @@
 import styles from './TopBar.module.css';
 
-import PublicationIcon from '../../assets/publication_icon.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import UserIcon from '../../assets/user_icon.svg';
-import BellIcon from '../../assets/bell_icon.svg';
-import CarretDownIcon from '../../assets/carret_down_icon.svg';
+import { ReactComponent as PublicationIcon } from '../../assets/publication_icon.svg';
+import { ReactComponent as UserIcon } from '../../assets/user_icon.svg';
+import { ReactComponent as BellIcon } from '../../assets/bell_icon.svg';
+import { ReactComponent as CarretDownIcon } from '../../assets/carret_down_icon.svg';
+
 import DropdownMenu from '../DropdownMenu';
+
+import colors from  '../../styles/colorsConfig.json';
 
 
 enum HomeRoutes {
@@ -30,7 +33,8 @@ function TopBar() {
         <>
             <div className={styles.container}>
                 <div className={styles.logoContainer}>
-                    <img src={PublicationIcon} alt="App Logo" />
+                    {/* <img src={PublicationIcon} alt="App Logo" /> */}
+                    <PublicationIcon />
                     <span>AFTER CLASS</span>
                 </div>
                 <div className={styles.menuContainer}>
@@ -54,12 +58,10 @@ function TopBar() {
                     </Link>
                 </div>
                 <div className={styles.userActionsContainer}>
-                    <img className={styles.notificationIcon} src={BellIcon} alt="Notification icon" />
-                    <img className={styles.userIcon} src={UserIcon} alt="User icon" />
-                    <img 
+                    <BellIcon className={styles.notificationIcon} width={16} height={16} />
+                    <UserIcon className={styles.userIcon} color={colors.theme.white} />
+                    <CarretDownIcon 
                         className={styles.dropdownMenuIcon} 
-                        src={CarretDownIcon} 
-                        alt="Dropdown menu icon" 
                         onClick={() => setActiveDropdownMenu(!activeDropdownMenu)}
                     />
                 </div>

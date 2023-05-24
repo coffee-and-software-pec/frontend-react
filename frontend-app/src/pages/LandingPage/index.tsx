@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./LandingPage.module.css";
 
-import AppIcon from '../../assets/app_icon.svg'
+import { ReactComponent as AppIcon } from '../../assets/app_icon.svg'
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../api/api";
@@ -39,7 +39,7 @@ function LandingPage() {
         <div className={styles.container}>
             <div className={styles.gridContainer}>
                 <div className={styles.logoHeader}>
-                    <img src={AppIcon} alt="App icon" width={32} height={32} />
+                    <AppIcon width={32} height={32} />
                     <h1>AFTER CLASS</h1>
                 </div>
                 <div className={styles.appInfo}>

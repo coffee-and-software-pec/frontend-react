@@ -7,12 +7,10 @@ import { formatDateTimestamp } from "../../utils/DateUtil";
 
 import styles from './PublicationPage.module.css';
 
-import UserIcon from '../../assets/user_icon.svg';
-import EyeIcon from '../../assets/eye_icon_filled.svg';
-import HeartIcon from '../../assets/heart_icon.svg';
-import CommentIcon from '../../assets/comment_icon_filled.svg';
-
-import ImageSvg from "../../components/ImageSvg";
+import { ReactComponent as UserIcon } from '../../assets/user_icon.svg';
+import { ReactComponent as EyeIcon } from '../../assets/eye_icon_filled.svg';
+import { ReactComponent as HeartIcon } from '../../assets/heart_icon.svg';
+import { ReactComponent as CommentIcon } from '../../assets/comment_icon_filled.svg';
 
 import colors from  '../../styles/colorsConfig.json';
 import { convertNumberToThousands } from "../../utils/NumberFormat";
@@ -42,17 +40,17 @@ function PublicationPage() {
                 <div className={styles.mainContent}>
                     <div className={styles.publicationData}>
                         <div className={styles.authorContainer}>
-                            <ImageSvg path={UserIcon} alt="Author Image" backgroundColor={colors.theme.primary} />
+                            <UserIcon color={colors.theme["soft-black"]} width={24} height={24} />
                             <p className={styles.author}>{publication?.author}</p>
                         </div>
                         <p className={styles.editDate}>{formatDateTimestamp(publication?.date!!)}</p>
                     </div>
                     <div className={styles.reactionsData}>
-                        <ImageSvg path={EyeIcon} alt="Author Image" backgroundColor={colors.theme["dark-gray"]} style={{width: '1rem', height: 'auto'}} />
+                        <EyeIcon />
                         <p>{convertNumberToThousands(publication?.visualizationsCount)}</p>
-                        <ImageSvg path={HeartIcon} alt="Author Image" backgroundColor={colors.theme["dark-gray"]} style={{width: '1rem', height: 'auto'}} />
+                        <HeartIcon />
                         <p>{convertNumberToThousands(publication?.heartsCount)}</p>
-                        <ImageSvg path={CommentIcon} alt="Author Image" backgroundColor={colors.theme["dark-gray"]} style={{width: '1rem', height: 'auto'}} />
+                        <CommentIcon />
                         <p>{convertNumberToThousands(publication?.commentsCount)}</p>
                     </div>
                     <div className={styles.publicationContent}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../api/api";
 import TopBar from "../../components/TopBar";
@@ -24,6 +24,13 @@ function PublicationPage() {
     const params = useParams();
     const [publicationId, setPublicationId] = useState<string>();
     const [publication, setPublication] = useState<Publication | undefined>(undefined);
+
+    const textAreaRef: any = useRef(null);
+
+    function onClickClearButton() {
+        console.log(textAreaRef.current.value);
+        textAreaRef.current.value = "";
+    }
 
     useEffect(() => {
         async function loadPublication(publicationId: string) {
@@ -87,10 +94,14 @@ function PublicationPage() {
                             cols={30} 
                             rows={10}
                             placeholder="Digite seu comentário aqui"
+                            ref={textAreaRef}
                         >
                         </textarea>
                         <div className={styles.buttonsContainer}>
-                            <button className={styles.cancelButton}>cancelar</button>
+                            <button 
+                                className={styles.cancelButton}
+                                onClick={onClickClearButton}
+                            >limpar</button>
                             <button className={styles.sendButton}>enviar</button>
                         </div>
                     </div>
@@ -98,7 +109,7 @@ function PublicationPage() {
                         <h4 id="comments">Comentários</h4>
                         {publication?.comments.map((comment) => {
                             return (
-                                <Comment comment={comment} />
+                                <Comment key={comment.id} comment={comment} />
                             );
                         })}
                     </div>

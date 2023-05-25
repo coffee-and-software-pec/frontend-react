@@ -27,7 +27,7 @@ function RelatedPublications() {
         <div className={styles.container}>
             {
                 relatedPublications.map(relatedPublication => (
-                    <div className={styles.publicationContainer} onClick={() => onClickRelatedPublication(relatedPublication)}>
+                    <div key={relatedPublication.id} className={styles.publicationContainer} onClick={() => onClickRelatedPublication(relatedPublication)}>
                         <div className={styles.publicationContent}>
                             <p className={styles.title}>{relatedPublication.title}</p>
                             <p className={styles.subtitle}>{relatedPublication.subtitle}</p>

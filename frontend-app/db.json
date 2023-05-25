@@ -116,5 +116,25 @@
                 }
             ]
         }
+    ],
+    "relatedPublications": [
+        {
+            "id": 1,
+            "title": "Nam porttitor lorem et mi sollicitudin aliquam. Sed viverra efficitur fringilla.",
+            "subtitle": "Curabitur imperdiet sed lectus at lacinia. Integer a tortor ac eros pellentesque vestibulum congue in orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+            "publicationThumb": "https://images.unsplash.com/photo-1682686580391-615b1f28e5ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+        },
+        {
+            "id": 2,
+            "title": "Nam porttitor lorem et mi sollicitudin aliquam. Sed viverra efficitur fringilla.",
+            "subtitle": "Curabitur imperdiet sed lectus at lacinia. Integer a tortor ac eros pellentesque vestibulum congue in orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+            "publicationThumb": "https://images.unsplash.com/photo-1682686580391-615b1f28e5ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+        },
+        {
+            "id": 3,
+            "title": "Nam porttitor lorem et mi sollicitudin aliquam. Sed viverra efficitur fringilla.",
+            "subtitle": "Curabitur imperdiet sed lectus at lacinia. Integer a tortor ac eros pellentesque vestibulum congue in orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+            "publicationThumb": "https://images.unsplash.com/photo-1682686580391-615b1f28e5ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+        }
     ]
 }

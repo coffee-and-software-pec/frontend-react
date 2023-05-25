@@ -18,6 +18,7 @@ import Tag from "../../components/Tag";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import Comment from "../../components/Comment";
+import RelatedPublications from "../../components/RelatedPublications";
 
 function PublicationPage() {
     const params = useParams();
@@ -26,16 +27,19 @@ function PublicationPage() {
 
     useEffect(() => {
         async function loadPublication(publicationId: string) {
-            const result = (await api.get(`/publications/${publicationId}`)).data;
-            setPublication(result as Publication);
+            try {
+                const result = (await api.get(`/publications/${publicationId}`)).data;
+                setPublication(result as Publication);
+            } catch(e) {
+                alert("there is no publication with this id");
+            }
         }
 
         if (params.id !== undefined) {
             setPublicationId(params.id);
             loadPublication(params.id);
         }
-    }, [params.id]);
-    
+    }, [params.id]);    
 
     return (
         <div className={styles.outsideContainer}>
@@ -52,23 +56,29 @@ function PublicationPage() {
                     <div className={styles.reactionsData}>
                         <EyeIcon />
                         <p>{convertNumberToThousands(publication?.visualizationsCount)}</p>
-                        <HeartIcon />
+                        <HeartIcon className={styles.heartIcon}/>
                         <p>{convertNumberToThousands(publication?.heartsCount)}</p>
-                        <CommentIcon />
+                        <a href="#comments" className={styles.commentLink}>
+                            <CommentIcon className={styles.commentIcon}/>
+                        </a>
                         <p>{convertNumberToThousands(publication?.commentsCount)}</p>
-                    </div>
-                    <div className={styles.tagsContainer}>
-                        {publication?.tags.map(tag => <Tag key={tag} name={tag} />)}
                     </div>
                     <div className={styles.publicationContent}>
                         <div className={styles.contentContainer}>
+                            <div className={styles.tagsContainer}>
+                                {publication?.tags.map(tag => <Tag key={tag} name={tag} />)}
+                            </div>
                             <MarkdownPreview 
                                 source={publication?.content}
                                 className={styles.markdownEditor}
+                                wrapperElement={{"data-color-mode": "light"}}
                             />
                         </div>
                     </div>
-                    <div className={styles.relatedPublications}></div>
+                    <div className={styles.relatedPublications}>
+                        <h4>Artigos relacionados</h4>
+                        <RelatedPublications />
+                    </div>
                     <div className={styles.makeCommentContainer}>
                         <span>Faça um comentário:</span>
                         <textarea 
@@ -76,6 +86,7 @@ function PublicationPage() {
                             id="comment-text-area" 
                             cols={30} 
                             rows={10}
+                            placeholder="Digite seu comentário aqui"
                         >
                         </textarea>
                         <div className={styles.buttonsContainer}>
@@ -84,7 +95,7 @@ function PublicationPage() {
                         </div>
                     </div>
                     <div className={styles.commentContainer}>
-                        <h4>Comentários</h4>
+                        <h4 id="comments">Comentários</h4>
                         {publication?.comments.map((comment) => {
                             return (
                                 <Comment comment={comment} />

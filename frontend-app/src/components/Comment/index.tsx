@@ -1,4 +1,5 @@
 import PublicationComment from '../../models/PublicationComment';
+import { getCommentDateString } from '../../utils/CommentDateUtil';
 import styles from './Comment.module.css';
 
 interface CommentProps {
@@ -13,7 +14,9 @@ function Comment({ comment }: CommentProps) {
                     <img src={comment.authorPhoto} alt="" referrerPolicy='no-referrer' />
                     <p>{comment.author}</p>
                 </div>
-                <span className={styles.commentDate}>{comment.date}</span>
+                <span className={styles.commentDate}>
+                    {getCommentDateString(comment.date)}
+                </span>
             </div>
             <div className={styles.content}>
                 {comment.content}

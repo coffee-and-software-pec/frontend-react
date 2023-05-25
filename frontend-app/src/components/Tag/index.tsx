@@ -7,8 +7,7 @@ interface TagProps {
 
 function Tag({ name }: TagProps) {
 
-    const color = toMaterialStyle(name, 200).backgroundColor;
-    console.log(color);
+    const color = toMaterialStyle(name, 300).backgroundColor;
 
     return (
         <div className={styles.container} style={{backgroundColor: color}}>

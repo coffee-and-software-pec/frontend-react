@@ -22,7 +22,7 @@ function LandingPublication({publication}: LandingPublicationProps) {
                 <div className={styles.publicationTagList}>
                     {
                         publication.tags.map((tag) => (
-                            <span className={styles.tagSpan}>{tag}</span>
+                            <span key={tag} className={styles.tagSpan}>{tag}</span>
                         ))
                     }
                 </div>

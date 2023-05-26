@@ -56,9 +56,8 @@ function CreatePublicationPage() {
                 </div>
                     <div className={styles.tags}>
                         {tags.map((tag, index) => (
-                            /*<div className={styles.tag}>*/
-                                <Tag name={tag} deleteTag={() => deleteTag(index)}/>   
-                            /*</div>*/
+                            <Tag name={tag} deleteTag={() => deleteTag(index)}/>   
+                            
                         ))}
                     </div>
                     <div>

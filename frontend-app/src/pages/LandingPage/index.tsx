@@ -72,7 +72,7 @@ function LandingPage() {
                     <div className={styles.publicationsGridContainer}>
                         {
                             publications.map(publication => (
-                                <LandingPublication publication={publication} />
+                                <LandingPublication key={publication.id} publication={publication} />
                             ))
                         }
                     </div>

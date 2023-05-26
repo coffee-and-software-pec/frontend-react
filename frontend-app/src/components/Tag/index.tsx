@@ -3,16 +3,19 @@ import styles from './Tag.module.css';
 
 interface TagProps {
     name: string;
+    deleteTag: any; 
 }
 
-function Tag({ name }: TagProps) {
-
+function Tag({ name, deleteTag }: TagProps) {
+    
     const color = toMaterialStyle(name, 300).backgroundColor;
 
     return (
-        <div className={styles.container} style={{backgroundColor: color}}>
+        <span className={styles.container} style={{backgroundColor: color}}>
             <span>{name}</span>
-        </div>
+            
+            {deleteTag && <button onClick={deleteTag}>x</button>}
+        </span>
     );
 }
 

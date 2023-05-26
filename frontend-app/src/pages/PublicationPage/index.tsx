@@ -73,7 +73,7 @@ function PublicationPage() {
                     <div className={styles.publicationContent}>
                         <div className={styles.contentContainer}>
                             <div className={styles.tagsContainer}>
-                                {publication?.tags.map(tag => <Tag key={tag} name={tag} />)}
+                                {publication?.tags.map(tag => <Tag key={tag} name={tag} deleteTag={null}/>)}
                             </div>
                             <MarkdownPreview 
                                 source={publication?.content}

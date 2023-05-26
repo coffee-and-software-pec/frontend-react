@@ -6,9 +6,33 @@ import styles from "./CreatePublicationPage.module.css";
 
 import { ReactComponent as SaveIcon } from "../../assets/save_icon.svg";
 import { ReactComponent as PublishIcon } from "../../assets/publish_icon.svg";
+import Tag from "../../components/Tag";
 
 function CreatePublicationPage() {
     const [publicationText, setPublicationText] = useState<string>("");
+    const [tagsInput, setTagsInput] = useState<string>('');
+    const [tags, setTags] = useState<string[]>([]);
+
+    const onChange = (e: any) => {
+        const { value } = e.target;
+        setTagsInput(value);
+    }
+
+    const onKeyDown = (e: any) => {
+        const { key } = e;
+        const trimmedInput: string = tagsInput.trim();
+
+        if (key === 'Enter' && trimmedInput.length && !tags.includes(trimmedInput)) {
+            e.preventDefault();
+            setTags(prevState => [...prevState, trimmedInput]);
+            setTagsInput('');
+        }
+
+    }
+
+    const deleteTag = (index: any) => {
+        setTags(prevState => prevState.filter((tag, i) => i !== index))
+    }
 
     return (
         <div className={styles.outsideContainer}>
@@ -30,6 +54,22 @@ function CreatePublicationPage() {
                         placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
                     />
                 </div>
+                    <div className={styles.tags}>
+                        {tags.map((tag, index) => (
+                            /*<div className={styles.tag}>*/
+                                <Tag name={tag} deleteTag={() => deleteTag(index)}/>   
+                            /*</div>*/
+                        ))}
+                    </div>
+                    <div>
+                        <input
+                            className={styles.inputTag}
+                            value={tagsInput}
+                            placeholder="Adicionar nova tag"
+                            onKeyDown={onKeyDown}
+                            onChange={onChange}
+                        />
+                    </div>
                 <div className={styles.fullTextContainer}>
                     <MarkdownEditor
                         className={styles.markdownEditor}

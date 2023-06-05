@@ -1,0 +1,50 @@
+.container {
+    width: 100%;
+    height: auto;
+    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.375);
+    border-radius: 0 1rem 1rem 0;
+}
+
+.container .title {
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--soft-black);
+}
+
+.container .tagList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container .filterButton {
+    background-color: var(--secondary);
+    color: var(--white);
+
+    border: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+
+    font-weight: 500;
+
+    transition: transform 0.2s;
+
+    cursor: pointer;
+}
+
+.container .filterButton:hover {
+    transform: scale(1.05);
+}
+
+.container .filterButton:active {
+    background-color: var(--white);
+    color: var(--secondary);
+    box-shadow: inset 0 0 0 0.1rem var(--secondary);
+    transform: scale(1);
+}

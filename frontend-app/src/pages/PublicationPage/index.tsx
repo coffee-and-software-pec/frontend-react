@@ -56,7 +56,7 @@ function PublicationPage() {
                     <div className={styles.publicationData}>
                         <div className={styles.authorContainer}>
                             <UserIcon color={colors.theme["soft-black"]} width={24} height={24} />
-                            <p className={styles.author}>{publication?.author}</p>
+                            <p className={styles.author}>{publication?.authorData.authorName}</p>
                         </div>
                         <p className={styles.editDate}>{formatDateTimestamp(publication?.date!!)}</p>
                     </div>
@@ -73,7 +73,7 @@ function PublicationPage() {
                     <div className={styles.publicationContent}>
                         <div className={styles.contentContainer}>
                             <div className={styles.tagsContainer}>
-                                {publication?.tags.map(tag => <Tag key={tag} name={tag} deleteTag={null}/>)}
+                                {publication?.tags.map(tag => <Tag key={tag} name={tag} onClickTag={null}/>)}
                             </div>
                             <MarkdownPreview 
                                 source={publication?.content}

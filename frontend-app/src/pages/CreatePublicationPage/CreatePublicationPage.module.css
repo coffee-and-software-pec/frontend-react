@@ -118,14 +118,45 @@
 
 .container .tags {
     display: flex;
-    gap: 5px;
+    gap: 0.5rem;
     flex-wrap: wrap;
     width: 50%;
 } 
 
-.container .inputTag {
-    width: 300px;
-    border-radius: 5px;
-    padding: 14px;
+.container .inputTagContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0 0.05rem rgba(0,0,0,0.1);
+    padding-right: 0.25rem;
 }
 
+.container .inputTagContainer svg {
+    width: 1.5rem;
+    height: auto;
+    color: var(--soft-black);
+    cursor: pointer;
+
+    transition: transform 0.2s;
+    color: var(--gray);
+}
+
+.container .inputTagContainer svg:hover {
+    transform: scale(1.15);
+    color: var(--soft-black);
+}
+
+.container .inputTag {
+    width: 5.25rem;
+    border-radius: 5px;
+    padding: 14px;
+
+    background-color: unset;
+    border: 0;
+}
+
+.container .inputTag:focus {
+    outline: none;
+}

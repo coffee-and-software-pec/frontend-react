@@ -20,7 +20,7 @@ enum HomeRoutes {
   }
 
 function TopBar() {
-    const [activeRoute, setActiveRoute] = useState<HomeRoutes>(HomeRoutes.HOME);
+    const [activeRoute, setActiveRoute] = useState<HomeRoutes>();
     const location = useLocation();
 
     const [activeDropdownMenu, setActiveDropdownMenu] = useState(false);

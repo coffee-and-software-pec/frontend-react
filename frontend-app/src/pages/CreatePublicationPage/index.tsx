@@ -6,6 +6,8 @@ import styles from "./CreatePublicationPage.module.css";
 
 import { ReactComponent as SaveIcon } from "../../assets/save_icon.svg";
 import { ReactComponent as PublishIcon } from "../../assets/publish_icon.svg";
+import { ReactComponent as AddIcon } from "../../assets/plus_icon.svg";
+
 import Tag from "../../components/Tag";
 
 function CreatePublicationPage() {
@@ -16,6 +18,14 @@ function CreatePublicationPage() {
     const onChange = (e: any) => {
         const { value } = e.target;
         setTagsInput(value);
+    }
+
+    function onClickPlusButton() {
+        const trimmedInput: string = tagsInput.trim();
+        if (trimmedInput.length && !tags.includes(trimmedInput)) {
+            setTags(prevState => [...prevState, trimmedInput]);
+            setTagsInput('');
+        }
     }
 
     const onKeyDown = (e: any) => {
@@ -54,21 +64,22 @@ function CreatePublicationPage() {
                         placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
                     />
                 </div>
-                    <div className={styles.tags}>
-                        {tags.map((tag, index) => (
-                            <Tag name={tag} deleteTag={() => deleteTag(index)}/>   
-                            
-                        ))}
-                    </div>
-                    <div>
+                <div className={styles.tags}>
+                    {tags.map((tag, index) => (
+                        <Tag name={tag} onClickTag={() => deleteTag(index)} deletable={true} />   
+                        
+                    ))}
+                    <label className={styles.inputTagContainer}>
                         <input
                             className={styles.inputTag}
                             value={tagsInput}
-                            placeholder="Adicionar nova tag"
+                            placeholder="Nova tag"
                             onKeyDown={onKeyDown}
                             onChange={onChange}
                         />
-                    </div>
+                        <AddIcon onClick={onClickPlusButton} />
+                    </label>
+                </div>
                 <div className={styles.fullTextContainer}>
                     <MarkdownEditor
                         className={styles.markdownEditor}

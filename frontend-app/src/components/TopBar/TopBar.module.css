@@ -41,11 +41,27 @@
     color: var(--white);
     text-decoration: none;
     font-weight: 700;
+    padding: 0.5rem 1rem;
+
+    border-radius: 0.5rem;
+
+    transition: background-color 0.2s;
+}
+
+.container .menuContainer .menuButton:hover {
+    background-color: var(--white);
+    color: var(--secondary);
+    border-radius: 0.5rem;
+}
+
+.container .menuContainer .menuButton:active {
+    background-color: var(--primary);
+    color: var(--white);
 }
 
 .container .menuContainer .menuButtonActive  {
-    background-color: var(--secondary);
-    padding: 0.5rem 1rem;
+    background-color: var(--white);
+    color: var(--secondary);
     border-radius: 0.5rem;
 }
 

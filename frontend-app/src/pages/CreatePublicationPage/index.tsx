@@ -15,12 +15,19 @@ import MDEditor from "@uiw/react-md-editor";
 import colors from '../../styles/colorsConfig.json';
 import { createPublication } from "../../services/PublicationService";
 import { useAuth } from "../../contexts/AuthContext";
-import CreateProjectDTO from "../../services/dtos/CreateProjectDTO";
+import CreateProjectDTO from "../../services/dtos/CreatePublicationDTO";
 
 function CreatePublicationPage() {
     const { user } = useAuth();
 
-    const [publication, setPublication] = useState<CreateProjectDTO>({} as CreateProjectDTO);
+    const [publication, setPublication] = useState<CreateProjectDTO>({
+        author_id: '',
+        continuous_text: '',
+        main_img_url: '',
+        title: '',
+        subtitle: '',
+        tagList: []
+    } as CreateProjectDTO);
     // const [publicationText, setPublicationText] = useState<string>("");
     const [tagsInput, setTagsInput] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
@@ -125,9 +132,9 @@ function CreatePublicationPage() {
                         <span>Adicione uma thumbnail:</span>
                         <input type="url" value={publication.main_img_url} onChange={(value) => handleOnTextImageURLChange(value.target.value)} />
                         <img 
-                            src={publication.main_img_url} 
+                            src={publication.main_img_url}
                             alt="" 
-                            placeholder="URL da imagem" 
+                            placeholder="URL da imagem"
                             onError={({currentTarget}) => {
                                 currentTarget.onerror = null;
                                 currentTarget.src = DefaultImage

@@ -15,7 +15,7 @@
         'tags pubs .'
         '. pubs .'
     ;
-    grid-template-columns: 15% 3fr 0.5fr;
+    grid-template-columns: 15rem 3fr 0.5fr;
     grid-template-rows: 3rem auto auto;
     gap: 4rem;
 
@@ -29,6 +29,9 @@
 }
 
 .mainContent .publicationOrderContainer {
+    justify-self: center;
+    width: 80%;
+
     grid-area: order;
     background-color: var(--secondary);
 
@@ -72,6 +75,9 @@
 }
 
 .mainContent .publicationsContainer {
+    justify-self: center;
+    width: 80%;
+
     grid-area: pubs;
     display: flex;
     flex-direction: column;

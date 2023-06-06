@@ -1,4 +1,4 @@
-interface CreateProjectDTO {
+interface CreatePublicationDTO {
     title: string;
     subtitle: string;
     continuous_text: string;
@@ -9,4 +9,4 @@ interface CreateProjectDTO {
     }[]
 }
 
-export default CreateProjectDTO;
+export default CreatePublicationDTO;

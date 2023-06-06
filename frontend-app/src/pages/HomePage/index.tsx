@@ -74,9 +74,9 @@ function HomePage() {
                     </p>
                 </div>
                 <div className={styles.publicationsContainer}>
-                    {publications.map(publication => {
+                    {publications.map((publication, index) => {
                         return (
-                            <HomePagePublication publication={publication}/>
+                            <HomePagePublication key={index} publication={publication}/>
                         );
                     })}
                     <span className={styles.loadMore}>carregar mais publicações</span>

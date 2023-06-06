@@ -4,14 +4,22 @@ import styles from './HomePagePublication.module.css';
 
 import { ReactComponent as HeartIcon } from '../../assets/heart_icon.svg';
 import { ReactComponent as CommentIcon } from '../../assets/comment_icon_filled.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface HomePagePublicationProps {
     publication: Publication;
 }
 
 function HomePagePublication({ publication }: HomePagePublicationProps) {
+
+    const nav = useNavigate();
+
+    function handleOnClickPublication() {
+        nav(`/publicacao/${publication.id}`);
+    }
+
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={handleOnClickPublication}>
             <div className={styles.mainContent}>
                 <div className={styles.publicationContainer}>
                     <p className={styles.title}>{publication.title}</p>

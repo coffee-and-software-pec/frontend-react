@@ -1,7 +1,8 @@
 import { api } from "../api/api";
 import PublicationComment from "../models/PublicationComment";
+import CreateCommentDTO from "./dtos/CreateCommentDTO";
 
-async function createComment(comment: PublicationComment, publicationId: string): Promise<PublicationComment> {
+async function createComment(comment: CreateCommentDTO, publicationId: string): Promise<PublicationComment> {
     const { data } = await api.post(`/publication/${publicationId}/comment`, comment);
     return data as PublicationComment;
 }
@@ -16,7 +17,7 @@ async function deleteComment(comment: PublicationComment, publicationId: string)
     return data as PublicationComment;
 }
 
-export default {
+export {
     createComment,
     updateComment,
     deleteComment

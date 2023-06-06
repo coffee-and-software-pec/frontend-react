@@ -2,8 +2,8 @@ import { api } from "../api/api";
 import LandPublication from "../models/LandPublication";
 import Publication from "../models/Publication";
 import { RelatedPublication } from "../models/RelatedPublication";
-import CreateProjectDTO from "./dtos/CreateProjectDTO";
-import UpdateProjectDTO from "./dtos/UpdateProjectDTO";
+import CreatePublicationDTO from "./dtos/CreatePublicationDTO";
+import UpdatePublicationDTO from "./dtos/UpdatePublicationDTO";
 
 async function getPublicationById(publicationId: string): Promise<Publication> {
     const data = (await api.get(`/publication/${publicationId}`)).data;
@@ -20,12 +20,12 @@ async function getSortedPublicationsByTags(tags: string[]): Promise<Publication[
     return data as Publication[];
 }
 
-async function createPublication(publication: CreateProjectDTO): Promise<Publication> {
+async function createPublication(publication: CreatePublicationDTO): Promise<Publication> {
     const response = await api.post("/publication", publication);
     return response.data;
 }
 
-async function updatePublication(publicationId: string, publication: UpdateProjectDTO): Promise<Publication> {
+async function updatePublication(publicationId: string, publication: UpdatePublicationDTO): Promise<Publication> {
     const response = await api.patch(`/publication/${publicationId}`, publication);
     return response.data;
 }

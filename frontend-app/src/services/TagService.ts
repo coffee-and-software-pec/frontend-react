@@ -4,7 +4,7 @@ import TagDTO from "./dtos/TagDTO";
 
 async function getAllTags(): Promise<TagDTO[]> {
     const { data } = (await api.get("/tag"));
-    return data as TagDTO[];
+    return (data as string[]).map((tag) => {return {title: tag}});
 }
 
 async function createTag(tag: CreateTagDTO): Promise<TagDTO> {
@@ -12,7 +12,7 @@ async function createTag(tag: CreateTagDTO): Promise<TagDTO> {
     return data as TagDTO;
 }
 
-export default {
+export {
     getAllTags,
     createTag
 }

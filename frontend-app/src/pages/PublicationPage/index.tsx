@@ -19,9 +19,12 @@ import MarkdownEditor from "@uiw/react-markdown-editor";
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import Comment from "../../components/Comment";
 import RelatedPublications from "../../components/RelatedPublications";
+import { createComment } from "../../services/CommentService";
+import { useAuth } from "../../contexts/AuthContext";
 
 function PublicationPage() {
     const params = useParams();
+    const { user } = useAuth()
     const [publicationId, setPublicationId] = useState<string>();
     const [publication, setPublication] = useState<Publication | undefined>(undefined);
     const [isLike, setIsLike] = useState<boolean>(false);
@@ -40,6 +43,19 @@ function PublicationPage() {
     function onClickClearButton() {
         console.log(textAreaRef.current.value);
         textAreaRef.current.value = "";
+    }
+
+    async function onClickSendButton() {
+        try {
+            if (publicationId !== undefined && user?.id !== undefined) {
+                const result = await createComment({
+                    authorId: user?.id,
+                    commentText: textAreaRef.current.value
+                }, publicationId);
+            }
+        } catch(e) {
+            console.log("error on comment creation");
+        }
     }
 
     useEffect(() => {
@@ -111,8 +127,15 @@ function PublicationPage() {
                             <button 
                                 className={styles.cancelButton}
                                 onClick={onClickClearButton}
-                            >limpar</button>
-                            <button className={styles.sendButton}>enviar</button>
+                            >
+                                limpar
+                            </button>
+                            <button 
+                                className={styles.sendButton}
+                                onClick={onClickSendButton}
+                            >
+                                enviar
+                            </button>
                         </div>
                     </div>
                     <div className={styles.commentContainer}>

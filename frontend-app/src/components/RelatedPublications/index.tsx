@@ -20,7 +20,7 @@ function RelatedPublications() {
     }, [])
 
     function onClickRelatedPublication(relatedPublication: RelatedPublication) {
-        navigate(`/publication/${relatedPublication.id}`)
+        navigate(`/publicacao/${relatedPublication.id}`)
     }
 
     return (

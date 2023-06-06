@@ -8,6 +8,7 @@ import { ReactComponent as EnterPublication } from '../../assets/enter_publicati
 
 import { Link } from "react-router-dom";
 import LandPublication from "../../models/LandPublication";
+import Tag from "../Tag";
 
 interface LandingPublicationProps {
     publication: LandPublication
@@ -22,7 +23,8 @@ function LandingPublication({publication}: LandingPublicationProps) {
                 <div className={styles.publicationTagList}>
                     {
                         publication.tags.map((tag) => (
-                            <span key={tag} className={styles.tagSpan}>{tag}</span>
+                            <Tag key={tag} name={tag} />
+                            // <span key={tag} className={styles.tagSpan}>{tag}</span>
                         ))
                     }
                 </div>
@@ -36,7 +38,7 @@ function LandingPublication({publication}: LandingPublicationProps) {
                     <CommentIcon />
                     {publication.commentsCount}
                 </div>
-                <Link to={`/publication/${publication.id}`} className={styles.enterPublicationIcon}>
+                <Link to={`/publicacao/${publication.id}`} className={styles.enterPublicationIcon}>
                     <EnterPublication className={styles.enterPublicationIcon} />
                 </Link>
             </div>

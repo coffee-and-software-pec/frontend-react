@@ -32,6 +32,7 @@
 }
 
 .publicationContainer .publicationInfo .publicationTagList {
+    height: 1.25rem;
     display: flex;
     gap: 0.5rem;
 }

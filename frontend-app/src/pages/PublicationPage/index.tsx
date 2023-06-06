@@ -24,6 +24,16 @@ function PublicationPage() {
     const params = useParams();
     const [publicationId, setPublicationId] = useState<string>();
     const [publication, setPublication] = useState<Publication | undefined>(undefined);
+    const [isLike, setIsLike] = useState<boolean>(false);
+
+    const onLikeButtonClick = () => { 
+        let newPublication = publication;
+        if(newPublication != undefined) {
+             newPublication.heartsCount += isLike ? -1 : +1;    
+        }
+        setPublication(newPublication);
+        setIsLike(!isLike);          
+    };
 
     const textAreaRef: any = useRef(null);
 
@@ -63,7 +73,7 @@ function PublicationPage() {
                     <div className={styles.reactionsData}>
                         <EyeIcon />
                         <p>{convertNumberToThousands(publication?.visualizationsCount)}</p>
-                        <HeartIcon className={styles.heartIcon}/>
+                        <HeartIcon className={isLike ? styles.liked : styles.heartIcon} onClick={onLikeButtonClick}/>
                         <p>{convertNumberToThousands(publication?.heartsCount)}</p>
                         <a href="#comments" className={styles.commentLink}>
                             <CommentIcon className={styles.commentIcon}/>

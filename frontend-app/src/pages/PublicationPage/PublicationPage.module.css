@@ -113,6 +113,10 @@
     transform: scale(1.15);
 }
 
+.container .mainContent .reactionsData .liked {
+    color: var(--material-red);
+}
+
 .container .mainContent .reactionsData .commentIcon {
     color: var(--dark-gray);
     transition: transform 0.2s;   

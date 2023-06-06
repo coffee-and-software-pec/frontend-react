@@ -49,7 +49,7 @@ function TopBar() {
 
     function handleGoogleSuccessLogin(credentialResponse: CredentialResponse) {
         onSuccessGoogleLogin(credentialResponse);
-        navigate("/home");
+        navigate("#");
         setImageLoaded(true);
     }
 

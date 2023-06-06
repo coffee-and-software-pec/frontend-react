@@ -7,14 +7,26 @@ import styles from "./CreatePublicationPage.module.css";
 import { ReactComponent as SaveIcon } from "../../assets/save_icon.svg";
 import { ReactComponent as PublishIcon } from "../../assets/publish_icon.svg";
 import { ReactComponent as AddIcon } from "../../assets/plus_icon.svg";
+import DefaultImage from "../../assets/default-image.png";
 
 import Tag from "../../components/Tag";
 import MDEditor from "@uiw/react-md-editor";
 
+import colors from '../../styles/colorsConfig.json';
+import { createPublication } from "../../services/PublicationService";
+import { useAuth } from "../../contexts/AuthContext";
+import CreateProjectDTO from "../../services/dtos/CreateProjectDTO";
+
 function CreatePublicationPage() {
-    const [publicationText, setPublicationText] = useState<string>("");
+    const { user } = useAuth();
+
+    const [publication, setPublication] = useState<CreateProjectDTO>({} as CreateProjectDTO);
+    // const [publicationText, setPublicationText] = useState<string>("");
     const [tagsInput, setTagsInput] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
+    const [hasChanges, setHasChanges] = useState(false);
+    const [isSaved, setIsSaved]  = useState(false);
+    const [isPublished, setIsPublished]  = useState(false);
 
     const onChange = (e: any) => {
         const { value } = e.target;
@@ -41,6 +53,47 @@ function CreatePublicationPage() {
 
     }
 
+    function handleOnTextImageURLChange(url: string) {
+        setPublication({
+            ...publication,
+            main_img_url: url
+        });
+    }
+
+    function handleOnTextChangeMarkdown(text: string) {
+        // setPublicationText(text);
+        setPublication({
+            ...publication,
+            continuous_text: text
+        });
+        setHasChanges(true);
+    }
+
+    async function handleOnClickSaveChanges() {
+        if (!hasChanges) return;
+        setHasChanges(false);
+        if (user?.id == undefined) {
+            try {
+                const result = await createPublication({
+                    author_id: user?.id!!,
+                    continuous_text: publication.continuous_text,
+                    title: publication.title,
+                    subtitle: publication.subtitle,
+                    main_img_url: publication.main_img_url,
+                    tagList: tags.map(tag => { return { title: tag }})
+                });
+                setIsSaved(true);
+            } catch (e) {
+                console.log("error on publication create");
+            }
+        }
+    }
+    
+    async function handleOnClickPublicate() {
+        if (isPublished) return null;
+        setIsPublished(true);
+    }
+ 
     const deleteTag = (index: any) => {
         setTags(prevState => prevState.filter((tag, i) => i !== index))
     }
@@ -57,14 +110,32 @@ function CreatePublicationPage() {
                         placeholder="Ex: Machine Learning Fácil — Classificando gatos e cachorros em 5 passos." 
                     />
                 </div>
-                <div className={styles.subtitleContainer}>
-                    <label htmlFor="publicationSubtitle">Subtítulo da sua publicação<sup>*</sup></label>
-                    <textarea
-                        id="publicationSubtitle" 
-                        rows={1}
-                        placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
-                    />
+
+                <div className={styles.subtitleThumbContainer}>
+                    <div className={styles.subtitleContainer}>
+                        <label htmlFor="publicationSubtitle">Subtítulo da sua publicação<sup>*</sup></label>
+                        <textarea
+                            id="publicationSubtitle" 
+                            rows={1}
+                            placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
+                        />
+                    </div>
+
+                    <label className={styles.thumbnail}>
+                        <span>Adicione uma thumbnail:</span>
+                        <input type="url" value={publication.main_img_url} onChange={(value) => handleOnTextImageURLChange(value.target.value)} />
+                        <img 
+                            src={publication.main_img_url} 
+                            alt="" 
+                            placeholder="URL da imagem" 
+                            onError={({currentTarget}) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src = DefaultImage
+                            }}
+                        />
+                    </label>
                 </div>
+                
                 <div className={styles.tags}>
                     {tags.map((tag, index) => (
                         <Tag name={tag} onClickTag={() => deleteTag(index)} deletable={true} />   
@@ -84,7 +155,7 @@ function CreatePublicationPage() {
                 <div className={styles.fullTextContainer}>
                     <MarkdownEditor
                         className={styles.markdownEditor}
-                        value={publicationText}
+                        value={publication.continuous_text}
                         toolbars={[
                             "undo", "redo", "bold", "italic", "header", "strike", "underline", "quote", "olist", "ulist", "todo", "link", 
                             "image", "code", "codeBlock"
@@ -93,17 +164,25 @@ function CreatePublicationPage() {
                             "preview"
                         ]}
                         previewWidth={"70%"}
-                        onChange={(value, _) => setPublicationText(value)}
+                        onChange={(value, _) => handleOnTextChangeMarkdown(value)}
                     />
                 </div>
                 <div className={styles.floatingButtonsContainer}>
-                    <button>
-                        <SaveIcon />
-                        SALVAR
+                    <button 
+                        className={!hasChanges ? styles.disabled : ''} 
+                        disabled={!hasChanges}
+                        onClick={handleOnClickSaveChanges}
+                    >
+                        <SaveIcon fill={colors.theme.white} />
+                        {hasChanges ? "SALVAR" : "SALVO" }
                     </button>
-                    <button>
-                        <PublishIcon />
-                        PUBLICAR
+                    <button
+                        className={(isPublished || !isSaved) ? styles.disabled : ''} 
+                        disabled={(isPublished || !isSaved)}
+                        onClick={handleOnClickPublicate}
+                    >
+                        <PublishIcon fill={colors.theme.white} />
+                        {isPublished ? "PUBLICADO" : "PUBLICAR"}
                     </button>
                 </div>
             </div>

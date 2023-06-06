@@ -20,6 +20,10 @@ enum TabName {
 function HomePage() {
     const [publications, setPublications] = useState<Publication[]>([]);
     const [activeTab, setActiveTab] = useState<TabName>(TabName.TRENDING);
+    
+
+    const publicationsNumber = 4;
+    const [next, setNext] = useState<number>(publicationsNumber);
 
     useEffect(() => {
         async function fetchPublications() {
@@ -44,6 +48,10 @@ function HomePage() {
 
     function handleTabOnClick(tabName: TabName) {
         setActiveTab(tabName);
+    }
+
+    const handleMorePublications = () => {
+        setNext(next + publicationsNumber);
     }
 
     return (
@@ -74,12 +82,15 @@ function HomePage() {
                     </p>
                 </div>
                 <div className={styles.publicationsContainer}>
-                    {publications.map(publication => {
+                    {publications?.slice(0, next)?.map(publication => {
                         return (
                             <HomePagePublication publication={publication}/>
                         );
                     })}
-                    <span className={styles.loadMore}>carregar mais publicações</span>
+                    {next < publications?.length && (
+                        <span className={styles.loadMore} onClick={handleMorePublications}
+                            >carregar mais publicações</span>
+                        )}
                 </div>
                 <div className={styles.createButtonContainer}>
                     <AddIcon height={24} width={24} fill={colors.theme.white} />

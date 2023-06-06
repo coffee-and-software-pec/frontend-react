@@ -136,3 +136,12 @@
     border: 0.1rem solid var(--secondary);
     transform: scale(1);
 }
+
+.mainContent .createButtonContainer .createButtonLink {
+    text-decoration: none;
+    color: var(--white);
+}
+
+.mainContent .createButtonContainer .createButtonLink:active {
+    color: var(--secondary);
+}

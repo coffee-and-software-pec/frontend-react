@@ -81,7 +81,7 @@
 }
 
 .container .fullTextContainer .markdownEditor {
-
+    min-height: 20rem;
 }
 
 .container .floatingButtonsContainer {

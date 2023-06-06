@@ -9,6 +9,7 @@ import colors from "../../styles/colorsConfig.json";
 import SelectTagBox from "../../components/SelectTagBox";
 import Publication from "../../models/Publication";
 import HomePagePublication from "../../components/HomePagePublication";
+import { Link } from "react-router-dom";
 
 enum TabName {
     TRENDING,
@@ -82,7 +83,7 @@ function HomePage() {
                 </div>
                 <div className={styles.createButtonContainer}>
                     <AddIcon height={24} width={24} fill={colors.theme.white} />
-                    CRIAR PUBLICAÇÃO
+                    <Link to={"/publicacao"} className={styles.createButtonLink}>CRIAR PUBLICAÇÃO</Link>
                 </div>
             </div>
         </div>

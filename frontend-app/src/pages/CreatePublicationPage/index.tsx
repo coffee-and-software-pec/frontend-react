@@ -9,6 +9,7 @@ import { ReactComponent as PublishIcon } from "../../assets/publish_icon.svg";
 import { ReactComponent as AddIcon } from "../../assets/plus_icon.svg";
 
 import Tag from "../../components/Tag";
+import MDEditor from "@uiw/react-md-editor";
 
 function CreatePublicationPage() {
     const [publicationText, setPublicationText] = useState<string>("");
@@ -49,7 +50,7 @@ function CreatePublicationPage() {
             <TopBar />
             <div className={styles.container}>
                 <div className={styles.titleContainer}>
-                    <label htmlFor="publicationTitle">Título da sua publicação (*):</label>
+                    <label htmlFor="publicationTitle">Título da sua publicação<sup>*</sup></label>
                     <input 
                         id="publicationTitle" 
                         type="text" 
@@ -57,7 +58,7 @@ function CreatePublicationPage() {
                     />
                 </div>
                 <div className={styles.subtitleContainer}>
-                    <label htmlFor="publicationSubtitle">Subtítulo da sua publicação (*):</label>
+                    <label htmlFor="publicationSubtitle">Subtítulo da sua publicação<sup>*</sup></label>
                     <textarea
                         id="publicationSubtitle" 
                         rows={1}
@@ -91,6 +92,7 @@ function CreatePublicationPage() {
                         toolbarsMode={[
                             "preview"
                         ]}
+                        previewWidth={"70%"}
                         onChange={(value, _) => setPublicationText(value)}
                     />
                 </div>

@@ -82,9 +82,9 @@ function HomePage() {
                     </p>
                 </div>
                 <div className={styles.publicationsContainer}>
-                    {publications?.slice(0, next)?.map(publication => {
+                    {publications?.slice(0, next)?.map((publication, index) => {
                         return (
-                            <HomePagePublication publication={publication}/>
+                            <HomePagePublication key={index} publication={publication}/>
                         );
                     })}
                     {next < publications?.length && (

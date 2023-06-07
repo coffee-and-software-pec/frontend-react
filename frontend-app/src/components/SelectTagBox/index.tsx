@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { api } from "../../api/api";
+// import { api } from "../../api/api";
 import Tag from "../Tag";
 
 import styles from './SelectTagBox.module.css';
+import { getAllTags } from '../../services/TagService';
 
 function SelectTagBox() {
 
@@ -10,8 +11,8 @@ function SelectTagBox() {
 
     useEffect(() => {
         async function getTags(){
-            const data = await (await api.get("/tags")).data;
-            setTags(data as string[]);
+            const data = await (getAllTags());
+            setTags(data.map(tagDTO => tagDTO.title));
         }
 
         getTags();

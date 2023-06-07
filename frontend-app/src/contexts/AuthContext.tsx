@@ -2,7 +2,7 @@ import { CredentialResponse } from '@react-oauth/google';
 import React, { createContext, useContext, useState } from 'react';
 import { api } from '../api/api';
 import User from '../models/User';
-import { parseAuthToken, removeAuthToken, removeUserToken, setAuthToken, setUserToken } from '../utils/TokenUtil';
+import { getUserToken, parseAuthToken, removeAuthToken, removeUserToken, setAuthToken, setUserToken } from '../utils/TokenUtil';
 
 interface AuthContextProps {
     user: User | null,
@@ -24,7 +24,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const [logged, setLogged] = useState(false);
 
     function loadUser(): User {
-        return {} as User;
+        const userToken = getUserToken();
+        setUser(userToken);
+        return userToken;
     }
 
     function loginSetUser(user: User) {

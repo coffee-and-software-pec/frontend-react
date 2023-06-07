@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from './DropdownMenu.module.css';
 
@@ -13,7 +13,11 @@ interface DropDownMenuProps {
 
 function DropdownMenu({active, setActive}: DropDownMenuProps) {
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { logout, loadUser, user } = useAuth();
+
+    useEffect(() => {
+        const loadedUser = loadUser();
+    }, [])
 
     function handleClickLogoutButton() {
         logout();
@@ -27,7 +31,7 @@ function DropdownMenu({active, setActive}: DropDownMenuProps) {
             onMouseLeave={() => setActive(false)}
         >
             <div className={styles.userInfo}>
-                <p>Username</p>
+                <p>{user?.name}</p>
                 <div className={styles.userImage}>
                     {/* <img src={UserIcon} alt="" style={{opacity: 0}}/> */}
                 </div>

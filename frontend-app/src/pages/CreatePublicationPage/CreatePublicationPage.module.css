@@ -28,49 +28,107 @@
     gap: 0.5rem;
 
     padding: 1rem;
-    background-color: var(--secondary);
-    color: var(--white);
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
 
     font-weight: 500;
+    border-radius: 0.5rem;
 }
 
 .container .titleContainer input {
     padding: 0.5rem 1rem;
     color: var(--soft-black);
     border: 0;
-    font-size: 0.75rem;
+    font-size: 1rem;
 }
 
 .container .titleContainer input:focus {
     outline: none;
 }
 
-.container .subtitleContainer {
+.container .subtitleThumbContainer {
     width: 50%;
 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 2rem;
+}
+
+.container .subtitleContainer {
+    flex: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
     padding: 1rem;
-    background-color: var(--secondary);
-    color: var(--white);
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
 
     font-weight: 500;
+
+    border-radius: 0.5rem;
 }
 
 .container .subtitleContainer textarea {
+    height: 100%;
     padding: 0.5rem 1rem;
     background-color: var(--white);
     color: var(--soft-black);
     resize: none;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
 
     border: 0;
 }
 
 .container .subtitleContainer textarea:focus {
     outline: none;
+}
+
+.container .thumbnail {
+    font-weight: 400;
+    background-color: var(--light-gray);
+    color: var(--soft-black);
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.container .thumbnail span {
+    grid-area: span;
+
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: var(--dark-gray);
+}
+
+.container .thumbnail input {
+    color: var(--dark-gray);
+
+    height: fit-content;
+    grid-area: input;
+
+    padding: 0.5rem;
+    border: 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+    border-radius: 0.25rem;
+}
+
+.container .thumbnail input:focus {
+    outline: none;
+}
+
+.container .thumbnail img {
+    height: 5rem;
+    grid-area: img;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(0,0,0,0.1);
 }
 
 .container .fullTextContainer {
@@ -82,6 +140,10 @@
 
 .container .fullTextContainer .markdownEditor {
     min-height: 20rem;
+    box-shadow: inset 0 0 0 0.1rem rgba(0,0,0,0.1);
+    padding: 0.25rem;
+
+    font-size: 1rem;
 }
 
 .container .floatingButtonsContainer {
@@ -112,8 +174,24 @@
     transition: transform 0.2s;
 }
 
+.container .floatingButtonsContainer button.disabled {
+    background-color: var(--gray);
+    cursor: not-allowed;
+}
+
 .container .floatingButtonsContainer button:hover {
     transform: scale(1.05);
+}
+
+.container .floatingButtonsContainer button.enabled:active {
+    transform: scale(1);
+    background-color: var(--white);
+    color: var(--secondary);
+    box-shadow: 0 0 0 0.1rem var(--secondary);
+}
+
+.container .floatingButtonsContainer button.enabled svg:active {
+    color: var(--secondary);
 }
 
 .container .tags {
@@ -129,7 +207,7 @@
     align-items: center;
 
     border-radius: 0.5rem;
-    box-shadow: 0 0 0 0.05rem rgba(0,0,0,0.1);
+    box-shadow: inset 0 0 0 0.05rem rgba(0,0,0,0.1);
     padding-right: 0.25rem;
 }
 

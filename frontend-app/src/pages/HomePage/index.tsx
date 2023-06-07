@@ -12,6 +12,7 @@ import HomePagePublication from "../../components/HomePagePublication";
 import { Link } from "react-router-dom";
 import { getSortedPublications, getSortedPublicationsByTags } from "../../services/PublicationService";
 import { tags } from "../CreatePublicationPage/CreatePublicationPage.module.css";
+import { BounceLoader, PulseLoader } from "react-spinners";
 
 enum TabName {
     TRENDING,
@@ -26,6 +27,8 @@ function HomePage() {
 
     const publicationsNumber = 4;
     const [next, setNext] = useState<number>(publicationsNumber);
+
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchPublications() {
@@ -43,6 +46,7 @@ function HomePage() {
                 publicationList[0],
                 publicationList[0]
             ]);
+            setLoading(false);
         }
         
         fetchPublications();
@@ -70,8 +74,12 @@ function HomePage() {
             default:
                 console.log("not specified tab");
         }
-        const newPublications = await getSortedPublications(sortColumn, order);
-        setPublications([...newPublications]);
+
+        embraceWithLoading(async () => {
+            const newPublications = await getSortedPublications(sortColumn, order);
+            setPublications([...newPublications]);
+        });
+        
     }
 
     const handleMorePublications = () => {
@@ -79,8 +87,17 @@ function HomePage() {
     }
 
     async function handleOnClickFilterButton(tags: string[]) {
-        const newPublications = await getSortedPublicationsByTags(tags);
-        setPublications([...newPublications]);
+        embraceWithLoading(async () => {
+            const newPublications = await getSortedPublicationsByTags(tags);
+            setPublications([...newPublications]);
+        });
+        
+    }
+
+    function embraceWithLoading(callback: () => {}) {
+        setLoading(true);
+        callback();
+        setTimeout(() => {setLoading(false);}, 500);
     }
 
     return (
@@ -111,15 +128,27 @@ function HomePage() {
                     </p>
                 </div>
                 <div className={styles.publicationsContainer}>
-                    {publications?.slice(0, next)?.map((publication, index) => {
-                        return (
-                            <HomePagePublication key={index} publication={publication}/>
-                        );
-                    })}
-                    {next < publications?.length && (
-                        <span className={styles.loadMore} onClick={handleMorePublications}
-                            >carregar mais publicações</span>
-                        )}
+                    {loading ? (
+                        <PulseLoader color={colors.theme.secondary} />
+                    ) : (
+                        publications.length === 0 ? (
+                            <span className={styles.noPublications}>Não há publicações</span>
+                        ) : (
+                            <>
+                                {publications?.slice(0, next)?.map((publication, index) => {
+                                    return (
+                                        <HomePagePublication key={index} publication={publication}/>
+                                    );
+                                })}
+                                {next < publications?.length && (
+                                    <span className={styles.loadMore} onClick={handleMorePublications}
+                                        >carregar mais publicações</span>
+                                )}
+                            </>
+                        )
+                    )}
+                    
+                    
                 </div>
                 <div className={styles.createButtonContainer}>
                     <AddIcon height={24} width={24} fill={colors.theme.white} />

@@ -86,6 +86,10 @@
     align-items: center;
 }
 
+.mainContent .publicationsContainer .noPublications {
+    color: var(--soft-black);
+}
+
 .mainContent .publicationsContainer .loadMore {
     background-color: var(--secondary);
     color: var(--white);

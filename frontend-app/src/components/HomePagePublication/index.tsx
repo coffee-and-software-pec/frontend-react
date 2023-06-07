@@ -33,7 +33,13 @@ function HomePagePublication({ publication }: HomePagePublicationProps) {
                     </div>
                     <div className={styles.authorContainer}>
                         escrito por:
-                        <img src={publication.authorData.authorPhoto} alt="" width={16} height={16} />
+                        <img 
+                            src={publication.authorData.authorPhoto} 
+                            alt="" 
+                            width={16} 
+                            height={16} 
+                            referrerPolicy="no-referrer" 
+                        />
                         <p>{publication.authorData.authorName}</p>
                     </div>
                 </div>

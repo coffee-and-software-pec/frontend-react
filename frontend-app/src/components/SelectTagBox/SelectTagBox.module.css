@@ -23,6 +23,10 @@
     gap: 1rem;
 }
 
+.container .tagList .noTags {
+    color: var(--soft-black);
+}
+
 .container .filterButton {
     background-color: var(--secondary);
     color: var(--white);

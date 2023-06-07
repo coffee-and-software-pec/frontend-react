@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./LandingPage.module.css";
 
 import { ReactComponent as AppIcon } from '../../assets/app_icon.svg'
-import { GoogleLogin } from "@react-oauth/google";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../api/api";
 import LandingPublication from "../../components/LandingPublication";
@@ -35,6 +35,14 @@ function LandingPage() {
         redirectIfExistsToken();
     }, [])
 
+    function handleGoogleSuccessLogin(credentialResponse: CredentialResponse) {
+        onSuccessGoogleLogin(credentialResponse)
+            .then(() => {
+                navigate("/home");
+            });
+        
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.gridContainer}>
@@ -52,10 +60,7 @@ function LandingPage() {
                         logo_alignment="center"
                         shape="pill"
                         width="300"
-                        onSuccess={credentialResponse => {
-                            onSuccessGoogleLogin(credentialResponse);
-                            navigate("/home");
-                        }}
+                        onSuccess={handleGoogleSuccessLogin}
                         onError={() => {
                             console.log('Login Failed');
                         }}

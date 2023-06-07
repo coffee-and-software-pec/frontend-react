@@ -10,8 +10,8 @@ async function getPublicationById(publicationId: string): Promise<Publication> {
     return data as Publication;
 }
 
-async function getSortedPublications(): Promise<Publication[]> {
-    const data = await (await api.get("/publication")).data;
+async function getSortedPublications(column: string = "date", order: string = "desc"): Promise<Publication[]> {
+    const data = await (await api.get(`/publication?_sort=${column}&_order=${order}`)).data;
     return data as Publication[];
 }
 

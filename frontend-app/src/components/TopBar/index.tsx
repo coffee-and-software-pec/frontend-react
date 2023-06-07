@@ -39,7 +39,7 @@ function TopBar() {
         setActiveRoute(location.pathname as HomeRoutes)
 
         if (loadedUser !== undefined) {
-            fetch(loadedUser.photoURL)
+            fetch(loadedUser.photoURL, {referrerPolicy: 'no-referrer'})
             .then(resp => {
                 setImageLoaded(resp.status === 200);
             })
@@ -94,6 +94,7 @@ function TopBar() {
                                         <img       
                                             src={user?.photoURL}
                                             alt=""
+                                            referrerPolicy='no-referrer'
                                         /> :
                                         <UserIcon color={colors.theme.white} />
                                     }

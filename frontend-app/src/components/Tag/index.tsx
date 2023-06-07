@@ -19,12 +19,13 @@ function Tag({ name, onClickTag, deletable }: TagProps) {
 
     function handleOnClickTag() {
         setActive(true);
+        onClickTag(name);
     }
 
     function handleOnClickButton() {
         setActive(false);
         if (onClickTag !== undefined) {
-            onClickTag();
+            onClickTag(name);
         }
     }
 

@@ -10,6 +10,8 @@ import SelectTagBox from "../../components/SelectTagBox";
 import Publication from "../../models/Publication";
 import HomePagePublication from "../../components/HomePagePublication";
 import { Link } from "react-router-dom";
+import { getSortedPublications, getSortedPublicationsByTags } from "../../services/PublicationService";
+import { tags } from "../CreatePublicationPage/CreatePublicationPage.module.css";
 
 enum TabName {
     TRENDING,
@@ -27,7 +29,7 @@ function HomePage() {
 
     useEffect(() => {
         async function fetchPublications() {
-            const result = await (await api.get("/publications")).data;
+            const result = await (await api.get("/publication")).data;
             const publicationList = result as Publication[];
             setPublications([
                 publicationList[0],
@@ -46,12 +48,39 @@ function HomePage() {
         fetchPublications();
     }, []);
 
-    function handleTabOnClick(tabName: TabName) {
+    async function handleTabOnClick(tabName: TabName) {
         setActiveTab(tabName);
+
+        let sortColumn = "date";
+        let order = "desc";
+
+        switch (tabName) {
+            case TabName.TRENDING:
+                sortColumn = "date";
+                order = "desc";
+                break;
+            case TabName.FRESH:
+                sortColumn = "date";
+                order = "desc";
+                break;
+            case TabName.TOP:
+                sortColumn = "heartsCount";
+                order = "desc";
+                break;
+            default:
+                console.log("not specified tab");
+        }
+        const newPublications = await getSortedPublications(sortColumn, order);
+        setPublications([...newPublications]);
     }
 
     const handleMorePublications = () => {
         setNext(next + publicationsNumber);
+    }
+
+    async function handleOnClickFilterButton(tags: string[]) {
+        const newPublications = await getSortedPublicationsByTags(tags);
+        setPublications([...newPublications]);
     }
 
     return (
@@ -59,7 +88,7 @@ function HomePage() {
             <TopBar />
             <div className={styles.mainContent}>
                 <div className={styles.selectTagContainer}>
-                    <SelectTagBox />
+                    <SelectTagBox onClickFilterButton={handleOnClickFilterButton} />
                 </div>
                 <div className={styles.publicationOrderContainer}>
                     <p 

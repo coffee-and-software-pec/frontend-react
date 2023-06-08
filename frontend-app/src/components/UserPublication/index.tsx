@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { deletePublication } from '../../services/PublicationService';
+import { ChakraProvider } from '@chakra-ui/react'
 
 interface UserPublicationProps {
     publication: Publication;
@@ -50,7 +51,7 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
     }
 
     return (
-        <>
+        <ChakraProvider>
             <div className={styles.container}>
                 <div className={styles.mainContent} onClick={handleOnClickPublication}>
                     <div className={styles.publicationContainer}>
@@ -127,7 +128,7 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
                 </AlertDialogContent>
                 </AlertDialogOverlay>
             </AlertDialog>
-        </>
+        </ChakraProvider>
     );
 }
 

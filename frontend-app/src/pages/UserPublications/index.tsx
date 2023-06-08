@@ -76,6 +76,7 @@ function UserPublications() {
                     <SelectTagBox onClickFilterButton={handleOnClickFilterButton} />
                 </div>
                 <div className={styles.publicationsContainer}>
+                    <h1>Suas publicações</h1>
                     {loading ? (
                         <PulseLoader color={colors.theme.secondary} />
                     ) : (

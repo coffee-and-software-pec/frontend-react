@@ -42,7 +42,7 @@
 .container .mainContent .publicationContainer .subtitle {
     color: var(--dark-gray);
     grid-area: subtitle;
-    font-weight: 100;
+    font-weight: 300;
 }
 
 .container .mainContent .publicationContainer .tagContainer {

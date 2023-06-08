@@ -14,9 +14,7 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID!!}>
       <AuthContextProvider>
-        <ChakraProvider>
-          <Router />
-        </ChakraProvider>
+        <Router />
       </AuthContextProvider>
     </GoogleOAuthProvider>
   );

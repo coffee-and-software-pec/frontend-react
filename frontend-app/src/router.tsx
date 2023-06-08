@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreatePublicationPage from "./pages/CreatePublicationPage";
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import PublicationPage from "./pages/PublicationPage";
 import SearchPage from "./pages/SearchPage";
 import UserPublications from "./pages/UserPublications";
@@ -17,6 +18,7 @@ function Router() {
           <Route path="/publicacao" element={<CreatePublicationPage />} />
           <Route path="/minhaspublicacoes" element={<UserPublications />} />
           <Route path="/buscar" element={<SearchPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
     </BrowserRouter>
   );

@@ -27,7 +27,7 @@
     display: grid;
     gap: 1rem;
     
-    grid-template-columns: 1fr 50rem 1fr;
+    grid-template-columns: 0.5fr 55rem 1fr;
     grid-template-rows: auto;
     grid-template-areas:
         ". metadata ."

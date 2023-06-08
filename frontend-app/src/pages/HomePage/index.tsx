@@ -11,7 +11,6 @@ import Publication from "../../models/Publication";
 import HomePagePublication from "../../components/HomePagePublication";
 import { Link } from "react-router-dom";
 import { getSortedPublications, getSortedPublicationsByTags } from "../../services/PublicationService";
-import { tags } from "../CreatePublicationPage/CreatePublicationPage.module.css";
 import { BounceLoader, PulseLoader } from "react-spinners";
 
 enum TabName {
@@ -34,18 +33,20 @@ function HomePage() {
         async function fetchPublications() {
             const result = await (await api.get("/publication")).data;
             const publicationList = result as Publication[];
-            setPublications([
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0]
-            ]);
+            if (publicationList.length > 0) {
+                setPublications([
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0],
+                    publicationList[0]
+                ]);
+            }
             setLoading(false);
         }
         

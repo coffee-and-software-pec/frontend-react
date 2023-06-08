@@ -40,6 +40,10 @@ async function getRelatedPublications(): Promise<RelatedPublication[]> {
     return data as RelatedPublication[];
 }
 
+async function deletePublication(publicationId: string): Promise<any> {
+    return await api.delete(`/publication/${publicationId}`);
+}
+
 export { 
     getPublicationById,
     getSortedPublications,
@@ -47,5 +51,6 @@ export {
     createPublication,
     updatePublication,
     getLandingPublications,
-    getRelatedPublications
+    getRelatedPublications,
+    deletePublication
 }

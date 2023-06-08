@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../api/api";
 import TopBar from "../../components/TopBar";
 import Publication from "../../models/Publication";
@@ -23,6 +23,7 @@ import { createComment } from "../../services/CommentService";
 import { useAuth } from "../../contexts/AuthContext";
 
 function PublicationPage() {
+    const navigate = useNavigate();
     const params = useParams();
     const { user } = useAuth()
     const [publicationId, setPublicationId] = useState<string>();
@@ -61,10 +62,11 @@ function PublicationPage() {
     useEffect(() => {
         async function loadPublication(publicationId: string) {
             try {
-                const result = (await api.get(`/publications/${publicationId}`)).data;
+                const result = (await api.get(`/publication/${publicationId}`)).data;
                 setPublication(result as Publication);
             } catch(e) {
                 alert("there is no publication with this id");
+                navigate("/home");
             }
         }
 

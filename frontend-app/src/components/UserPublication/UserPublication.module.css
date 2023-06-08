@@ -1,13 +1,20 @@
 .container {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-end; */
+    display: grid;
+    grid-template-areas: 
+        "main edit"
+        "reactions ."
+    ;
 
     gap: 0.5rem;
 }
 
 .container .mainContent {
+    grid-area: main;
+
     display: flex;
     box-shadow: 0 0 8px 2px rgba(0,0,0,0.1);
     border-radius: 1rem;
@@ -84,9 +91,12 @@
 }
 
 .container .reactionsContainer {
+    grid-area: reactions;
+    justify-self: flex-end;
+
     display: flex;
     gap: 1rem;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 }
 
 .container .reactionsContainer .reactionContainer {
@@ -96,4 +106,35 @@
     align-items: center;
 
     color: var(--dark-gray);
+}
+
+.container .editContainer {
+    grid-area: edit;
+    margin-top: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.container .editContainer .editButton {
+    color: var(--dark-gray);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.container .editContainer .editButton:hover {
+    transform: scale(1.1);
+    color: var(--blue);
+}
+
+.container .editContainer .removeButton {
+    color: var(--dark-gray);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.container .editContainer .removeButton:hover {
+    transform: scale(1.1);
+    color: var(--blue);
 }

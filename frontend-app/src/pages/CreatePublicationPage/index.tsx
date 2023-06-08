@@ -159,7 +159,7 @@ function CreatePublicationPage() {
                         <AddIcon onClick={onClickPlusButton} />
                     </label>
                 </div>
-                <div className={styles.fullTextContainer}>
+                <div className={styles.fullTextContainer} data-color-mode="light">
                     <MarkdownEditor
                         className={styles.markdownEditor}
                         value={publication.continuous_text}

@@ -1,7 +1,7 @@
 import PublicationComment from "./PublicationComment"
 
 export default interface Publication {
-    p_id: number;
+    p_id: string;
     author: {
         u_id: string;
         u_name: string;

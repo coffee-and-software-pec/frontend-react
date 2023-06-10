@@ -1,5 +1,5 @@
 export interface RelatedPublication {
-    id: number;
+    id: string;
     title: string;
     subtitle: string;
     publicationThumb: string;

@@ -20,6 +20,14 @@
     overflow-y: scroll;
 }
 
+.container h2 {
+    width: 50%;
+    color: var(--soft-black);
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
 .container .titleContainer {
     width: 50%;
 

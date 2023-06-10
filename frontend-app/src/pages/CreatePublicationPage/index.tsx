@@ -13,58 +13,101 @@ import Tag from "../../components/Tag";
 import MDEditor from "@uiw/react-md-editor";
 
 import colors from '../../styles/colorsConfig.json';
-import { createPublication } from "../../services/PublicationService";
+import { createPublication, updatePublication } from "../../services/PublicationService";
 import { useAuth } from "../../contexts/AuthContext";
 import CreateProjectDTO from "../../services/dtos/CreatePublicationDTO";
 import { toast, ToastContainer } from "react-toastify";
 import User from "../../models/User";
+import Publication from "../../models/Publication";
+import { useLocation } from "react-router-dom";
+
+enum EditMode {
+    CREATE,
+    EDIT
+}
 
 function CreatePublicationPage() {
+    const location = useLocation();
     const { user, loadUser } = useAuth();
     let [loadedUser, setLoadedUser] = useState<User>();
+    const [editMode, setEditMode] = useState<EditMode>(EditMode.CREATE);
 
-    const [publication, setPublication] = useState<CreateProjectDTO>({
-        author_id: '',
+    let incomingPublication: Publication | undefined = undefined;
+    const [publication, setPublication] = useState<Publication>({
+        p_id: '',
+        author: {
+            u_id: '',
+            u_name: '',
+            photoURL: '',
+        },
         continuous_text: '',
         main_img_url: '',
         title: '',
         subtitle: '',
-        tagList: []
-    } as CreateProjectDTO);
+        tags: [],
+        commentsCount: 0,
+        creation_date: '',
+        heartsCount: 0,
+        visualizationsCount: 0
+    } as Publication
+    );
 
     const [tagsInput, setTagsInput] = useState<string>('');
-    const [tags, setTags] = useState<string[]>([]);
     const [hasChanges, setHasChanges] = useState(false);
     const [isSaved, setIsSaved]  = useState(false);
     const [isPublished, setIsPublished]  = useState(false);
 
     useEffect(() => {
         setLoadedUser(loadUser());
+        if (location.state !== null) {
+            incomingPublication= location.state.incomingPublication;
+            setPublication(incomingPublication as Publication);
+            setEditMode(EditMode.EDIT);
+        }
     }, []);
+    
+    function onClickPlusButton() {
+        const trimmedInput: string = tagsInput.trim();
+        if (trimmedInput.length && !publication.tags.map(t => t.title).includes(trimmedInput)) {
+            addTag(trimmedInput);
+            setTagsInput('');
+        }
+    }
 
     const onChange = (e: any) => {
         const { value } = e.target;
         setTagsInput(value);
     }
 
-    function onClickPlusButton() {
-        const trimmedInput: string = tagsInput.trim();
-        if (trimmedInput.length && !tags.includes(trimmedInput)) {
-            setTags(prevState => [...prevState, trimmedInput]);
-            setTagsInput('');
-        }
-    }
-
     const onKeyDown = (e: any) => {
         const { key } = e;
         const trimmedInput: string = tagsInput.trim();
 
-        if (key === 'Enter' && trimmedInput.length && !tags.includes(trimmedInput)) {
+        if (key === 'Enter' && trimmedInput.length && !publication.tags.map(t => t.title).includes(trimmedInput)) {
             e.preventDefault();
-            setTags(prevState => [...prevState, trimmedInput]);
+            addTag(trimmedInput)
             setTagsInput('');
         }
 
+    }
+
+    function addTag(tagName: string) {
+        setPublication({
+            ...publication,
+            tags: [
+                ...publication.tags,
+                { title: tagName }
+            ]
+        });
+        setHasChanges(true);
+    }
+
+    const deleteTag = (index: any) => {
+        setPublication({
+            ...publication,
+            tags: publication.tags.filter((t, i) => i !== index)
+        })
+        setHasChanges(true);
     }
 
     function handleOnTextImageURLChange(url: string) {
@@ -72,6 +115,7 @@ function CreatePublicationPage() {
             ...publication,
             main_img_url: url
         });
+        setHasChanges(true);
     }
 
     function handleOnTextChangeMarkdown(text: string) {
@@ -84,7 +128,16 @@ function CreatePublicationPage() {
 
     async function handleOnClickSaveChanges() {
         if (!hasChanges) return;
+        if (editMode == EditMode.CREATE) {
+            await createNewPublicationOnSave();
+        } else {
+            await updatePublicationOnSave();
+        }
         setHasChanges(false);
+        
+    }
+
+    async function createNewPublicationOnSave() {
         if (loadedUser?.id !== undefined) {
             try {
                 const result = await createPublication({
@@ -93,9 +146,11 @@ function CreatePublicationPage() {
                     title: publication.title,
                     subtitle: publication.subtitle,
                     main_img_url: publication.main_img_url,
-                    tagList: tags.map(tag => { return { title: tag }})
+                    tagList: publication.tags
                 });
                 setIsSaved(true);
+                setPublication(result)
+                setEditMode(EditMode.EDIT);
                 toast("Publicação salva!", {
                     autoClose: 500,
                     hideProgressBar: true,
@@ -105,7 +160,49 @@ function CreatePublicationPage() {
                     type: "success"
                 });
             } catch (e) {
-                console.log("error on publication create");
+                toast("Erro ao salvar publicação!", {
+                    autoClose: 500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    draggable: false,
+                    theme: "light",
+                    type: "error"
+                });
+            }
+        }
+    }
+
+    async function updatePublicationOnSave() {
+        if (loadedUser?.id !== undefined) {
+            try {
+                const result = await updatePublication(publication.p_id, {
+                    continuous_text: publication.continuous_text,
+                    title: publication.title,
+                    subtitle: publication.subtitle,
+                    main_img_url: publication.main_img_url,
+                    tagList: publication.tags
+                });
+                toast("Publicação atualizada!", {
+                    autoClose: 500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    draggable: false,
+                    theme: "light",
+                    type: "success"
+                });
+                setIsSaved(true);
+                setPublication(result);
+                incomingPublication = result;
+            } catch (e) {
+                toast("Erro ao salvar publicação!", {
+                    autoClose: 500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    draggable: false,
+                    theme: "light",
+                    type: "error"
+                });
+
             }
         }
     }
@@ -114,9 +211,10 @@ function CreatePublicationPage() {
         if (isPublished) return null;
         setIsPublished(true);
     }
- 
-    const deleteTag = (index: any) => {
-        setTags(prevState => prevState.filter((tag, i) => i !== index))
+
+    function handlePublicationAttributeChange(e: React.ChangeEvent<any>, attributeName: string) {
+        setPublication({...publication, [attributeName]: e.target.value });
+        setHasChanges(true);
     }
 
     return (
@@ -124,6 +222,11 @@ function CreatePublicationPage() {
             <div className={styles.outsideContainer}>
                 <TopBar />
                 <div className={styles.container}>
+                    <h2>
+                        {
+                            editMode === EditMode.CREATE ? "criando publicação" : "editando publicação"
+                        }
+                    </h2>
                     <div className={styles.titleContainer}>
                         <label htmlFor="publicationTitle">Título da sua publicação<sup>*</sup></label>
                         <input 
@@ -131,7 +234,7 @@ function CreatePublicationPage() {
                             type="text" 
                             placeholder="Ex: Machine Learning Fácil — Classificando gatos e cachorros em 5 passos."
                             value={publication.title}
-                            onChange={(e) => setPublication({...publication, title: e.target.value })}
+                            onChange={e => handlePublicationAttributeChange(e, "title")}
                         />
                     </div>
 
@@ -143,7 +246,7 @@ function CreatePublicationPage() {
                                 rows={1}
                                 placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
                                 value={publication.subtitle}
-                                onChange={(e) => setPublication({...publication, subtitle: e.target.value })}
+                                onChange={e => handlePublicationAttributeChange(e, "subtitle")}
                             />
                         </div>
 
@@ -163,8 +266,8 @@ function CreatePublicationPage() {
                     </div>
                     
                     <div className={styles.tags}>
-                        {tags.map((tag, index) => (
-                            <Tag name={tag} onClickTag={() => deleteTag(index)} deletable={true} />   
+                        {publication.tags.map((tag, index) => (
+                            <Tag name={tag.title} onClickTag={() => deleteTag(index)} deletable={true} />   
                             
                         ))}
                         <label className={styles.inputTagContainer}>

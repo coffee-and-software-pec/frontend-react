@@ -114,6 +114,7 @@
 
 .container .editContainer {
     grid-area: edit;
+    margin-left: 0.75rem;
     margin-top: 1rem;
 
     display: flex;

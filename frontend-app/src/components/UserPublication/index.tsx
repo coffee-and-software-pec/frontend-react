@@ -39,7 +39,7 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
     }
 
     function handleOnClickEdit() {
-        nav(`/editarpublicacao/${publication.p_id}`);
+        nav(`/publicacao`, { state: { incomingPublication: publication } });
     }
 
     async function handleOnClickDelete() {
@@ -94,14 +94,14 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
                 </div>
                 <div className={styles.editContainer}>
                     <EditIcon 
-                        width={16} 
-                        height={16} 
+                        width={20} 
+                        height={20} 
                         className={styles.editButton}
                         onClick={handleOnClickEdit}
                     />
                     <DeleteIcon 
-                        width={16} 
-                        height={16} 
+                        width={20} 
+                        height={20} 
                         className={styles.removeButton}
                         onClick={onOpen }
                     />

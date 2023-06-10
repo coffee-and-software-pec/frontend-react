@@ -112,7 +112,7 @@
     transform: scale(1);
 }
 
-.mainContent .createButtonContainer {
+.mainContent .createButtonLink {
     position: fixed;
     right: 2.5%;
     bottom: 5%;
@@ -125,6 +125,7 @@
     border-radius: 0.5rem;
 
     cursor: pointer;
+    text-decoration: none;
     user-select: none;
     transition: transform 0.2s;
 
@@ -136,22 +137,13 @@
     box-shadow: 0 4px 4px 0 rgba(0,0,0, 0.25);
 }
 
-.mainContent .createButtonContainer:hover {
+.mainContent .createButtonLink:hover {
     transform: scale(1.05);
 }
 
-.mainContent .createButtonContainer:active {
+.mainContent .createButtonLink:active {
     background-color: var(--white);
     color: var(--secondary);
     border: 0.1rem solid var(--secondary);
     transform: scale(1);
-}
-
-.mainContent .createButtonContainer .createButtonLink {
-    text-decoration: none;
-    color: var(--white);
-}
-
-.mainContent .createButtonContainer .createButtonLink:active {
-    color: var(--secondary);
 }

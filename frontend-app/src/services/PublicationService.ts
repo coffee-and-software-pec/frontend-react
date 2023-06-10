@@ -31,8 +31,13 @@ async function updatePublication(publicationId: string, publication: UpdatePubli
 }
 
 async function getLandingPublications(): Promise<LandPublication[]> {
-    const { data } = await api.get("/publication/landing");
+    const { data } = await api.get("/publication/landingPublications");
     return data as LandPublication[];
+}
+
+async function getUserPublications(userId: string): Promise<Publication[]> {
+    const { data } = await api.get(`/publication/userPublications/${userId}`);
+    return data as Publication[];
 }
 
 async function getRelatedPublications(): Promise<RelatedPublication[]> {
@@ -51,6 +56,7 @@ export {
     createPublication,
     updatePublication,
     getLandingPublications,
+    getUserPublications,
     getRelatedPublications,
     deletePublication
 }

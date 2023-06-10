@@ -254,6 +254,12 @@
     color: var(--dark-gray);
 }
 
+.container .mainContent .commentContainer > span {
+    width: 100%;
+    color: var(--dark-gray);
+    text-align: center;
+}
+
 .container .mainContent .space {
     height: 10rem;
     grid-area: space;

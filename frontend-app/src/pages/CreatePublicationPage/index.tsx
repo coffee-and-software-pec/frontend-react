@@ -1,5 +1,5 @@
 import MarkdownEditor from "@uiw/react-markdown-editor";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopBar from "../../components/TopBar";
 
 import styles from "./CreatePublicationPage.module.css";
@@ -16,9 +16,12 @@ import colors from '../../styles/colorsConfig.json';
 import { createPublication } from "../../services/PublicationService";
 import { useAuth } from "../../contexts/AuthContext";
 import CreateProjectDTO from "../../services/dtos/CreatePublicationDTO";
+import { toast, ToastContainer } from "react-toastify";
+import User from "../../models/User";
 
 function CreatePublicationPage() {
-    const { user } = useAuth();
+    const { user, loadUser } = useAuth();
+    let [loadedUser, setLoadedUser] = useState<User>();
 
     const [publication, setPublication] = useState<CreateProjectDTO>({
         author_id: '',
@@ -28,12 +31,16 @@ function CreatePublicationPage() {
         subtitle: '',
         tagList: []
     } as CreateProjectDTO);
-    // const [publicationText, setPublicationText] = useState<string>("");
+
     const [tagsInput, setTagsInput] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
     const [hasChanges, setHasChanges] = useState(false);
     const [isSaved, setIsSaved]  = useState(false);
     const [isPublished, setIsPublished]  = useState(false);
+
+    useEffect(() => {
+        setLoadedUser(loadUser());
+    }, []);
 
     const onChange = (e: any) => {
         const { value } = e.target;
@@ -68,7 +75,6 @@ function CreatePublicationPage() {
     }
 
     function handleOnTextChangeMarkdown(text: string) {
-        // setPublicationText(text);
         setPublication({
             ...publication,
             continuous_text: text
@@ -79,10 +85,10 @@ function CreatePublicationPage() {
     async function handleOnClickSaveChanges() {
         if (!hasChanges) return;
         setHasChanges(false);
-        if (user?.id == undefined) {
+        if (loadedUser?.id !== undefined) {
             try {
                 const result = await createPublication({
-                    author_id: user?.id!!,
+                    author_id: loadedUser?.id!!,
                     continuous_text: publication.continuous_text,
                     title: publication.title,
                     subtitle: publication.subtitle,
@@ -90,6 +96,14 @@ function CreatePublicationPage() {
                     tagList: tags.map(tag => { return { title: tag }})
                 });
                 setIsSaved(true);
+                toast("Publicação salva!", {
+                    autoClose: 500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    draggable: false,
+                    theme: "light",
+                    type: "success"
+                });
             } catch (e) {
                 console.log("error on publication create");
             }
@@ -106,94 +120,101 @@ function CreatePublicationPage() {
     }
 
     return (
-        <div className={styles.outsideContainer}>
-            <TopBar />
-            <div className={styles.container}>
-                <div className={styles.titleContainer}>
-                    <label htmlFor="publicationTitle">Título da sua publicação<sup>*</sup></label>
-                    <input 
-                        id="publicationTitle" 
-                        type="text" 
-                        placeholder="Ex: Machine Learning Fácil — Classificando gatos e cachorros em 5 passos." 
-                    />
-                </div>
-
-                <div className={styles.subtitleThumbContainer}>
-                    <div className={styles.subtitleContainer}>
-                        <label htmlFor="publicationSubtitle">Subtítulo da sua publicação<sup>*</sup></label>
-                        <textarea
-                            id="publicationSubtitle" 
-                            rows={1}
-                            placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
+        <>
+            <div className={styles.outsideContainer}>
+                <TopBar />
+                <div className={styles.container}>
+                    <div className={styles.titleContainer}>
+                        <label htmlFor="publicationTitle">Título da sua publicação<sup>*</sup></label>
+                        <input 
+                            id="publicationTitle" 
+                            type="text" 
+                            placeholder="Ex: Machine Learning Fácil — Classificando gatos e cachorros em 5 passos."
+                            value={publication.title}
+                            onChange={(e) => setPublication({...publication, title: e.target.value })}
                         />
                     </div>
 
-                    <label className={styles.thumbnail}>
-                        <span>Adicione uma thumbnail:</span>
-                        <input type="url" value={publication.main_img_url} onChange={(value) => handleOnTextImageURLChange(value.target.value)} />
-                        <img 
-                            src={publication.main_img_url}
-                            alt="" 
-                            placeholder="URL da imagem"
-                            onError={({currentTarget}) => {
-                                currentTarget.onerror = null;
-                                currentTarget.src = DefaultImage
-                            }}
+                    <div className={styles.subtitleThumbContainer}>
+                        <div className={styles.subtitleContainer}>
+                            <label htmlFor="publicationSubtitle">Subtítulo da sua publicação<sup>*</sup></label>
+                            <textarea
+                                id="publicationSubtitle" 
+                                rows={1}
+                                placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
+                                value={publication.subtitle}
+                                onChange={(e) => setPublication({...publication, subtitle: e.target.value })}
+                            />
+                        </div>
+
+                        <label className={styles.thumbnail}>
+                            <span>Adicione uma thumbnail:</span>
+                            <input type="url" value={publication.main_img_url} onChange={(value) => handleOnTextImageURLChange(value.target.value)} />
+                            <img 
+                                src={publication.main_img_url}
+                                alt="" 
+                                placeholder="URL da imagem"
+                                onError={({currentTarget}) => {
+                                    currentTarget.onerror = null;
+                                    currentTarget.src = DefaultImage
+                                }}
+                            />
+                        </label>
+                    </div>
+                    
+                    <div className={styles.tags}>
+                        {tags.map((tag, index) => (
+                            <Tag name={tag} onClickTag={() => deleteTag(index)} deletable={true} />   
+                            
+                        ))}
+                        <label className={styles.inputTagContainer}>
+                            <input
+                                className={styles.inputTag}
+                                value={tagsInput}
+                                placeholder="Nova tag"
+                                onKeyDown={onKeyDown}
+                                onChange={onChange}
+                            />
+                            <AddIcon onClick={onClickPlusButton} />
+                        </label>
+                    </div>
+                    <div className={styles.fullTextContainer} data-color-mode="light">
+                        <MarkdownEditor
+                            className={styles.markdownEditor}
+                            value={publication.continuous_text}
+                            toolbars={[
+                                "undo", "redo", "bold", "italic", "header", "strike", "underline", "quote", "olist", "ulist", "todo", "link", 
+                                "image", "code", "codeBlock"
+                            ]}
+                            toolbarsMode={[
+                                "preview"
+                            ]}
+                            previewWidth={"70%"}
+                            onChange={(value, _) => handleOnTextChangeMarkdown(value)}
                         />
-                    </label>
-                </div>
-                
-                <div className={styles.tags}>
-                    {tags.map((tag, index) => (
-                        <Tag name={tag} onClickTag={() => deleteTag(index)} deletable={true} />   
-                        
-                    ))}
-                    <label className={styles.inputTagContainer}>
-                        <input
-                            className={styles.inputTag}
-                            value={tagsInput}
-                            placeholder="Nova tag"
-                            onKeyDown={onKeyDown}
-                            onChange={onChange}
-                        />
-                        <AddIcon onClick={onClickPlusButton} />
-                    </label>
-                </div>
-                <div className={styles.fullTextContainer} data-color-mode="light">
-                    <MarkdownEditor
-                        className={styles.markdownEditor}
-                        value={publication.continuous_text}
-                        toolbars={[
-                            "undo", "redo", "bold", "italic", "header", "strike", "underline", "quote", "olist", "ulist", "todo", "link", 
-                            "image", "code", "codeBlock"
-                        ]}
-                        toolbarsMode={[
-                            "preview"
-                        ]}
-                        previewWidth={"70%"}
-                        onChange={(value, _) => handleOnTextChangeMarkdown(value)}
-                    />
-                </div>
-                <div className={styles.floatingButtonsContainer}>
-                    <button 
-                        className={!hasChanges ? styles.disabled : ''} 
-                        disabled={!hasChanges}
-                        onClick={handleOnClickSaveChanges}
-                    >
-                        <SaveIcon fill={colors.theme.white} />
-                        {hasChanges ? "SALVAR" : "SALVO" }
-                    </button>
-                    <button
-                        className={(isPublished || !isSaved) ? styles.disabled : ''} 
-                        disabled={(isPublished || !isSaved)}
-                        onClick={handleOnClickPublicate}
-                    >
-                        <PublishIcon fill={colors.theme.white} />
-                        {isPublished ? "PUBLICADO" : "PUBLICAR"}
-                    </button>
+                    </div>
+                    <div className={styles.floatingButtonsContainer}>
+                        <button 
+                            className={!hasChanges ? styles.disabled : ''} 
+                            disabled={!hasChanges}
+                            onClick={handleOnClickSaveChanges}
+                        >
+                            <SaveIcon fill={colors.theme.white} />
+                            {hasChanges ? "SALVAR" : "SALVO" }
+                        </button>
+                        <button
+                            className={(isPublished || !isSaved) ? styles.disabled : ''} 
+                            disabled={(isPublished || !isSaved)}
+                            onClick={handleOnClickPublicate}
+                        >
+                            <PublishIcon fill={colors.theme.white} />
+                            {isPublished ? "PUBLICADO" : "PUBLICAR"}
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+            <ToastContainer />
+        </>
     )
 }
 

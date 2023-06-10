@@ -33,18 +33,18 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     function handleOnClickPublication() {
-        nav(`/publicacao/${publication.id}`);
+        nav(`/publicacao/${publication.p_id}`);
     }
 
     function handleOnClickEdit() {
-        nav(`/editarpublicacao/${publication.id}`);
+        nav(`/editarpublicacao/${publication.p_id}`);
     }
 
     async function handleOnClickDelete() {
         onClose();
         try {
-            await deletePublication(publication.id.toString());
-            onDelete(publication.id.toString());
+            await deletePublication(publication.p_id.toString());
+            onDelete(publication.p_id.toString());
         } catch (e) {
             console.log("some error ocurred in publication delete")
         }
@@ -58,23 +58,23 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
                         <p className={styles.title}>{publication.title}</p>
                         <p className={styles.subtitle}>{publication.subtitle}</p>
                         <div className={styles.tagContainer}>
-                            {publication.tags.map(tag => {
+                            {publication.tags.map((tag, index) => {
                                 return (
-                                    <Tag key={tag} name={tag} />
+                                    <Tag key={index} name={tag.title} />
                                 )
                             })}
                         </div>
                         <div className={styles.authorContainer}>
                             escrito por:
                             <img 
-                                src={publication.authorData.authorPhoto} 
+                                src={publication.author.photoURL} 
                                 alt=""
                                 referrerPolicy="no-referrer" 
                             />
-                            <p>{publication.authorData.authorName}</p>
+                            <p>{publication.author.u_name}</p>
                         </div>
                     </div>
-                    <img className={styles.thumbnail} src={publication.thumbnail} alt="" />
+                    <img className={styles.thumbnail} src={publication.main_img_url} alt="" />
                 </div>
                 <div className={styles.reactionsContainer}>
                     <div className={styles.reactionContainer}>

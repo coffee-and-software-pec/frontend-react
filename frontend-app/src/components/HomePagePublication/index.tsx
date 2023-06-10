@@ -15,7 +15,7 @@ function HomePagePublication({ publication }: HomePagePublicationProps) {
     const nav = useNavigate();
 
     function handleOnClickPublication() {
-        nav(`/publicacao/${publication.id}`);
+        nav(`/publicacao/${publication.p_id}`);
     }
 
     return (
@@ -25,25 +25,25 @@ function HomePagePublication({ publication }: HomePagePublicationProps) {
                     <p className={styles.title}>{publication.title}</p>
                     <p className={styles.subtitle}>{publication.subtitle}</p>
                     <div className={styles.tagContainer}>
-                        {publication.tags.map(tag => {
+                        {publication.tags.map((tag, index) => {
                             return (
-                                <Tag key={tag} name={tag} />
+                                <Tag key={index} name={tag.title} />
                             )
                         })}
                     </div>
                     <div className={styles.authorContainer}>
                         escrito por:
                         <img 
-                            src={publication.authorData.authorPhoto} 
+                            src={publication.author.photoURL} 
                             alt="" 
                             width={16} 
                             height={16} 
                             referrerPolicy="no-referrer" 
                         />
-                        <p>{publication.authorData.authorName}</p>
+                        <p>{publication.author.u_name}</p>
                     </div>
                 </div>
-                <img className={styles.thumbnail} src={publication.thumbnail} alt="" />
+                <img className={styles.thumbnail} src={publication.main_img_url} alt="" referrerPolicy="no-referrer"/>
             </div>
             <div className={styles.reactionsContainer}>
                 <div className={styles.reactionContainer}>

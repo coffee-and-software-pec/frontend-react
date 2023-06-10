@@ -1,20 +1,20 @@
 import PublicationComment from "./PublicationComment"
 
 export default interface Publication {
-    id: number;
-    authorData: {
-        authorId: string;
-        authorName: string;
-        authorPhoto: string;
+    p_id: number;
+    author: {
+        u_id: string;
+        u_name: string;
+        photoURL: string;
     };
-    date: number;
+    creation_date: string;
     visualizationsCount: number;
     heartsCount: number;
     commentsCount: number;
-    tags: string[];
+    tags: {title: string}[];
     title: string;
     subtitle: string;
-    thumbnail: string;
-    content: string;
-    comments: PublicationComment[]
+    main_img_url: string;
+    continuous_text: string;
+    comments?: PublicationComment[]
 }

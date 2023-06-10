@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../api/api';
 import { RelatedPublication } from '../../models/RelatedPublication';
+import { getLandingPublications, getSortedPublications } from '../../services/PublicationService';
 import styles from './RelatedPublications.module.css';
 
 
@@ -12,8 +13,15 @@ function RelatedPublications() {
 
     useEffect(() => {
         async function getRelatedPublications() {
-            const result = (await api.get("/relatedPublications")).data
-            setRelatedPublications(result as RelatedPublication[])
+            // const result = (await api.get("/relatedPublications")).data
+            const result = await getSortedPublications();
+            const landingPublications = result.map((p) => ({
+                id: p.p_id,
+                title: p.title,
+                subtitle: p.subtitle,
+                publicationThumb: p.main_img_url
+            }));
+            setRelatedPublications(landingPublications);
         }
 
         getRelatedPublications();

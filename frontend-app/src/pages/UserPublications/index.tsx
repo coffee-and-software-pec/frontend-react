@@ -4,7 +4,7 @@ import { api } from '../../api/api';
 import SelectTagBox from '../../components/SelectTagBox';
 import TopBar from '../../components/TopBar';
 import Publication from '../../models/Publication';
-import { getSortedPublicationsByTags } from '../../services/PublicationService';
+import { getSortedPublicationsByTags, getUserPublications } from '../../services/PublicationService';
 import styles from './UserPublications.module.css';
 
 import colors from '../../styles/colorsConfig.json';
@@ -13,8 +13,10 @@ import HomePagePublication from '../../components/HomePagePublication';
 import { ReactComponent as AddIcon } from '../../assets/plus_icon.svg';
 import { Link } from 'react-router-dom';
 import UserPublication from '../../components/UserPublication';
+import { useAuth } from '../../contexts/AuthContext';
 
 function UserPublications() {
+    const { loadUser } = useAuth();
 
     const [publications, setPublications] = useState<Publication[]>([]);
     const publicationsNumber = 4;
@@ -23,21 +25,11 @@ function UserPublications() {
     const [loading, setLoading] = useState(true);
     
     useEffect(() => {
+        const loadedUser = loadUser();
+
         async function fetchPublications() {
-            const result = await (await api.get("/publication")).data;
-            const publicationList = result as Publication[];
-            setPublications([
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0],
-                publicationList[0]
-            ]);
+            const result = await getUserPublications(loadedUser.id!!);
+            setPublications(result);
             setLoading(false);
         }
         
@@ -64,7 +56,7 @@ function UserPublications() {
 
     function handleOnDeletePublication(publicationId: string) {
         embraceWithLoading(() => {
-            setPublications(publications.filter(p => p.id.toString() !== publicationId)) 
+            setPublications(publications.filter(p => p.p_id.toString() !== publicationId)) 
         });
     }
 

@@ -13,6 +13,7 @@ import { checkAuthToken } from "../../utils/TokenUtil";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getLandingPublications } from "../../services/PublicationService";
 
 function LandingPage() {
     const navigate = useNavigate();
@@ -22,8 +23,8 @@ function LandingPage() {
 
     useEffect(() => {
         async function fetchPublications() {
-            const result = await api.get("/landingPublications");
-            setPublications(result.data);
+            const result = await getLandingPublications();
+            setPublications(result);
         }
 
         function redirectIfExistsToken() {
@@ -42,6 +43,15 @@ function LandingPage() {
         onSuccessGoogleLogin(credentialResponse)
             .then(() => {
                 navigate("/home");
+            }).catch(() => {
+                toast("Erro no cadastro!", {
+                    autoClose: 500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    draggable: false,
+                    theme: "light",
+                    type: "error"
+                });
             });
         
     }

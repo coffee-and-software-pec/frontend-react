@@ -31,21 +31,10 @@ function HomePage() {
 
     useEffect(() => {
         async function fetchPublications() {
-            const result = await (await api.get("/publication")).data;
+            const result = await getSortedPublications();
             const publicationList = result as Publication[];
             if (publicationList.length > 0) {
-                setPublications([
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0],
-                    publicationList[0]
-                ]);
+                setPublications(result);
             }
             setLoading(false);
         }
@@ -151,10 +140,10 @@ function HomePage() {
                     
                     
                 </div>
-                <div className={styles.createButtonContainer}>
+                <Link to={"/publicacao"} className={styles.createButtonLink}>
                     <AddIcon height={24} width={24} fill={colors.theme.white} />
-                    <Link to={"/publicacao"} className={styles.createButtonLink}>CRIAR PUBLICAÇÃO</Link>
-                </div>
+                    CRIAR PUBLICAÇÃO
+                </Link>
             </div>
         </div>
     )

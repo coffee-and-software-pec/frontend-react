@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../api/api";
 import TopBar from "../../components/TopBar";
 import Publication from "../../models/Publication";
-import { formatDateTimestamp } from "../../utils/DateUtil";
+import { formatDateTimestamp, formatLocalDateTime } from "../../utils/DateUtil";
 
 import styles from './PublicationPage.module.css';
 
@@ -21,6 +21,7 @@ import Comment from "../../components/Comment";
 import RelatedPublications from "../../components/RelatedPublications";
 import { createComment } from "../../services/CommentService";
 import { useAuth } from "../../contexts/AuthContext";
+import { getPublicationById } from "../../services/PublicationService";
 
 function PublicationPage() {
     const navigate = useNavigate();
@@ -62,7 +63,7 @@ function PublicationPage() {
     useEffect(() => {
         async function loadPublication(publicationId: string) {
             try {
-                const result = (await api.get(`/publication/${publicationId}`)).data;
+                const result = await getPublicationById(publicationId);
                 setPublication(result as Publication);
             } catch(e) {
                 alert("there is no publication with this id");
@@ -84,9 +85,9 @@ function PublicationPage() {
                     <div className={styles.publicationData}>
                         <div className={styles.authorContainer}>
                             <UserIcon color={colors.theme["soft-black"]} width={24} height={24} />
-                            <p className={styles.author}>{publication?.authorData.authorName}</p>
+                            <p className={styles.author}>{publication?.author.u_name}</p>
                         </div>
-                        <p className={styles.editDate}>{formatDateTimestamp(publication?.date!!)}</p>
+                        <p className={styles.editDate}>{formatLocalDateTime(publication?.creation_date!!)}</p>
                     </div>
                     <div className={styles.reactionsData}>
                         <EyeIcon />
@@ -101,10 +102,10 @@ function PublicationPage() {
                     <div className={styles.publicationContent}>
                         <div className={styles.contentContainer}>
                             <div className={styles.tagsContainer}>
-                                {publication?.tags.map(tag => <Tag key={tag} name={tag} onClickTag={null}/>)}
+                                {publication?.tags.map((tag, index) => <Tag key={index} name={tag.title} onClickTag={null}/>)}
                             </div>
                             <MarkdownPreview 
-                                source={publication?.content}
+                                source={publication?.continuous_text}
                                 className={styles.markdownEditor}
                                 wrapperElement={{"data-color-mode": "light"}}
                             />
@@ -142,11 +143,18 @@ function PublicationPage() {
                     </div>
                     <div className={styles.commentContainer}>
                         <h4 id="comments">Comentários</h4>
-                        {publication?.comments.map((comment) => {
-                            return (
-                                <Comment key={comment.id} comment={comment} />
-                            );
-                        })}
+
+                        {
+                            publication?.comments?.length === undefined || publication?.comments?.length === 0 ? (
+                                <span>Ainda não há comentários</span>
+                            ) : (
+                                publication?.comments?.map((comment) => {
+                                    return (
+                                        <Comment key={comment.id} comment={comment} />
+                                    );
+                                })
+                            )
+                        }
                     </div>
                     <div className={styles.space}></div>
                 </div>

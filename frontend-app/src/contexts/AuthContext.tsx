@@ -2,6 +2,8 @@ import { CredentialResponse } from '@react-oauth/google';
 import React, { createContext, useContext, useState } from 'react';
 import { api } from '../api/api';
 import User from '../models/User';
+import UserDTO from '../services/dtos/UserDTO';
+import { createUser, getUserByEmail } from '../services/UserService';
 import { getUserToken, parseAuthToken, removeAuthToken, removeUserToken, setAuthToken, setUserToken } from '../utils/TokenUtil';
 
 interface AuthContextProps {
@@ -43,27 +45,30 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
 
     async function onSuccessGoogleLogin(credentialResponse: CredentialResponse) {
-        setAuthToken(credentialResponse.credential!!);
+        const userCredentials = parseAuthToken(credentialResponse.credential!!);
 
+        let response: any = null;
         try {
-            const userCredentials = parseAuthToken(credentialResponse.credential!!);
-            const response = await registerUser({
+            response = await createUser({
                 email:  userCredentials.email,
                 name: userCredentials.name,
                 photoURL: userCredentials.picture
             });
-            loginSetUser(response.data as User);
         } catch (e) {
-            console.log("error on registration");
-        }
+            response = await getUserByEmail(userCredentials.email);
+        }        
+
+        loginSetUser({
+            email: response.email,
+            name: response.u_name,
+            photoURL: response.photoURL,
+            id: response.u_id
+        });
+        setAuthToken(credentialResponse.credential!!);
     }
 
     function onFailureGoogleLogin(response: string) {
         console.log(response, 'A autenticação pelo Google deu falha.');
-    }
-
-    async function registerUser(user: User): Promise<any> {
-        return await api.post("/users", user);
     }
  
     return (

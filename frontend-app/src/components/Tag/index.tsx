@@ -18,11 +18,14 @@ function Tag({ name, onClickTag, deletable }: TagProps) {
     const color = toMaterialStyle(name, 300).backgroundColor;
 
     function handleOnClickTag() {
-        setActive(true);
-        onClickTag(name);
+        if (deletable) {
+            setActive(true);
+            onClickTag(name);
+        }
     }
 
-    function handleOnClickButton() {
+    function handleOnClickButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.stopPropagation(); 
         setActive(false);
         if (onClickTag !== undefined) {
             onClickTag(name);
@@ -30,8 +33,12 @@ function Tag({ name, onClickTag, deletable }: TagProps) {
     }
 
     return (
-        <span className={styles.container} style={{backgroundColor: color}}>
-            <span onClick={handleOnClickTag}>{name}</span>
+        <span 
+            className={styles.container} 
+            style={{backgroundColor: color}}
+            onClick={handleOnClickTag}
+        >
+            <span>{name}</span>
             {/* {onClickTag && <button onClick={onClickTag}>x</button>} */}
             {(active && deletable) && 
                 <button onClick={handleOnClickButton}>

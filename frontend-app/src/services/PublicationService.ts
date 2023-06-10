@@ -5,9 +5,23 @@ import { RelatedPublication } from "../models/RelatedPublication";
 import CreatePublicationDTO from "./dtos/CreatePublicationDTO";
 import UpdatePublicationDTO from "./dtos/UpdatePublicationDTO";
 
+async function createPublication(publication: CreatePublicationDTO): Promise<Publication> {
+    const response = await api.post("/publication", publication);
+    return response.data;
+}
+
+async function updatePublication(publicationId: string, publication: UpdatePublicationDTO): Promise<Publication> {
+    const response = await api.patch(`/publication/${publicationId}`, publication);
+    return response.data;
+}
+
 async function getPublicationById(publicationId: string): Promise<Publication> {
     const data = (await api.get(`/publication/${publicationId}`)).data;
     return data as Publication;
+}
+
+async function deletePublication(publicationId: string): Promise<any> {
+    return await api.delete(`/publication/${publicationId}`);
 }
 
 async function getSortedPublications(column: string = "date", order: string = "desc"): Promise<Publication[]> {
@@ -20,19 +34,9 @@ async function getSortedPublicationsByTags(tags: string[]): Promise<Publication[
     return data as Publication[];
 }
 
-async function createPublication(publication: CreatePublicationDTO): Promise<Publication> {
-    const response = await api.post("/publication", publication);
-    return response.data;
-}
-
-async function updatePublication(publicationId: string, publication: UpdatePublicationDTO): Promise<Publication> {
-    const response = await api.patch(`/publication/${publicationId}`, publication);
-    return response.data;
-}
-
-async function getLandingPublications(): Promise<LandPublication[]> {
+async function getLandingPublications(): Promise<Publication[]> {
     const { data } = await api.get("/publication/landingPublications");
-    return data as LandPublication[];
+    return data as Publication[];
 }
 
 async function getUserPublications(userId: string): Promise<Publication[]> {
@@ -43,10 +47,6 @@ async function getUserPublications(userId: string): Promise<Publication[]> {
 async function getRelatedPublications(): Promise<RelatedPublication[]> {
     const { data } = await api.get("/publication/related");
     return data as RelatedPublication[];
-}
-
-async function deletePublication(publicationId: string): Promise<any> {
-    return await api.delete(`/publication/${publicationId}`);
 }
 
 export { 

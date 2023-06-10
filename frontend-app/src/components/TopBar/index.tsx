@@ -15,6 +15,7 @@ import colors from  '../../styles/colorsConfig.json';
 import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../api/api';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 enum HomeRoutes {
@@ -48,9 +49,20 @@ function TopBar() {
     }, [])
 
     function handleGoogleSuccessLogin(credentialResponse: CredentialResponse) {
-        onSuccessGoogleLogin(credentialResponse);
-        navigate("#");
-        setImageLoaded(true);
+        onSuccessGoogleLogin(credentialResponse).then(() => {
+            navigate("#");
+            setImageLoaded(true);
+        }).catch(_ => {
+            toast("Erro no cadastro!", {
+                autoClose: 500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                draggable: false,
+                theme: "light",
+                type: "error"
+            });
+        });
+        
     }
 
     return (
@@ -121,6 +133,7 @@ function TopBar() {
                 </div>
             </div>
             {user !== undefined ? <DropdownMenu active={activeDropdownMenu} setActive={setActiveDropdownMenu} /> : ""}
+            <ToastContainer />
         </>
     );
 }

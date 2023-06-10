@@ -7,6 +7,7 @@ import { getAllTags } from '../../services/TagService';
 import { BarLoader } from "react-spinners";
 
 import colors from '../../styles/colorsConfig.json';
+import { embraceWithLoading } from "../../utils/LoadingUtil";
 
 interface SelectTagBoxProps {
     onClickFilterButton: (tags: string[]) => void;
@@ -20,9 +21,10 @@ function SelectTagBox({ onClickFilterButton }: SelectTagBoxProps) {
 
     useEffect(() => {
         async function getTags(){
-            const data = await (getAllTags());
-            setTags(data.map(tagDTO => tagDTO.title));
-            setLoading(false);
+            embraceWithLoading(setLoading, async () => {
+                const data = await (getAllTags());
+                setTags(data.map(tagDTO => tagDTO.title));
+            }, 1000);
         }
 
         getTags();

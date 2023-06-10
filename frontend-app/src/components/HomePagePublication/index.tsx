@@ -5,6 +5,8 @@ import styles from './HomePagePublication.module.css';
 import { ReactComponent as HeartIcon } from '../../assets/heart_icon.svg';
 import { ReactComponent as CommentIcon } from '../../assets/comment_icon_filled.svg';
 import { useNavigate } from 'react-router-dom';
+import DefaultImage from '../DefaultImage';
+import DefaultUserImage from '../../assets/default-user.png';
 
 interface HomePagePublicationProps {
     publication: Publication;
@@ -33,17 +35,19 @@ function HomePagePublication({ publication }: HomePagePublicationProps) {
                     </div>
                     <div className={styles.authorContainer}>
                         escrito por:
-                        <img 
-                            src={publication.author.photoURL} 
-                            alt="" 
-                            width={16} 
-                            height={16} 
-                            referrerPolicy="no-referrer" 
+                        <DefaultImage 
+                            src={publication.author.photoURL}
+                            alt=""
+                            defaultImage={DefaultUserImage}
                         />
                         <p>{publication.author.u_name}</p>
                     </div>
                 </div>
-                <img className={styles.thumbnail} src={publication.main_img_url} alt="" referrerPolicy="no-referrer"/>
+                <DefaultImage 
+                    className={styles.thumbnail}
+                    src={publication.main_img_url}
+                    alt=""
+                />
             </div>
             <div className={styles.reactionsContainer}>
                 <div className={styles.reactionContainer}>

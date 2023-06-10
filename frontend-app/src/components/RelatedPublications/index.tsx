@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../api/api';
 import { RelatedPublication } from '../../models/RelatedPublication';
 import { getLandingPublications, getSortedPublications } from '../../services/PublicationService';
+import DefaultImage from '../DefaultImage';
 import styles from './RelatedPublications.module.css';
 
 
@@ -35,12 +36,20 @@ function RelatedPublications() {
         <div className={styles.container}>
             {
                 relatedPublications.map(relatedPublication => (
-                    <div key={relatedPublication.id} className={styles.publicationContainer} onClick={() => onClickRelatedPublication(relatedPublication)}>
+                    <div 
+                        key={relatedPublication.id} 
+                        className={styles.publicationContainer} 
+                        onClick={() => onClickRelatedPublication(relatedPublication)}
+                    >
                         <div className={styles.publicationContent}>
                             <p className={styles.title}>{relatedPublication.title}</p>
                             <p className={styles.subtitle}>{relatedPublication.subtitle}</p>
                         </div>
-                        <img src={relatedPublication.publicationThumb} alt="" />
+                        {/* <img src={relatedPublication.publicationThumb} alt="" /> */}
+                        <DefaultImage 
+                            src={relatedPublication.publicationThumb} 
+                            alt=""
+                        />
                     </div>
                 ))
             }

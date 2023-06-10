@@ -10,7 +10,7 @@ interface AuthContextProps {
     user: User | null,
     logged: boolean,
     onSuccessGoogleLogin: (response: CredentialResponse) => Promise<void>,
-    onFailureGoogleLogin: (response: string) => void,
+    onFailureGoogleLogin: () => void,
     logout: () => void,
     loadUser: () => User
 }
@@ -67,8 +67,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         setAuthToken(credentialResponse.credential!!);
     }
 
-    function onFailureGoogleLogin(response: string) {
-        console.log(response, 'A autenticação pelo Google deu falha.');
+    function onFailureGoogleLogin() {
+        console.log('A autenticação pelo Google falhou.');
     }
  
     return (

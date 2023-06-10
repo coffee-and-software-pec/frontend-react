@@ -21,6 +21,8 @@ import {
 import { useRef } from 'react';
 import { deletePublication } from '../../services/PublicationService';
 import { ChakraProvider } from '@chakra-ui/react'
+import DefaultImage from '../DefaultImage';
+import DefaultUserImage from '../../assets/default-user.png';
 
 interface UserPublicationProps {
     publication: Publication;
@@ -66,15 +68,19 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
                         </div>
                         <div className={styles.authorContainer}>
                             escrito por:
-                            <img 
+                            <DefaultImage 
                                 src={publication.author.photoURL} 
                                 alt=""
-                                referrerPolicy="no-referrer" 
+                                defaultImage={DefaultUserImage}
                             />
                             <p>{publication.author.u_name}</p>
                         </div>
                     </div>
-                    <img className={styles.thumbnail} src={publication.main_img_url} alt="" />
+                    <DefaultImage 
+                        className={styles.thumbnail}
+                        src={publication.main_img_url}
+                        alt=""
+                    />
                 </div>
                 <div className={styles.reactionsContainer}>
                     <div className={styles.reactionContainer}>

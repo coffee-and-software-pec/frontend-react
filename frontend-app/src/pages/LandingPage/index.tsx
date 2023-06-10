@@ -14,17 +14,22 @@ import { checkAuthToken } from "../../utils/TokenUtil";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getLandingPublications } from "../../services/PublicationService";
+import Publication from "../../models/Publication";
 
 function LandingPage() {
     const navigate = useNavigate();
-    const [publications, setPublications] = useState<LandPublication[]>([] as LandPublication[]);
+    const [publications, setPublications] = useState<Publication[]>([] as Publication[]);
 
     const { onSuccessGoogleLogin, onFailureGoogleLogin } = useAuth();
 
     useEffect(() => {
         async function fetchPublications() {
-            const result = await getLandingPublications();
-            setPublications(result);
+            try {
+                const result = await getLandingPublications();
+                setPublications(result);
+            } catch(e) {
+                setPublications([]);
+            }
         }
 
         function redirectIfExistsToken() {
@@ -52,8 +57,19 @@ function LandingPage() {
                     theme: "light",
                     type: "error"
                 });
-            });
-        
+            });   
+    }
+
+    function handleGoogleLoginFailure() {
+        toast("Erro na autenticação pela Google", {
+            autoClose: 500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            draggable: false,
+            theme: "light",
+            type: "error"
+        });
+        onFailureGoogleLogin();
     }
 
     function handleRegisterWithEmail() {
@@ -85,9 +101,7 @@ function LandingPage() {
                         shape="pill"
                         width="300"
                         onSuccess={handleGoogleSuccessLogin}
-                        onError={() => {
-                            console.log('Login Failed');
-                        }}
+                        onError={handleGoogleLoginFailure}
                     />
                     <p>ou</p>
                     <div className={styles.formContainer}>
@@ -101,9 +115,13 @@ function LandingPage() {
                     <p>veja o que outras pessoas estão publicando agora</p>
                     <div className={styles.publicationsGridContainer}>
                         {
-                            publications.map(publication => (
-                                <LandingPublication key={publication.id} publication={publication} />
-                            ))
+                            publications.length === 0 ? (
+                                <span>Ainda não há publicações cadastradas</span>
+                            ) : (
+                                publications.map((publication, index) => (
+                                    <LandingPublication key={index} publication={publication} />
+                                ))
+                            )
                         }
                     </div>
                 </div>

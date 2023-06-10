@@ -9,11 +9,19 @@
 
     padding: 1rem;
     gap: 1rem;
+
+    transition: transform 0.2s;
+}
+
+.publicationContainer:hover {
+    transform: scale(1.05);
 }
 
 .publicationContainer img {
     width: 2.5rem;
     height: 2.5rem;
+    border-radius: 50%;
+    border: 0.15rem solid var(--secondary);
 }
 
 .publicationContainer .publicationInfo {
@@ -64,9 +72,10 @@
     gap: 0.25rem;
 }
 
-.publicationContainer .publicationReactions .publicationVisualizations img {
+.publicationContainer .publicationReactions .publicationVisualizations svg {
     width: 1.25rem;
     height: auto;
+    color: var(--material-red)
 }
 
 .publicationContainer .publicationReactions .publicationCommentsCount {

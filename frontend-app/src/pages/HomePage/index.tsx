@@ -9,9 +9,12 @@ import colors from "../../styles/colorsConfig.json";
 import SelectTagBox from "../../components/SelectTagBox";
 import Publication from "../../models/Publication";
 import HomePagePublication from "../../components/HomePagePublication";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getSortedPublications, getSortedPublicationsByTags } from "../../services/PublicationService";
 import { BounceLoader, PulseLoader } from "react-spinners";
+import { embraceWithLoading } from "../../utils/LoadingUtil";
+import { useAuth } from "../../contexts/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
 
 enum TabName {
     TRENDING,
@@ -20,6 +23,9 @@ enum TabName {
 }
 
 function HomePage() {
+    const { loadUser } = useAuth();
+    const navigate = useNavigate();
+
     const [publications, setPublications] = useState<Publication[]>([]);
     const [activeTab, setActiveTab] = useState<TabName>(TabName.TRENDING);
     
@@ -31,12 +37,13 @@ function HomePage() {
 
     useEffect(() => {
         async function fetchPublications() {
-            const result = await getSortedPublications();
-            const publicationList = result as Publication[];
-            if (publicationList.length > 0) {
-                setPublications(result);
-            }
-            setLoading(false);
+            embraceWithLoading(setLoading, async () => {
+                const result = await getSortedPublications();
+                const publicationList = result as Publication[];
+                if (publicationList.length > 0) {
+                    setPublications(result);
+                }
+            }, 1000);
         }
         
         fetchPublications();
@@ -65,10 +72,10 @@ function HomePage() {
                 console.log("not specified tab");
         }
 
-        embraceWithLoading(async () => {
+        embraceWithLoading(setLoading, async () => {
             const newPublications = await getSortedPublications(sortColumn, order);
             setPublications([...newPublications]);
-        });
+        }, 500);
         
     }
 
@@ -77,75 +84,86 @@ function HomePage() {
     }
 
     async function handleOnClickFilterButton(tags: string[]) {
-        embraceWithLoading(async () => {
+        embraceWithLoading(setLoading, async () => {
             const newPublications = await getSortedPublicationsByTags(tags);
             setPublications([...newPublications]);
-        });
-        
+        }, 500);
     }
 
-    function embraceWithLoading(callback: () => {}) {
-        setLoading(true);
-        callback();
-        setTimeout(() => {setLoading(false);}, 500);
+    function handleCreatePublicationButton() {
+        if (loadUser() === undefined) {
+            toast("Você precisa estar logado para criar publicações!", {
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                draggable: false,
+                theme: "light",
+                type: "info"
+            });
+        } else {
+            navigate("/publicacao");
+        }
     }
 
     return (
-        <div className={styles.container}>
-            <TopBar />
-            <div className={styles.mainContent}>
-                <div className={styles.selectTagContainer}>
-                    <SelectTagBox onClickFilterButton={handleOnClickFilterButton} />
-                </div>
-                <div className={styles.publicationOrderContainer}>
-                    <p 
-                        className={activeTab === TabName.TRENDING ? styles.active : ''}
-                        onClick={() => handleTabOnClick(TabName.TRENDING)}
-                    >
-                        TRENDING
-                    </p>
-                    <p 
-                        className={activeTab === TabName.FRESH ? styles.active : ''}
-                        onClick={() => handleTabOnClick(TabName.FRESH)}
-                    >
-                        RECENTES
-                    </p>
-                    <p 
-                        className={activeTab === TabName.TOP ? styles.active : ''}
-                        onClick={() => handleTabOnClick(TabName.TOP)}
-                    >
-                        TOP
-                    </p>
-                </div>
-                <div className={styles.publicationsContainer}>
-                    {loading ? (
-                        <PulseLoader color={colors.theme.secondary} />
-                    ) : (
-                        publications.length === 0 ? (
-                            <span className={styles.noPublications}>Não há publicações</span>
+        <>
+            <div className={styles.container}>
+                <TopBar />
+                <div className={styles.mainContent}>
+                    <div className={styles.selectTagContainer}>
+                        <SelectTagBox onClickFilterButton={handleOnClickFilterButton} />
+                    </div>
+                    <div className={styles.publicationOrderContainer}>
+                        <p 
+                            className={activeTab === TabName.TRENDING ? styles.active : ''}
+                            onClick={() => handleTabOnClick(TabName.TRENDING)}
+                        >
+                            TRENDING
+                        </p>
+                        <p 
+                            className={activeTab === TabName.FRESH ? styles.active : ''}
+                            onClick={() => handleTabOnClick(TabName.FRESH)}
+                        >
+                            RECENTES
+                        </p>
+                        <p 
+                            className={activeTab === TabName.TOP ? styles.active : ''}
+                            onClick={() => handleTabOnClick(TabName.TOP)}
+                        >
+                            TOP
+                        </p>
+                    </div>
+                    <div className={styles.publicationsContainer}>
+                        {loading ? (
+                            <PulseLoader color={colors.theme.secondary} />
                         ) : (
-                            <>
-                                {publications?.slice(0, next)?.map((publication, index) => {
-                                    return (
-                                        <HomePagePublication key={index} publication={publication}/>
-                                    );
-                                })}
-                                {next < publications?.length && (
-                                    <span className={styles.loadMore} onClick={handleMorePublications}
-                                        >carregar mais publicações</span>
-                                )}
-                            </>
-                        )
-                    )}
-                    
-                    
+                            publications.length === 0 ? (
+                                <span className={styles.noPublications}>Não há publicações</span>
+                            ) : (
+                                <>
+                                    {publications?.slice(0, next)?.map((publication, index) => {
+                                        return (
+                                            <HomePagePublication key={index} publication={publication}/>
+                                        );
+                                    })}
+                                    {next < publications?.length && (
+                                        <span className={styles.loadMore} onClick={handleMorePublications}
+                                            >carregar mais publicações</span>
+                                    )}
+                                </>
+                            )
+                        )}
+                        
+                        
+                    </div>
+                    <div className={styles.createButtonLink} onClick={handleCreatePublicationButton}>
+                        <AddIcon height={24} width={24} fill={colors.theme.white} />
+                        CRIAR PUBLICAÇÃO
+                    </div>
                 </div>
-                <Link to={"/publicacao"} className={styles.createButtonLink}>
-                    <AddIcon height={24} width={24} fill={colors.theme.white} />
-                    CRIAR PUBLICAÇÃO
-                </Link>
-            </div>
-        </div>
+            </div>  
+            <ToastContainer />
+        </>
     )
 }
 

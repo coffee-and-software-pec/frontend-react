@@ -1,7 +1,10 @@
 export default interface PublicationComment {
-    id: number;
-    author: string;
-    authorPhoto: string;
-    date: number;
-    content: string;
+    c_id: string;
+    author: {
+        u_id: string;
+        u_name: string;
+        photoURL: string;
+    };
+    creation_date: string;
+    c_text: string;
 }

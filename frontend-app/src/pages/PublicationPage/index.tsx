@@ -27,6 +27,8 @@ import User from "../../models/User";
 import DefaultImage from "../../components/DefaultImage";
 import DefaultUserImage from '../../assets/default-user.png';
 
+import CommentList from "../../components/CommentList";
+
 function PublicationPage() {
     const navigate = useNavigate();
     const params = useParams();
@@ -34,6 +36,8 @@ function PublicationPage() {
     const [publicationId, setPublicationId] = useState<string>();
     const [publication, setPublication] = useState<Publication | undefined>(undefined);
     const [isLike, setIsLike] = useState<boolean>(false);
+
+    const [commentCreated, setCommentCreated] = useState<boolean>(false);
 
     const onLikeButtonClick = async () => { 
         let newPublication = publication;
@@ -71,7 +75,6 @@ function PublicationPage() {
     const textAreaRef: any = useRef(null);
 
     function onClickClearButton() {
-        console.log(textAreaRef.current.value);
         textAreaRef.current.value = "";
     }
 
@@ -79,9 +82,12 @@ function PublicationPage() {
         try {
             if (publicationId !== undefined && user?.id !== undefined) {
                 const result = await createComment({
-                    authorId: user?.id,
-                    commentText: textAreaRef.current.value
-                }, publicationId);
+                    author_id: user?.id,
+                    c_text: textAreaRef.current.value,
+                    publication_id: publicationId
+                });
+                textAreaRef.current.value = "";
+                setCommentCreated(!commentCreated);
             }
         } catch(e) {
             console.log("error on comment creation");
@@ -190,18 +196,10 @@ function PublicationPage() {
                     </div>
                     <div className={styles.commentContainer}>
                         <h4 id="comments">Comentários</h4>
-
-                        {
-                            publication?.comments?.length === undefined || publication?.comments?.length === 0 ? (
-                                <span>Ainda não há comentários</span>
-                            ) : (
-                                publication?.comments?.map((comment) => {
-                                    return (
-                                        <Comment key={comment.id} comment={comment} />
-                                    );
-                                })
-                            )
-                        }
+                        <CommentList 
+                            publicationId={params.id} 
+                            commentCreated={commentCreated}
+                        />
                     </div>
                     <div className={styles.space}></div>
                 </div>

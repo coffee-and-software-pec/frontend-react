@@ -1,6 +1,9 @@
 import PublicationComment from '../../models/PublicationComment';
-import { getCommentDateString } from '../../utils/CommentDateUtil';
+import { getCommentDateString, getCommentDateTime } from '../../utils/CommentDateUtil';
+import DefaultImage from '../DefaultImage';
 import styles from './Comment.module.css';
+
+import DefaultImageUser from "../../assets/default-user.png";
 
 interface CommentProps {
     comment: PublicationComment
@@ -11,15 +14,20 @@ function Comment({ comment }: CommentProps) {
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.authorContainer}>
-                    <img src={comment.authorPhoto} alt="" referrerPolicy='no-referrer' />
-                    <p>{comment.author}</p>
+                    {/* <img src={comment.author.photoURL} alt="" referrerPolicy='no-referrer' /> */}
+                    <DefaultImage 
+                        src={comment.author.photoURL} 
+                        alt=""
+                        defaultImage={DefaultImageUser}
+                    />
+                    <p>{comment.author.u_name}</p>
                 </div>
                 <span className={styles.commentDate}>
-                    {getCommentDateString(comment.date)}
+                    {getCommentDateTime(comment.creation_date)}
                 </span>
             </div>
             <div className={styles.content}>
-                {comment.content}
+                {comment.c_text}
             </div>
         </div>
     );

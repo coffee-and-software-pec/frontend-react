@@ -36,6 +36,7 @@
 .container .header .authorContainer img {
     height: 1.5rem;
     width: auto;
+    border-radius: 50%;
 }
 
 .container .header .commentDate {

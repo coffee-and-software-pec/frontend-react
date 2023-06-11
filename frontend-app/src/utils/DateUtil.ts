@@ -35,3 +35,14 @@ export function formatDateTimestamp(timestamp: number) {
 
     return `${formattedDate} às ${formattedTime}`;
 }
+
+export function dateComparator(date1: string, date2: string, reversed: boolean = false) {
+    const dateTime1 = new Date(date1);
+    const dateTime2 = new Date(date2);
+
+    if (reversed) {
+        return dateTime2.getTime() - dateTime1.getTime();
+    } else {
+        return dateTime1.getTime() - dateTime2.getTime();
+    }
+}

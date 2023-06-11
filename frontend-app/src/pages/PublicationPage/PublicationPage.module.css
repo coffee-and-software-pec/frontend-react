@@ -49,12 +49,43 @@
 
 .container .mainContent .publicationData {
     grid-area: metadata;
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; */
+    display: grid;
+    grid-template-areas: 
+        "titles titles"
+        "author date"
+    ;
+    gap: 1rem;
+}
+
+.container .mainContent .titlesContainer {
+    grid-area: titles;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.container .mainContent .titlesContainer h1 {
+    font-size: 1.5rem;
+    color: var(--soft-black);
+}
+
+.container .mainContent .titlesContainer h2 {
+    font-size: 1rem;
+    color: var(--dark-gray);
 }
 
 .container .mainContent .publicationData .authorContainer {
+    grid-area: author;
+    justify-self: flex-start;
+    align-self: flex-end;
+    margin-left: 1rem;
+
     display: flex;
     gap: 0.5rem;
     justify-content: center;
@@ -74,6 +105,11 @@
 }
 
 .container .mainContent .publicationData .editDate {
+    grid-area: date;
+    justify-self: flex-end;
+    align-self: flex-end;
+    margin-right: 0.5rem;
+
     font-weight: 400;
     color: var(--soft-black);
     font-size: 0.95rem;
@@ -161,6 +197,8 @@
 
 .container .mainContent .publicationContent .contentContainer .markdownEditor {
     background-color: transparent;
+    font-family: 'Roboto', sans-serif;
+    color: var(--soft-black);
 }
 
 .container .mainContent .relatedPublications {

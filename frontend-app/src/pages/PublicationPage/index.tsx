@@ -132,6 +132,10 @@ function PublicationPage() {
             <div className={styles.container}>
                 <div className={styles.mainContent}>
                     <div className={styles.publicationData}>
+                        <div className={styles.titlesContainer}>
+                            <h1>{publication?.title}</h1>
+                            <h2>{publication?.subtitle}</h2>
+                        </div>
                         <div className={styles.authorContainer}>
                             <DefaultImage 
                                 src={publication?.author.photoURL!!} 

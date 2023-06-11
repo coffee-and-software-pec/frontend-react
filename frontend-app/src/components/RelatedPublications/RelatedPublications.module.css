@@ -35,13 +35,18 @@
 }
 
 .publicationContainer .publicationContent .subtitle {
+    display: -webkit-box;
     font-weight: 400;
     color: var(--dark-gray);
     width: 20rem;
     
+    -webkit-line-clamp: 2;
+    line-clamp: 2; 
+    -webkit-box-orient: vertical;
     text-overflow: ellipsis;
-    white-space: nowrap; 
+    word-wrap: break-word;
     overflow: hidden;
+    text-align: justify;
 }
 
 .publicationContainer img {

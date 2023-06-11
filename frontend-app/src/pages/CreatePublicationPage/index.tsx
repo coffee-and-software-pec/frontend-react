@@ -1,5 +1,5 @@
 import MarkdownEditor from "@uiw/react-markdown-editor";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TopBar from "../../components/TopBar";
 
 import styles from "./CreatePublicationPage.module.css";
@@ -10,7 +10,7 @@ import { ReactComponent as AddIcon } from "../../assets/plus_icon.svg";
 import DefaultImage from "../../assets/default-image.png";
 
 import Tag from "../../components/Tag";
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 
 import colors from '../../styles/colorsConfig.json';
 import { createPublication, updatePublication } from "../../services/PublicationService";
@@ -20,6 +20,10 @@ import { toast, ToastContainer } from "react-toastify";
 import User from "../../models/User";
 import Publication from "../../models/Publication";
 import { useLocation } from "react-router-dom";
+
+import { EditorView } from "@codemirror/view";
+
+import '../../styles/markdown-style.css';
 
 enum EditMode {
     CREATE,
@@ -56,6 +60,8 @@ function CreatePublicationPage() {
     const [hasChanges, setHasChanges] = useState(false);
     const [isSaved, setIsSaved]  = useState(false);
     const [isPublished, setIsPublished]  = useState(false);
+
+    const markdownRef = useRef();
 
     useEffect(() => {
         setLoadedUser(loadUser());
@@ -267,7 +273,7 @@ function CreatePublicationPage() {
                     
                     <div className={styles.tags}>
                         {publication.tags.map((tag, index) => (
-                            <Tag name={tag.title} onClickTag={() => deleteTag(index)} deletable={true} />   
+                            <Tag key={index} name={tag.title} onClickTag={() => deleteTag(index)} deletable={true} />   
                             
                         ))}
                         <label className={styles.inputTagContainer}>
@@ -282,18 +288,22 @@ function CreatePublicationPage() {
                         </label>
                     </div>
                     <div className={styles.fullTextContainer} data-color-mode="light">
-                        <MarkdownEditor
+                        <MDEditor
+                            height={"100%"}
                             className={styles.markdownEditor}
                             value={publication.continuous_text}
-                            toolbars={[
-                                "undo", "redo", "bold", "italic", "header", "strike", "underline", "quote", "olist", "ulist", "todo", "link", 
-                                "image", "code", "codeBlock"
-                            ]}
-                            toolbarsMode={[
-                                "preview"
-                            ]}
-                            previewWidth={"70%"}
-                            onChange={(value, _) => handleOnTextChangeMarkdown(value)}
+                            onChange={(value, _) => handleOnTextChangeMarkdown(value!!)}
+                            preview="edit"
+                            visibleDragbar={false}
+                          />
+                        <h1>Prévia da sua publicação</h1>
+                        <MDEditor.Markdown
+                            className={styles.preview}
+                            source={publication.continuous_text} 
+                            style={{ 
+                                whiteSpace: 'pre-wrap',
+                                backgroundColor: 'transparent'
+                            }} 
                         />
                     </div>
                     <div className={styles.floatingButtonsContainer}>

@@ -21,7 +21,7 @@
 }
 
 .container h2 {
-    width: 50%;
+    width: 60%;
     color: var(--soft-black);
     margin-left: 1rem;
     margin-bottom: 1rem;
@@ -29,7 +29,7 @@
 }
 
 .container .titleContainer {
-    width: 50%;
+    width: 60%;
 
     display: flex;
     flex-direction: column;
@@ -55,7 +55,7 @@
 }
 
 .container .subtitleThumbContainer {
-    width: 50%;
+    width: 60%;
 
     display: flex;
     justify-content: center;
@@ -140,18 +140,35 @@
 }
 
 .container .fullTextContainer {
-    width: 50%;
+    width: 60%;
     height: auto;
     padding: 2rem 0;
     margin-bottom: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    color: var(--soft-black);
 }
 
 .container .fullTextContainer .markdownEditor {
+    color: var(--soft-black);
     min-height: 20rem;
     box-shadow: inset 0 0 0 0.1rem rgba(0,0,0,0.1);
     padding: 0.25rem;
 
     font-size: 1rem;
+}
+
+.container .fullTextContainer > h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.container .fullTextContainer .preview {
+    color: var(--dark-gray);
 }
 
 .container .floatingButtonsContainer {
@@ -203,10 +220,11 @@
 }
 
 .container .tags {
+    width: 60%;
+
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    width: 50%;
 } 
 
 .container .inputTagContainer {

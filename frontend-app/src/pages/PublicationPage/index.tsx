@@ -22,23 +22,51 @@ import RelatedPublications from "../../components/RelatedPublications";
 import { createComment } from "../../services/CommentService";
 import { useAuth } from "../../contexts/AuthContext";
 import { getPublicationById } from "../../services/PublicationService";
+import { createLikePublication, hasLikedPublication, removeLikePublication } from "../../services/ReactionService";
+import User from "../../models/User";
+import DefaultImage from "../../components/DefaultImage";
+import DefaultUserImage from '../../assets/default-user.png';
 
 function PublicationPage() {
     const navigate = useNavigate();
     const params = useParams();
-    const { user } = useAuth()
+    const { user, loadUser } = useAuth()
     const [publicationId, setPublicationId] = useState<string>();
     const [publication, setPublication] = useState<Publication | undefined>(undefined);
     const [isLike, setIsLike] = useState<boolean>(false);
 
-    const onLikeButtonClick = () => { 
+    const onLikeButtonClick = async () => { 
         let newPublication = publication;
         if(newPublication != undefined) {
              newPublication.heartsCount += isLike ? -1 : +1;    
         }
         setPublication(newPublication);
-        setIsLike(!isLike);          
+        if (!isLike) {
+            createLikeReactionOnClick();
+        } else {
+            removeLikeReactionOnClick();
+        }
+        setIsLike(!isLike);
     };
+
+    async function createLikeReactionOnClick() {
+        if (publicationId != undefined && user?.email != undefined) {
+            await createLikePublication(publicationId, {
+                authorEmail: user.email,
+                type: "LIKE"
+            });
+        }
+        
+    }
+
+    async function removeLikeReactionOnClick() {
+        if (publicationId != undefined && user?.email != undefined) {
+            await removeLikePublication(publicationId, {
+                authorEmail: user.email,
+                type: "LIKE"
+            });
+        }
+    }
 
     const textAreaRef: any = useRef(null);
 
@@ -61,6 +89,7 @@ function PublicationPage() {
     }
 
     useEffect(() => {
+
         async function loadPublication(publicationId: string) {
             try {
                 const result = await getPublicationById(publicationId);
@@ -71,10 +100,24 @@ function PublicationPage() {
             }
         }
 
+        async function loadLike(loadedUser: User, publicationId?: string) {
+            if (loadedUser.email !== undefined && publicationId !== undefined) {
+                const response = await hasLikedPublication(publicationId, {
+                    authorEmail: loadedUser.email,
+                    type: "LIKE"
+                });
+                setIsLike(response.data);
+            }
+        }
+
         if (params.id !== undefined) {
+            const loadedUser = loadUser();
             setPublicationId(params.id);
             loadPublication(params.id);
+            loadLike(loadedUser, params.id);
         }
+
+        
     }, [params.id]);    
 
     return (
@@ -84,7 +127,11 @@ function PublicationPage() {
                 <div className={styles.mainContent}>
                     <div className={styles.publicationData}>
                         <div className={styles.authorContainer}>
-                            <UserIcon color={colors.theme["soft-black"]} width={24} height={24} />
+                            <DefaultImage 
+                                src={publication?.author.photoURL!!} 
+                                alt=""
+                                defaultImage={DefaultUserImage}
+                            />
                             <p className={styles.author}>{publication?.author.u_name}</p>
                         </div>
                         <p className={styles.editDate}>{formatLocalDateTime(publication?.creation_date!!)}</p>

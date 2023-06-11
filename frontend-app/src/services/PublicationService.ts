@@ -44,6 +44,11 @@ async function getUserPublications(userId: string): Promise<Publication[]> {
     return data as Publication[];
 }
 
+async function getUserPublicationsByTags(userId: string, tags: string[]): Promise<Publication[]> {
+    const { data } = await api.get(`/publication/userPublications/${userId}/byTags?tags=${tags.join(',')}`);
+    return data as Publication[];
+}
+
 async function getRelatedPublications(): Promise<RelatedPublication[]> {
     const { data } = await api.get("/publication/related");
     return data as RelatedPublication[];
@@ -57,6 +62,7 @@ export {
     updatePublication,
     getLandingPublications,
     getUserPublications,
+    getUserPublicationsByTags,
     getRelatedPublications,
     deletePublication
 }

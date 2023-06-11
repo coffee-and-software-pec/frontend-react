@@ -4,7 +4,7 @@ import { api } from '../../api/api';
 import SelectTagBox from '../../components/SelectTagBox';
 import TopBar from '../../components/TopBar';
 import Publication from '../../models/Publication';
-import { getSortedPublicationsByTags, getUserPublications } from '../../services/PublicationService';
+import { getSortedPublicationsByTags, getUserPublications, getUserPublicationsByTags } from '../../services/PublicationService';
 import styles from './UserPublications.module.css';
 
 import colors from '../../styles/colorsConfig.json';
@@ -16,7 +16,7 @@ import UserPublication from '../../components/UserPublication';
 import { useAuth } from '../../contexts/AuthContext';
 
 function UserPublications() {
-    const { loadUser } = useAuth();
+    const { user, loadUser } = useAuth();
 
     const [publications, setPublications] = useState<Publication[]>([]);
     const publicationsNumber = 4;
@@ -42,7 +42,7 @@ function UserPublications() {
 
     async function handleOnClickFilterButton(tags: string[]) {
         embraceWithLoading(async () => {
-            const newPublications = await getSortedPublicationsByTags(tags);
+            const newPublications = await getUserPublicationsByTags(user?.id!!, tags);
             setPublications([...newPublications]);
         });
         

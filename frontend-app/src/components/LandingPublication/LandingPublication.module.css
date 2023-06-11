@@ -75,7 +75,7 @@
 .publicationContainer .publicationReactions .publicationVisualizations svg {
     width: 1.25rem;
     height: auto;
-    color: var(--material-red)
+    color: var(--dark-gray)
 }
 
 .publicationContainer .publicationReactions .publicationCommentsCount {
@@ -85,9 +85,10 @@
     gap: 0.25rem;
 }
 
-.publicationContainer .publicationReactions .publicationCommentsCount img {
+.publicationContainer .publicationReactions .publicationCommentsCount svg {
     width: 1.25rem;
     height: auto;
+    color: var(--dark-gray);
 }
 
 .publicationContainer .publicationReactions .enterPublicationIcon {

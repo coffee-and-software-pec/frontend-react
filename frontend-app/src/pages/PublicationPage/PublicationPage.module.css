@@ -61,11 +61,11 @@
     align-items: center;
 }
 
-.container .mainContent .publicationData .authorContainer .authorImage {
+.container .mainContent .publicationData .authorContainer img {
     width: 2rem;
     height: 2rem;
     background-color: var(--primary);
-    mask: url('../../assets/user_icon.svg') no-repeat center;
+    border-radius: 50%;
 }
 
 .container .mainContent .publicationData .authorContainer .author {

@@ -1,0 +1,9 @@
+.w-md-editor-text-pre > code,
+.w-md-editor-text-input {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+}
+
+.w-md-editor-show-preview > .w-md-editor-content {
+  height: 600px !important;
+}

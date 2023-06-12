@@ -1,0 +1,266 @@
+.outsideContainer {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    gap: 1rem;
+    padding: 2rem 0rem;
+
+    overflow-y: scroll;
+}
+
+.container h2 {
+    width: 60%;
+    color: var(--soft-black);
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.container .titleContainer {
+    width: 60%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    padding: 1rem;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+
+    font-weight: 500;
+    border-radius: 0.5rem;
+}
+
+.container .titleContainer input {
+    padding: 0.5rem 1rem;
+    color: var(--soft-black);
+    border: 0;
+    font-size: 1rem;
+}
+
+.container .titleContainer input:focus {
+    outline: none;
+}
+
+.container .subtitleThumbContainer {
+    width: 60%;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 2rem;
+}
+
+.container .subtitleContainer {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    padding: 1rem;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+
+    font-weight: 500;
+
+    border-radius: 0.5rem;
+}
+
+.container .subtitleContainer textarea {
+    height: 100%;
+    padding: 0.5rem 1rem;
+    background-color: var(--white);
+    color: var(--soft-black);
+    resize: none;
+    font-size: 0.85rem;
+
+    border: 0;
+}
+
+.container .subtitleContainer textarea:focus {
+    outline: none;
+}
+
+.container .thumbnail {
+    font-weight: 400;
+    background-color: var(--light-gray);
+    color: var(--soft-black);
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.container .thumbnail span {
+    grid-area: span;
+
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: var(--dark-gray);
+}
+
+.container .thumbnail input {
+    color: var(--dark-gray);
+
+    height: fit-content;
+    grid-area: input;
+
+    padding: 0.5rem;
+    border: 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+    border-radius: 0.25rem;
+}
+
+.container .thumbnail input:focus {
+    outline: none;
+}
+
+.container .thumbnail img {
+    height: 5rem;
+    grid-area: img;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.container .fullTextContainer {
+    width: 60%;
+    height: auto;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    color: var(--soft-black);
+}
+
+.container .fullTextContainer .markdownEditor {
+    color: var(--soft-black);
+    min-height: 20rem;
+    box-shadow: inset 0 0 0 0.1rem rgba(0,0,0,0.1);
+    padding: 0.25rem;
+
+    font-size: 1rem;
+}
+
+.container .fullTextContainer > h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.container .fullTextContainer .preview {
+    color: var(--dark-gray);
+}
+
+.container .floatingButtonsContainer {
+    position: fixed;
+    bottom: 2rem;
+    right: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container .floatingButtonsContainer button {
+    padding: 0.75rem 1rem;
+    border: 0;
+    color: var(--white);
+    background-color: var(--secondary);
+    border-radius: 1rem;
+
+    font-weight: 500;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.container .floatingButtonsContainer button.disabled {
+    background-color: var(--gray);
+    cursor: not-allowed;
+}
+
+.container .floatingButtonsContainer button:hover {
+    transform: scale(1.05);
+}
+
+.container .floatingButtonsContainer button.enabled:active {
+    transform: scale(1);
+    background-color: var(--white);
+    color: var(--secondary);
+    box-shadow: 0 0 0 0.1rem var(--secondary);
+}
+
+.container .floatingButtonsContainer button.enabled svg:active {
+    color: var(--secondary);
+}
+
+.container .tags {
+    width: 60%;
+
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+} 
+
+.container .inputTagContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5rem;
+    box-shadow: inset 0 0 0 0.05rem rgba(0,0,0,0.1);
+    padding-right: 0.25rem;
+}
+
+.container .inputTagContainer svg {
+    width: 1.5rem;
+    height: auto;
+    color: var(--soft-black);
+    cursor: pointer;
+
+    transition: transform 0.2s;
+    color: var(--gray);
+}
+
+.container .inputTagContainer svg:hover {
+    transform: scale(1.15);
+    color: var(--soft-black);
+}
+
+.container .inputTag {
+    width: 6rem;
+    border-radius: 5px;
+    padding: 14px;
+
+    background-color: unset;
+    border: 0;
+}
+
+.container .inputTag:focus {
+    outline: none;
+}

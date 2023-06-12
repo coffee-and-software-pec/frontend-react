@@ -1,0 +1,99 @@
+.container {
+    width: 100%;
+    height: 4rem;
+    background-color: var(--primary);
+
+    box-shadow: 0 4px 2px 0 rgba(0, 0, 0, 0.15);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 0.5rem;
+}
+
+.container .logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.container .logoContainer img {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.container .logoContainer span {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--white);
+}
+
+.container .menuContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.container .menuContainer .menuButton {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+
+    border-radius: 0.5rem;
+
+    transition: background-color 0.2s;
+}
+
+.container .menuContainer .menuButton:hover {
+    background-color: var(--white);
+    color: var(--secondary);
+    border-radius: 0.5rem;
+}
+
+.container .menuContainer .menuButton:active {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.container .menuContainer .menuButtonActive  {
+    background-color: var(--white);
+    color: var(--secondary);
+    border-radius: 0.5rem;
+}
+
+.container .userActionsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.container .userActionsContainer .userIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid var(--secondary);
+}
+
+.container .userActionsContainer .userIcon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.container .userActionsContainer .notificationIcon {
+    margin-right: 2rem;
+    cursor: pointer;
+}
+.container .userActionsContainer .dropdownMenuIcon {
+    cursor: pointer;
+}

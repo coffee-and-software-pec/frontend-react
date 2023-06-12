@@ -1,0 +1,46 @@
+.container {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    user-select: none;
+}
+
+.container span {
+    color: var(--soft-black);
+    mix-blend-mode: difference;
+}
+
+.container:hover {
+    transform: scale(1.1);
+}
+
+.container button {
+    display: flex;
+
+    border-radius: 50%;
+    border: none;
+    background-color: unset;
+
+    cursor: pointer;
+}
+
+.container button svg {
+    transition: color 0.2s;
+}
+
+.container button svg:hover {
+    color: var(--light-gray);
+}

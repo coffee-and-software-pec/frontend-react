@@ -24,6 +24,7 @@ import { useLocation } from "react-router-dom";
 import { EditorView } from "@codemirror/view";
 
 import '../../styles/markdown-style.css';
+import { embraceWithLoadingAndResolve } from "../../utils/LoadingUtil";
 
 enum EditMode {
     CREATE,
@@ -146,25 +147,58 @@ function CreatePublicationPage() {
     async function createNewPublicationOnSave() {
         if (loadedUser?.id !== undefined) {
             try {
-                const result = await createPublication({
-                    author_id: loadedUser?.id!!,
-                    continuous_text: publication.continuous_text,
-                    title: publication.title,
-                    subtitle: publication.subtitle,
-                    main_img_url: publication.main_img_url,
-                    tagList: publication.tags
+                setHasChanges(false);
+                const resolveCreate = new Promise(resolve => {
+                    embraceWithLoadingAndResolve(
+                        resolve, 
+                        async () => {
+                            const result = await createPublication({
+                                author_id: loadedUser?.id!!,
+                                continuous_text: publication.continuous_text,
+                                title: publication.title,
+                                subtitle: publication.subtitle,
+                                main_img_url: publication.main_img_url,
+                                tagList: publication.tags
+                            });
+                            setIsSaved(true);
+                            setPublication(result)
+                            setEditMode(EditMode.EDIT);
+                        },
+                        1000
+                    );
                 });
-                setIsSaved(true);
-                setPublication(result)
-                setEditMode(EditMode.EDIT);
-                toast("Publicação salva!", {
-                    autoClose: 500,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    draggable: false,
-                    theme: "light",
-                    type: "success"
-                });
+
+                toast.promise(
+                    resolveCreate,
+                    {
+                        pending: 'Criando publicação...',
+                        success: "Publicação criada com sucesso!",
+                        error: 'Aconteceu algum erro no seu cadastro!'
+                    },
+                    {
+                        position: "top-center",
+                        autoClose: 1500
+                    }
+                );
+                // const result = await createPublication({
+                //     author_id: loadedUser?.id!!,
+                //     continuous_text: publication.continuous_text,
+                //     title: publication.title,
+                //     subtitle: publication.subtitle,
+                //     main_img_url: publication.main_img_url,
+                //     tagList: publication.tags
+                // });
+                // setIsSaved(true);
+                // setPublication(result)
+                // setEditMode(EditMode.EDIT);
+                // toast("Publicação salva!", {
+                //     autoClose: 500,
+                //     hideProgressBar: true,
+                //     closeOnClick: true,
+                //     draggable: false,
+                //     theme: "light",
+                //     type: "success"
+                // });
             } catch (e) {
                 toast("Erro ao salvar publicação!", {
                     autoClose: 500,
@@ -174,6 +208,7 @@ function CreatePublicationPage() {
                     theme: "light",
                     type: "error"
                 });
+                setHasChanges(true);
             }
         }
     }
@@ -181,24 +216,46 @@ function CreatePublicationPage() {
     async function updatePublicationOnSave() {
         if (loadedUser?.id !== undefined) {
             try {
-                const result = await updatePublication(publication.p_id, {
-                    continuous_text: publication.continuous_text,
-                    title: publication.title,
-                    subtitle: publication.subtitle,
-                    main_img_url: publication.main_img_url,
-                    tagList: publication.tags
+                setHasChanges(false);
+                const resolveUpdate = new Promise(resolve => {
+                    embraceWithLoadingAndResolve(
+                        resolve, 
+                        async () => {
+                            const result = await updatePublication(publication.p_id, {
+                                continuous_text: publication.continuous_text,
+                                title: publication.title,
+                                subtitle: publication.subtitle,
+                                main_img_url: publication.main_img_url,
+                                tagList: publication.tags
+                            });
+                            setIsSaved(true);
+                            setPublication(result);
+                            incomingPublication = result;
+                        },
+                        1000
+                    );
                 });
-                toast("Publicação atualizada!", {
-                    autoClose: 500,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    draggable: false,
-                    theme: "light",
-                    type: "success"
-                });
-                setIsSaved(true);
-                setPublication(result);
-                incomingPublication = result;
+
+                toast.promise(
+                    resolveUpdate,
+                    {
+                        pending: 'Atualizando publicação...',
+                        success: "Publicação atualizada com sucesso!",
+                        error: 'Aconteceu algum erro no seu cadastro!'
+                    },
+                    {
+                        position: "top-center",
+                        autoClose: 1500
+                    }
+                );
+                // toast("Publicação atualizada!", {
+                //     autoClose: 500,
+                //     hideProgressBar: true,
+                //     closeOnClick: true,
+                //     draggable: false,
+                //     theme: "light",
+                //     type: "success"
+                // });
             } catch (e) {
                 toast("Erro ao salvar publicação!", {
                     autoClose: 500,
@@ -208,7 +265,7 @@ function CreatePublicationPage() {
                     theme: "light",
                     type: "error"
                 });
-
+                setHasChanges(true);
             }
         }
     }

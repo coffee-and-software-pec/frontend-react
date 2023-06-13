@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getLandingPublications } from "../../services/PublicationService";
 import Publication from "../../models/Publication";
+import { embraceWithLoadingAndResolve } from "../../utils/LoadingUtil";
 
 function LandingPage() {
     const navigate = useNavigate();
@@ -45,19 +46,33 @@ function LandingPage() {
     }, [])
 
     function handleGoogleSuccessLogin(credentialResponse: CredentialResponse) {
-        onSuccessGoogleLogin(credentialResponse)
-            .then(() => {
-                navigate("/home");
-            }).catch(() => {
-                toast("Erro no cadastro!", {
-                    autoClose: 500,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    draggable: false,
-                    theme: "light",
-                    type: "error"
-                });
-            });   
+        const resolveGoogleLogin = new Promise(resolve => {
+            embraceWithLoadingAndResolve(
+                resolve, 
+                () => onSuccessGoogleLogin(credentialResponse),
+                1000
+            );
+        });
+
+        toast.promise(
+            resolveGoogleLogin,
+            {
+                pending: 'Fazendo login com Google...',
+                success: {
+                    render() {
+                        return 'Sucesso! Redirecionando para página principal...';
+                    },
+                    onClose(props) {
+                        navigate("/home");
+                    },
+                },
+                error: 'Aconteceu algum erro no seu cadastro!'
+            },
+            {
+                position: "top-center",
+                autoClose: 1500
+            }
+        )  
     }
 
     function handleGoogleLoginFailure() {

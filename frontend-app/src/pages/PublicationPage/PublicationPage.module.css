@@ -32,7 +32,6 @@
     grid-template-areas:
         ". metadata ."
         "reactions main-content related"
-        ". main-content ."
         ". make-comment ."
         ". comments ."
         "space space space";
@@ -185,6 +184,7 @@
 }
 
 .container .mainContent .publicationContent .contentContainer {
+    height: 100%;
     padding: 1rem 2rem;
     /* width: 50rem; */
     background-color: var(--light-gray);
@@ -203,6 +203,11 @@
 
 .container .mainContent .relatedPublications {
     grid-area: related;
+    grid-row-start: 0;
+    grid-row-end: 5;
+
+
+    padding-left: 2rem;
     margin-right: 5rem;
 
     display: flex;
@@ -278,6 +283,15 @@
     border-radius: 0.5rem;
     border: 0;
     font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.container .mainContent .makeCommentContainer .buttonsContainer .sendButton:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 
 .container .mainContent .commentContainer {

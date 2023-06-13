@@ -98,7 +98,8 @@ function HomePage() {
                 closeOnClick: true,
                 draggable: false,
                 theme: "light",
-                type: "info"
+                type: "info",
+                position: "top-right"
             });
         } else {
             navigate("/publicacao");
@@ -162,7 +163,7 @@ function HomePage() {
                     </div>
                 </div>
             </div>  
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </>
     )
 }

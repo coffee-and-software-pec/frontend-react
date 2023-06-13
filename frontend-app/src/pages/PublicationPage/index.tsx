@@ -28,6 +28,9 @@ import DefaultImage from "../../components/DefaultImage";
 import DefaultUserImage from '../../assets/default-user.png';
 
 import CommentList from "../../components/CommentList";
+import { toast } from "react-toastify";
+import { BeatLoader, ClipLoader } from "react-spinners";
+import { embraceWithLoading, embraceWithLoadingThen } from "../../utils/LoadingUtil";
 
 function PublicationPage() {
     const navigate = useNavigate();
@@ -36,7 +39,9 @@ function PublicationPage() {
     const [publicationId, setPublicationId] = useState<string>();
     const [publication, setPublication] = useState<Publication | undefined>(undefined);
     const [isLike, setIsLike] = useState<boolean>(false);
+    const [isSendButtonDisabled, setIsSendButtonDisabled] = useState(false);
 
+    const [commentText, setCommentText] = useState("");
     const [commentCreated, setCommentCreated] = useState<boolean>(false);
 
     const onLikeButtonClick = async () => { 
@@ -79,19 +84,33 @@ function PublicationPage() {
     }
 
     async function onClickSendButton() {
+        if (getSendButtonDisabled(commentText, isSendButtonDisabled)) {
+            toast.warning("Preencha o campo de comentário com no mínimo 3 caracteres");
+            return;
+        }
+
         try {
             if (publicationId !== undefined && user?.id !== undefined) {
-                const result = await createComment({
-                    author_id: user?.id,
-                    c_text: textAreaRef.current.value,
-                    publication_id: publicationId
+                embraceWithLoadingThen(setIsSendButtonDisabled, async () => {
+                    const result = await createComment({
+                        author_id: user?.id!!,
+                        c_text: commentText,
+                        publication_id: publicationId
+                    });
+                }, 1000, () => {
+                    textAreaRef.current.value = "";
+                    setCommentText("");
+                    setCommentCreated(!commentCreated);
                 });
-                textAreaRef.current.value = "";
-                setCommentCreated(!commentCreated);
             }
         } catch(e) {
-            console.log("error on comment creation");
+            toast.error("Houve algum erro no cadastro de comentário!");
+            setIsSendButtonDisabled(false);
         }
+    }
+
+    function getSendButtonDisabled(commentText: string, isSendButtonDisabled: boolean) {
+        return commentText.length < 3 || isSendButtonDisabled;
     }
 
     useEffect(() => {
@@ -181,6 +200,7 @@ function PublicationPage() {
                             rows={10}
                             placeholder="Digite seu comentário aqui"
                             ref={textAreaRef}
+                            onChange={(e) => setCommentText(e.target.value)}
                         >
                         </textarea>
                         <div className={styles.buttonsContainer}>
@@ -193,8 +213,15 @@ function PublicationPage() {
                             <button 
                                 className={styles.sendButton}
                                 onClick={onClickSendButton}
+                                disabled={getSendButtonDisabled(commentText, isSendButtonDisabled)}
                             >
-                                enviar
+                                <ClipLoader 
+                                    color={colors.theme.secondary}
+                                    cssOverride={{ mixBlendMode: 'screen' }}
+                                    loading={isSendButtonDisabled} 
+                                    size={16}
+                                />
+                                {isSendButtonDisabled ? "enviando" : "enviar"}
                             </button>
                         </div>
                     </div>

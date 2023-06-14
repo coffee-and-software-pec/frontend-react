@@ -7,7 +7,7 @@ function formatNumberWithPadding(singleNumber: number) {
 }
 
 export function formatLocalDateTime(localDateTime: string) {
-    const dateTime = new Date(localDateTime);
+    const dateTime = new Date(converUTCToLocalDate(localDateTime));
     
     const day = formatNumberWithPadding(dateTime.getDate());
     const month = formatNumberWithPadding(dateTime.getMonth());
@@ -45,4 +45,17 @@ export function dateComparator(date1: string, date2: string, reversed: boolean =
     } else {
         return dateTime1.getTime() - dateTime2.getTime();
     }
+}
+
+export function convertLocalDateToUTC(date: Date) { 
+    return new Date(date.getUTCFullYear(), 
+                    date.getUTCMonth(), 
+                    date.getUTCDate(), 
+                    date.getUTCHours(), 
+                    date.getUTCMinutes(), 
+                    date.getUTCSeconds());
+}
+
+export function converUTCToLocalDate(dateString: string) { 
+    return new Date(`${dateString}Z`);
 }

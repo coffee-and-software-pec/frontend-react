@@ -1,3 +1,5 @@
+import { convertLocalDateToUTC } from "./DateUtil";
+
 export function getCommentDateString(commentDate: number) {
     let result = "";
 
@@ -34,7 +36,7 @@ export function getCommentDateTime(commentDateTime: string) {
 
     const commentDate = new Date(commentDateTime).getTime();
 
-    const now: number = new Date().getTime();
+    const now: number = convertLocalDateToUTC(new Date()).getTime();
     const diff: number = (now - commentDate)/1000;
 
     const diffMinutes: number = diff/60;

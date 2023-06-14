@@ -16,6 +16,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../api/api';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { toast, ToastContainer } from 'react-toastify';
+import { embraceWithLoading, embraceWithLoadingAndResolve } from '../../utils/LoadingUtil';
 
 
 enum HomeRoutes {
@@ -48,21 +49,40 @@ function TopBar() {
         }
     }, [])
 
-    function handleGoogleSuccessLogin(credentialResponse: CredentialResponse) {
-        onSuccessGoogleLogin(credentialResponse).then(() => {
-            navigate("#");
-            setImageLoaded(true);
-        }).catch(_ => {
-            toast("Erro no cadastro!", {
-                autoClose: 500,
-                hideProgressBar: true,
-                closeOnClick: true,
-                draggable: false,
-                theme: "light",
-                type: "error"
-            });
+
+    function handleGoogleLoginWithToast(credentialResponse: CredentialResponse) {
+        const resolveGoogleLogin = new Promise(resolve => {
+            embraceWithLoadingAndResolve(
+                resolve, 
+                () => handleGoogleSuccessLogin(credentialResponse),
+                1000
+            );
         });
-        
+        toast.promise(
+            resolveGoogleLogin,
+            {
+                pending: 'Fazendo login com Google...',
+                success: {
+                    render() {
+                        return 'Login feito com sucesso!';
+                    },
+                    onClose(props) {
+                        setImageLoaded(true);
+                        navigate("#");
+                    },
+                },
+                error: 'Aconteceu algum erro no seu cadastro!'
+            },
+            {
+                position: "top-center",
+                autoClose: 2000
+            }
+        );
+    }
+
+
+    async function handleGoogleSuccessLogin(credentialResponse: CredentialResponse) {
+        await onSuccessGoogleLogin(credentialResponse);
     }
 
     return (
@@ -123,7 +143,7 @@ function TopBar() {
                                 logo_alignment="center"
                                 shape="circle"
                                 width="100"
-                                onSuccess={credentialResponse => handleGoogleSuccessLogin(credentialResponse)}
+                                onSuccess={credentialResponse => handleGoogleLoginWithToast(credentialResponse)}
                                 onError={() => {
                                     console.log('Login Failed');
                                 }}

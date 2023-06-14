@@ -19,16 +19,10 @@ function Tag({ name, onClickTag, deletable }: TagProps) {
 
     function handleOnClickTag() {
         if (deletable) {
-            setActive(true);
-            onClickTag(name);
-        }
-    }
-
-    function handleOnClickButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        e.stopPropagation(); 
-        setActive(false);
-        if (onClickTag !== undefined) {
-            onClickTag(name);
+            setActive(!active);
+            if (onClickTag !== undefined) {
+                onClickTag(name);
+            }
         }
     }
 
@@ -39,9 +33,9 @@ function Tag({ name, onClickTag, deletable }: TagProps) {
             onClick={handleOnClickTag}
         >
             <span>{name}</span>
-            {/* {onClickTag && <button onClick={onClickTag}>x</button>} */}
             {(active && deletable) && 
-                <button onClick={handleOnClickButton}>
+                <button 
+                >
                     <CloseIcon color={colors.theme['soft-black']} />
                 </button>
             }

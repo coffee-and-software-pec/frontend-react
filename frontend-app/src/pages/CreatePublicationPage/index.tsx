@@ -294,9 +294,6 @@ function CreatePublicationPage() {
                             type="text" 
                             placeholder="Ex: Machine Learning Fácil — Classificando gatos e cachorros em 5 passos."
                             value={publication.title}
-                            required
-                            minLength={10}
-                            maxLength={200}
                             onChange={e => handlePublicationAttributeChange(e, "title")}
                         />
                     </div>
@@ -309,9 +306,6 @@ function CreatePublicationPage() {
                                 placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
                                 value={publication.subtitle}
                                 onChange={e => handlePublicationAttributeChange(e, "subtitle")}
-                                required
-                                minLength={20}
-                                maxLength={400}
                             />
                         </div>
 
@@ -354,10 +348,6 @@ function CreatePublicationPage() {
                             onChange={(value, _) => handleOnTextChangeMarkdown(value!!)}
                             preview="edit"
                             visibleDragbar={false}
-                            textareaProps={{
-                                minLength: 20,
-                                required: true
-                            }}
                           />
                         <h1>Prévia da sua publicação</h1>
                         <MDEditor.Markdown

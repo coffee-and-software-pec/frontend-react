@@ -135,13 +135,37 @@ function CreatePublicationPage() {
 
     async function handleOnClickSaveChanges() {
         if (!hasChanges) return;
-        if (editMode == EditMode.CREATE) {
-            await createNewPublicationOnSave();
+
+        const validationResponse = validatePublication(publication);
+        if (validationResponse !== null) {
+            toast.error(
+                validationResponse,
+                { autoClose: 1000 });
         } else {
-            await updatePublicationOnSave();
+            if (editMode == EditMode.CREATE) {
+                await createNewPublicationOnSave();
+            } else {
+                await updatePublicationOnSave();
+            }
+            setHasChanges(false);
         }
-        setHasChanges(false);
-        
+    }
+
+    function validatePublication(publication: Publication): string | null {
+
+        if (publication.title.length < 10 || publication.title.length > 200) {
+            return "Título da publicação fora do intervalo (10 a 200 caracteres)";
+        }
+
+        if (publication.subtitle.length < 10 || publication.subtitle.length > 400) {
+            return "Subtítulo da publicação fora do intervalo (10 a 400 caracteres)";
+        }
+
+        if (publication.continuous_text.length < 50) {
+            return "Corpo da publicação muito pequeno, mínimo de 50 caracteres";
+        }
+
+        return null;
     }
 
     async function createNewPublicationOnSave() {
@@ -180,25 +204,6 @@ function CreatePublicationPage() {
                         autoClose: 1500
                     }
                 );
-                // const result = await createPublication({
-                //     author_id: loadedUser?.id!!,
-                //     continuous_text: publication.continuous_text,
-                //     title: publication.title,
-                //     subtitle: publication.subtitle,
-                //     main_img_url: publication.main_img_url,
-                //     tagList: publication.tags
-                // });
-                // setIsSaved(true);
-                // setPublication(result)
-                // setEditMode(EditMode.EDIT);
-                // toast("Publicação salva!", {
-                //     autoClose: 500,
-                //     hideProgressBar: true,
-                //     closeOnClick: true,
-                //     draggable: false,
-                //     theme: "light",
-                //     type: "success"
-                // });
             } catch (e) {
                 toast("Erro ao salvar publicação!", {
                     autoClose: 500,
@@ -248,14 +253,6 @@ function CreatePublicationPage() {
                         autoClose: 1500
                     }
                 );
-                // toast("Publicação atualizada!", {
-                //     autoClose: 500,
-                //     hideProgressBar: true,
-                //     closeOnClick: true,
-                //     draggable: false,
-                //     theme: "light",
-                //     type: "success"
-                // });
             } catch (e) {
                 toast("Erro ao salvar publicação!", {
                     autoClose: 500,
@@ -297,10 +294,12 @@ function CreatePublicationPage() {
                             type="text" 
                             placeholder="Ex: Machine Learning Fácil — Classificando gatos e cachorros em 5 passos."
                             value={publication.title}
+                            required
+                            minLength={10}
+                            maxLength={200}
                             onChange={e => handlePublicationAttributeChange(e, "title")}
                         />
                     </div>
-
                     <div className={styles.subtitleThumbContainer}>
                         <div className={styles.subtitleContainer}>
                             <label htmlFor="publicationSubtitle">Subtítulo da sua publicação<sup>*</sup></label>
@@ -310,6 +309,9 @@ function CreatePublicationPage() {
                                 placeholder="Ex: Neste tutorial você vai aprender como usar um algoritmo de classificação do Scikit-learn para classificar gatos e cachorros."
                                 value={publication.subtitle}
                                 onChange={e => handlePublicationAttributeChange(e, "subtitle")}
+                                required
+                                minLength={20}
+                                maxLength={400}
                             />
                         </div>
 
@@ -352,6 +354,10 @@ function CreatePublicationPage() {
                             onChange={(value, _) => handleOnTextChangeMarkdown(value!!)}
                             preview="edit"
                             visibleDragbar={false}
+                            textareaProps={{
+                                minLength: 20,
+                                required: true
+                            }}
                           />
                         <h1>Prévia da sua publicação</h1>
                         <MDEditor.Markdown

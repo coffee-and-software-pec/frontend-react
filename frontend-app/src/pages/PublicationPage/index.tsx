@@ -166,8 +166,6 @@ function PublicationPage() {
                         <p className={styles.editDate}>{formatLocalDateTime(publication?.creation_date!!)}</p>
                     </div>
                     <div className={styles.reactionsData}>
-                        <EyeIcon />
-                        <p>{convertNumberToThousands(publication?.visualizationsCount)}</p>
                         <HeartIcon className={isLike ? styles.liked : styles.heartIcon} onClick={onLikeButtonClick}/>
                         <p>{convertNumberToThousands(publication?.heartsCount)}</p>
                         <a href="#comments" className={styles.commentLink}>

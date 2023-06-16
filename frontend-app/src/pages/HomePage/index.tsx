@@ -21,7 +21,6 @@ function HomePage() {
     const [publications, setPublications] = useState<Publication[]>([]);
     const [activeTab, setActiveTab] = useState<TabName>(TabName.TRENDING);
     
-
     const publicationsNumber = 4;
     const [next, setNext] = useState<number>(publicationsNumber);
 

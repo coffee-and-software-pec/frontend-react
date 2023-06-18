@@ -7,13 +7,15 @@ import styles from "./CreatePublicationPage.module.css";
 import { ReactComponent as SaveIcon } from "../../assets/save_icon.svg";
 import { ReactComponent as PublishIcon } from "../../assets/publish_icon.svg";
 import { ReactComponent as AddIcon } from "../../assets/plus_icon.svg";
+import { ReactComponent as PublicIcon } from "../../assets/globe_icon.svg";
+import { ReactComponent as AnonymousIcon } from "../../assets/ghost_icon.svg";
 import DefaultImage from "../../assets/default-image.png";
 
 import Tag from "../../components/Tag";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 
 import colors from '../../styles/colorsConfig.json';
-import { createPublication, updatePublication } from "../../services/PublicationService";
+import { createPublication, publishPublication, updatePublication } from "../../services/PublicationService";
 import { useAuth } from "../../contexts/AuthContext";
 import CreateProjectDTO from "../../services/dtos/CreatePublicationDTO";
 import { toast, ToastContainer } from "react-toastify";
@@ -53,7 +55,9 @@ function CreatePublicationPage() {
         commentsCount: 0,
         creation_date: '',
         heartsCount: 0,
-        visualizationsCount: 0
+        visualizationsCount: 0,
+        _draft: true,
+        _private: false
     } as Publication
     );
 
@@ -67,7 +71,7 @@ function CreatePublicationPage() {
     useEffect(() => {
         setLoadedUser(loadUser());
         if (location.state !== null) {
-            incomingPublication= location.state.incomingPublication;
+            incomingPublication = location.state.incomingPublication;
             setPublication(incomingPublication as Publication);
             setEditMode(EditMode.EDIT);
         }
@@ -182,6 +186,8 @@ function CreatePublicationPage() {
                                 title: publication.title,
                                 subtitle: publication.subtitle,
                                 main_img_url: publication.main_img_url,
+                                _private: publication._private,
+                                _draft: publication._draft,
                                 tagList: publication.tags
                             });
                             setIsSaved(true);
@@ -231,6 +237,8 @@ function CreatePublicationPage() {
                                 title: publication.title,
                                 subtitle: publication.subtitle,
                                 main_img_url: publication.main_img_url,
+                                _private: publication._private,
+                                _draft: publication._draft,
                                 tagList: publication.tags
                             });
                             setIsSaved(true);
@@ -269,11 +277,27 @@ function CreatePublicationPage() {
     
     async function handleOnClickPublicate() {
         if (isPublished) return null;
-        setIsPublished(true);
+
+        if (publication.p_id !== '') {
+            const _ = await publishPublication(publication.p_id);
+            setPublication({
+                ...publication,
+                _draft: false
+            })
+            setIsPublished(true);
+        }
     }
 
     function handlePublicationAttributeChange(e: React.ChangeEvent<any>, attributeName: string) {
         setPublication({...publication, [attributeName]: e.target.value });
+        setHasChanges(true);
+    }
+
+    function handlePublicAnonymousChange() {
+        setPublication({
+            ...publication,
+            _private: !publication._private
+        });
         setHasChanges(true);
     }
 
@@ -369,12 +393,24 @@ function CreatePublicationPage() {
                             {hasChanges ? "SALVAR" : "SALVO" }
                         </button>
                         <button
-                            className={(isPublished || !isSaved) ? styles.disabled : ''} 
-                            disabled={(isPublished || !isSaved)}
+                            title={publication._private ? "Esta publicação não mostrará seus dados" : "Esta publicação está visível para todos"}
+                            onClick={handlePublicAnonymousChange}
+                        >
+                            {
+                                !publication._private ? 
+                                    <PublicIcon /> 
+                                    : 
+                                    <AnonymousIcon fill={colors.theme.white} />
+                            }
+                            {publication._private ? "ANÔNIMA" : "PÚBLICA"}
+                        </button>
+                        <button
+                            className={(editMode == EditMode.CREATE || (!publication._draft && editMode == EditMode.EDIT)) ? styles.disabled : ''} 
+                            disabled={(editMode == EditMode.CREATE || (!publication._draft && editMode == EditMode.EDIT))}
                             onClick={handleOnClickPublicate}
                         >
                             <PublishIcon fill={colors.theme.white} />
-                            {isPublished ? "PUBLICADO" : "PUBLICAR"}
+                            {!publication._draft ? "PUBLICADO" : "PUBLICAR"}
                         </button>
                     </div>
                 </div>

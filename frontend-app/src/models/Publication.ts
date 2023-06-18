@@ -16,5 +16,7 @@ export default interface Publication {
     subtitle: string;
     main_img_url: string;
     continuous_text: string;
+    _private: boolean;
+    _draft: boolean;
     comments?: PublicationComment[]
 }

@@ -15,6 +15,11 @@ async function updatePublication(publicationId: string, publication: UpdatePubli
     return response.data;
 }
 
+async function publishPublication(publicationId: string): Promise<Publication> {
+    const response = await api.patch(`/publication/${publicationId}/publish`);
+    return response.data;
+}
+
 async function getPublicationById(publicationId: string): Promise<Publication> {
     const data = (await api.get(`/publication/${publicationId}`)).data;
     return data as Publication;
@@ -72,6 +77,7 @@ export {
     getSortedPublicationsByTags,
     createPublication,
     updatePublication,
+    publishPublication,
     getLandingPublications,
     getUserPublications,
     getUserPublicationsByTags,

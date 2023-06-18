@@ -10,7 +10,7 @@ import SelectTagBox from "../../components/SelectTagBox";
 import Publication from "../../models/Publication";
 import HomePagePublication from "../../components/HomePagePublication";
 import { Link, useNavigate } from "react-router-dom";
-import { getSortedPublications, getSortedPublicationsByTags } from "../../services/PublicationService";
+import { getSortedPublications, getSortedPublicationsByTags, getTopPublications, getTrendingPublications } from "../../services/PublicationService";
 import { BounceLoader, PulseLoader } from "react-spinners";
 import { embraceWithLoading } from "../../utils/LoadingUtil";
 import { useAuth } from "../../contexts/AuthContext";
@@ -38,7 +38,7 @@ function HomePage() {
     useEffect(() => {
         async function fetchPublications() {
             embraceWithLoading(setLoading, async () => {
-                const result = await getSortedPublications();
+                const result = await getTrendingPublications();
                 const publicationList = result as Publication[];
                 if (publicationList.length > 0) {
                     setPublications(result);
@@ -55,25 +55,30 @@ function HomePage() {
         let sortColumn = "date";
         let order = "desc";
 
+        let choosedFunction = getSortedPublications;
+
         switch (tabName) {
             case TabName.TRENDING:
                 sortColumn = "date";
                 order = "desc";
+                choosedFunction = getTrendingPublications;
                 break;
             case TabName.FRESH:
                 sortColumn = "date";
                 order = "desc";
+                choosedFunction = getSortedPublications;
                 break;
             case TabName.TOP:
                 sortColumn = "heartsCount";
                 order = "desc";
+                choosedFunction = getTopPublications;
                 break;
             default:
                 console.log("not specified tab");
         }
 
         embraceWithLoading(setLoading, async () => {
-            const newPublications = await getSortedPublications(sortColumn, order);
+            const newPublications = await choosedFunction();
             setPublications([...newPublications]);
         }, 500);
         

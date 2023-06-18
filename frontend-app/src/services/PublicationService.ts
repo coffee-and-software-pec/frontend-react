@@ -25,7 +25,17 @@ async function deletePublication(publicationId: string): Promise<any> {
 }
 
 async function getSortedPublications(column: string = "date", order: string = "desc"): Promise<Publication[]> {
-    const data = await (await api.get(`/publication?_sort=${column}&_order=${order}`)).data;
+    const data = await (await api.get(`/publication`)).data;
+    return data as Publication[];
+}
+
+async function getTrendingPublications(column: string = "date", order: string = "desc"): Promise<Publication[]> {
+    const data = await (await api.get(`/publication/trendingPublications`)).data;
+    return data as Publication[];
+}
+
+async function getTopPublications(column: string = "date", order: string = "desc"): Promise<Publication[]> {
+    const data = await (await api.get(`/publication/popularPublications`)).data;
     return data as Publication[];
 }
 
@@ -57,6 +67,8 @@ async function getRelatedPublications(): Promise<RelatedPublication[]> {
 export { 
     getPublicationById,
     getSortedPublications,
+    getTrendingPublications,
+    getTopPublications,
     getSortedPublicationsByTags,
     createPublication,
     updatePublication,

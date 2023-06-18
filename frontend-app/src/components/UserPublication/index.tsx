@@ -18,11 +18,13 @@ import {
     useDisclosure,
     Button
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { deletePublication } from '../../services/PublicationService';
 import { ChakraProvider } from '@chakra-ui/react'
 import DefaultImage from '../DefaultImage';
 import DefaultUserImage from '../../assets/default-user.png';
+import { useAuth } from '../../contexts/AuthContext';
+import User from '../../models/User';
 
 interface UserPublicationProps {
     publication: Publication;
@@ -33,6 +35,7 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
     const nav = useNavigate();
     const cancelRef = useRef(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { user } = useAuth();
 
     function handleOnClickPublication() {
         nav(`/publicacao/${publication.p_id}`);
@@ -57,6 +60,14 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
             <div className={styles.container}>
                 <div className={styles.mainContent} onClick={handleOnClickPublication}>
                     <div className={styles.publicationContainer}>
+                        <div className={styles.visibility}>
+                            {
+                                publication._draft ? <p className={styles.published}>Não publicada</p>: ''
+                            }
+                            {
+                                publication._private ? <p className={styles.published}>Anônima</p>: ''
+                            }
+                        </div>
                         <p className={styles.title}>{publication.title}</p>
                         <p className={styles.subtitle}>{publication.subtitle}</p>
                         <div className={styles.tagContainer}>
@@ -69,11 +80,11 @@ function UserPublication({ publication, onDelete }: UserPublicationProps) {
                         <div className={styles.authorContainer}>
                             escrito por:
                             <DefaultImage 
-                                src={publication.author.photoURL} 
+                                src={user !== null ? user.photoURL : ""} 
                                 alt=""
                                 defaultImage={DefaultUserImage}
                             />
-                            <p>{publication.author.u_name}</p>
+                            <p>{user !== null ? user.name : "Unknown"}</p>
                         </div>
                     </div>
                     <DefaultImage 

@@ -29,6 +29,7 @@
     width: 100%;
     display: grid;  
     grid-template-areas:
+        'visibility visibility'
         'title title'
         'subtitle subtitle'
         'tags author'
@@ -85,6 +86,21 @@
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 50%;
+}
+
+.container .mainContent .publicationContainer .visibility {
+    grid-area: visibility;
+    display: flex;
+    gap: 1rem;
+}
+
+.container .mainContent .publicationContainer .visibility .published {
+    font-size: 0.85rem;
+    background-color: var(--gray);
+    color: var(--soft-black);
+    border-radius: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    font-weight: bold;
 }
 
 .container .mainContent .thumbnail {

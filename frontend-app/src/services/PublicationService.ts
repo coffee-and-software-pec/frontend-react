@@ -49,6 +49,32 @@ async function getSortedPublicationsByTags(tags: string[]): Promise<Publication[
     return data as Publication[];
 }
 
+async function getPublicationsBySearchText(searchText: string): Promise<Publication[]> {
+    return new Promise((resolve, reject) => {
+        var publicationList: Publication[] = [];
+        publicationList.push({
+            p_id: "560f85f0-e4a2-4381-8916-7648f29c5f00",
+            title: "eins",
+            subtitle: "zwei",
+            commentsCount: 0,
+            continuous_text: "aaaaaaaaaaaaaaaaaaa",
+            visualizationsCount: 0,
+            main_img_url: '',
+            tags: [],
+            _draft: false,
+            _private: false,
+            creation_date: new Date().toString(),
+            heartsCount: 0,
+            author: {
+                photoURL: '',
+                u_id: 'b3770a5b-d53b-4025-a5a6-88254fbb1780',
+                u_name: 'teste'
+            }
+        })
+        resolve(publicationList);
+    });
+}
+
 async function getLandingPublications(): Promise<Publication[]> {
     const { data } = await api.get("/publication/landingPublications");
     return data as Publication[];
@@ -75,6 +101,7 @@ export {
     getTrendingPublications,
     getTopPublications,
     getSortedPublicationsByTags,
+    getPublicationsBySearchText,
     createPublication,
     updatePublication,
     publishPublication,

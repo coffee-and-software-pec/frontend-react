@@ -142,7 +142,7 @@ function TopBar() {
                             <GoogleLogin
                                 logo_alignment="center"
                                 shape="circle"
-                                width="100"
+                                width="100px"
                                 onSuccess={credentialResponse => handleGoogleLoginWithToast(credentialResponse)}
                                 onError={() => {
                                     console.log('Login Failed');

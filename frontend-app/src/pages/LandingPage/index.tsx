@@ -114,7 +114,7 @@ function LandingPage() {
                     <GoogleLogin
                         logo_alignment="center"
                         shape="pill"
-                        width="300"
+                        width="300px"
                         onSuccess={handleGoogleSuccessLogin}
                         onError={handleGoogleLoginFailure}
                     />

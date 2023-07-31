@@ -4,32 +4,171 @@ import DefaultImage from '../DefaultImage';
 import styles from './Comment.module.css';
 
 import DefaultImageUser from "../../assets/default-user.png";
+import { useAuth } from '../../contexts/AuthContext';
+import { useEffect, useRef, useState } from 'react';
+import User from '../../models/User';
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, ChakraProvider, IconButton, Menu, MenuButton, MenuItem, MenuList, useDisclosure } from '@chakra-ui/react';
+
+import { ReactComponent as MenuIcon } from '../../assets/menu_icon.svg';
+import { deleteComment, updateComment } from '../../services/CommentService';
+import { toast, TypeOptions } from 'react-toastify';
 
 interface CommentProps {
-    comment: PublicationComment
+    comment: PublicationComment,
+    onDeleteComment: (commentId: string) => void;
 }
 
-function Comment({ comment }: CommentProps) {
+function Comment({ comment, onDeleteComment }: CommentProps) {
+    const [commentState, setCommentState] = useState<PublicationComment>(comment);
+    const { loadUser, user } = useAuth();
+
+    const cancelRef = useRef(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [alertDialogConstants, setAlertDialogConstants] = useState({
+        'title': '',
+        'subtitle': '',
+        'positiveButtonText': '',
+        'mode': ''
+    });
+    
+    useEffect(() => {
+        let _ = loadUser();
+    }, []);
+
+    function onEditCommentButton() {
+        setAlertDialogConstants({
+            mode: 'edit',
+            title: 'Editar comentário',
+            subtitle: '',
+            positiveButtonText: 'Enviar'
+        });
+        onOpen();
+    }
+
+    function onDeleteCommentButton() {
+        setAlertDialogConstants({
+            mode: 'delete',
+            title: 'Deletar comentário',
+            subtitle: 'Tem certeza que quer deletar?',
+            positiveButtonText: 'Deletar'
+        })
+        onOpen();
+    }
+
+    async function handleAlertDialogPositiveButton() {
+        const toastConstants: { title: string, type: TypeOptions } = {
+            title: 'Error desconhecido',
+            type: 'error'
+        }
+        if (alertDialogConstants.mode === 'edit') {
+            const updatedComment: PublicationComment = await updateComment(
+                {text: commentState.c_text}, comment.c_id);
+            setCommentState(updatedComment);
+            onClose();
+            toastConstants.title = 'Comentário atualizado!';
+            toastConstants.type = 'success';
+        } else if (alertDialogConstants.mode === 'delete') {
+            const _ = await deleteComment(comment.c_id);
+            onClose();
+            onDeleteComment(comment.c_id);
+            toastConstants.title = 'Comentário deletado!';
+            toastConstants.type = 'success';
+        }
+        toast(toastConstants.title, {
+            autoClose: 500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            draggable: false,
+            theme: "light",
+            type: toastConstants.type,
+            position: "bottom-center"
+        });
+    }
+
     return (
-        <div className={styles.container}>
-            <div className={styles.header}>
-                <div className={styles.authorContainer}>
-                    {/* <img src={comment.author.photoURL} alt="" referrerPolicy='no-referrer' /> */}
-                    <DefaultImage 
-                        src={comment.author.photoURL} 
-                        alt=""
-                        defaultImage={DefaultImageUser}
-                    />
-                    <p>{comment.author.u_name}</p>
+        <ChakraProvider>
+            <div className={styles.container}>
+                <div className={styles.header}>
+                    <div className={styles.authorContainer}>
+                        {/* <img src={comment.author.photoURL} alt="" referrerPolicy='no-referrer' /> */}
+                        <DefaultImage 
+                            src={commentState.author.photoURL} 
+                            alt=""
+                            defaultImage={DefaultImageUser}
+                        />
+                        <p>{commentState.author.u_name}</p>
+                    </div>
+                    <span className={styles.commentDate}>
+                        {getCommentDateTime(commentState.creation_date)}
+                    </span>
                 </div>
-                <span className={styles.commentDate}>
-                    {getCommentDateTime(comment.creation_date)}
-                </span>
+                <div className={styles.content}>
+                    {commentState.c_text}
+                </div>
+                { user && user.id === commentState.author.u_id ? (
+                    <div className={styles.actionsContainer}>
+                        <Menu>
+                            <MenuButton 
+                                as={IconButton} 
+                                icon={<MenuIcon width={16} height={16} />}
+                                variant='outline'
+                            >
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem onClick={onEditCommentButton}>Editar</MenuItem>
+                                <MenuItem onClick={onDeleteCommentButton}>Deletar</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </div>
+                ) : "" }
             </div>
-            <div className={styles.content}>
-                {comment.c_text}
-            </div>
-        </div>
+            <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+                isCentered={true}
+            >
+                <AlertDialogOverlay>
+                <AlertDialogContent>
+                    <AlertDialogHeader fontSize='lg' fontWeight='bold' className={styles.alertDialogHeader}>
+                        {alertDialogConstants.title}
+                    </AlertDialogHeader>
+                    <AlertDialogBody className={styles.alertDialogBody}>
+                        {alertDialogConstants.mode === 'edit' ? (
+                            <textarea  
+                                className={styles.commentTextarea}
+                                name="alert-dialog-textarea" 
+                                id="alert-dialog-textarea" 
+                                cols={30}
+                                rows={10}
+                                value={commentState.c_text}
+                                onChange={e => setCommentState({
+                                    ...commentState,
+                                    c_text: e.target.value
+                                })}
+                            >
+                            </textarea>
+                        ) : (
+                            "Tem certeza? Você não poderá desfazer esta ação depois."
+                        )}
+                    </AlertDialogBody>
+
+                    <AlertDialogFooter>
+                        <Button ref={cancelRef} onClick={onClose} className={styles.alertDialogCancelButton}>
+                            Cancelar
+                        </Button>
+                        <Button 
+                            colorScheme={alertDialogConstants.mode === 'edit' ? 'blue' : 'red' } 
+                            onClick={handleAlertDialogPositiveButton} 
+                            ml={3}
+                        >
+                            {alertDialogConstants.positiveButtonText}
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+        </ChakraProvider>
     );
 }
 

@@ -30,6 +30,10 @@ function CommentList({ publicationId, commentCreated }: CommentListProps) {
         loadComments();
     }, [commentCreated]);
 
+    function handleOnDeleteComment(commentId: string) {
+        setComments(comments.filter(c => c.c_id !== commentId));
+    }
+
     return (
         <>
             {
@@ -41,7 +45,11 @@ function CommentList({ publicationId, commentCreated }: CommentListProps) {
                     ) : (
                         comments.sort((c1,c2) => dateComparator(c1.creation_date, c2.creation_date, true)).map((comment, index) => {
                             return (
-                                <Comment key={index} comment={comment} />
+                                <Comment 
+                                    key={comment.c_id} 
+                                    comment={comment}
+                                    onDeleteComment={handleOnDeleteComment}
+                                />
                             );
                         })
                     )

@@ -121,20 +121,22 @@ function TopBar() {
                         (
                             <>
                                 <BellIcon className={styles.notificationIcon} width={16} height={16} />
-                                <div className={styles.userIcon}>
-                                    {imageLoaded ? 
-                                        <img       
-                                            src={user?.photoURL}
-                                            alt=""
-                                            referrerPolicy='no-referrer'
-                                        /> :
-                                        <UserIcon color={colors.theme.white} />
-                                    }
-                                </div>  
-                                <CarretDownIcon 
-                                    className={styles.dropdownMenuIcon} 
-                                    onClick={() => setActiveDropdownMenu(!activeDropdownMenu)}
-                                />
+                                <div className={styles.userContainer}>
+                                    <div className={styles.userIcon}>
+                                        {imageLoaded ? 
+                                            <img       
+                                                src={user?.photoURL}
+                                                alt=""
+                                                referrerPolicy='no-referrer'
+                                            /> :
+                                            <UserIcon color={colors.theme.white} />
+                                        }
+                                    </div>  
+                                    <CarretDownIcon 
+                                        className={styles.dropdownMenuIcon} 
+                                        onClick={() => setActiveDropdownMenu(!activeDropdownMenu)}
+                                    />
+                                </div>
                             </>
                         ) 
                         : 

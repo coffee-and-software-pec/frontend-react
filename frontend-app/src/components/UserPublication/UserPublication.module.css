@@ -159,3 +159,33 @@
     transform: scale(1.1);
     color: var(--blue);
 }
+
+@media (max-width: 600px) {
+    .container {
+        display: grid;
+        grid-template-areas: 
+            "main edit"
+            "reactions ."
+        ;
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+    }
+
+    .container .mainContent .publicationContainer .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .container .mainContent .publicationContainer .subtitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .container .mainContent .thumbnail {
+        display: none;
+    }
+
+    .container .editContainer {
+        gap: 2rem;
+    }
+}

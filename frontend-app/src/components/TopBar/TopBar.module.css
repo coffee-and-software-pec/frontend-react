@@ -72,6 +72,13 @@
     gap: 0.5rem;
 }
 
+.container .userActionsContainer .userContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .container .userActionsContainer .userIcon {
     display: flex;
     justify-content: center;
@@ -96,4 +103,23 @@
 }
 .container .userActionsContainer .dropdownMenuIcon {
     cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .container {
+        height: auto;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .container .menuContainer {
+        flex-direction: column;
+        gap: 0.5rem;
+    }   
+
+    .container .userActionsContainer {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 1rem;
+    }   
 }

@@ -127,7 +127,7 @@ function SearchPage() {
                     </div>
                     <div className={styles.createButtonLink} onClick={handleCreatePublicationButton}>
                         <AddIcon height={24} width={24} fill={colors.theme.white} />
-                        CRIAR PUBLICAÇÃO
+                        <p>CRIAR PUBLICAÇÃO</p>
                     </div>
             </div>
         </div>

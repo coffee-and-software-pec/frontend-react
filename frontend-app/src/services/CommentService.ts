@@ -7,13 +7,13 @@ async function createComment(comment: CreateCommentDTO): Promise<PublicationComm
     return data as PublicationComment;
 }
 
-async function updateComment(comment: PublicationComment, publicationId: string): Promise<PublicationComment> {
-    const { data } = await api.patch(`/publication/${publicationId}/comment/${comment.c_id}`, comment);
+async function updateComment(comment: { text: string }, commentId: string): Promise<PublicationComment> {
+    const { data } = await api.patch(`/comment/${commentId}`, comment);
     return data as PublicationComment;
 }
 
-async function deleteComment(comment: PublicationComment, publicationId: string): Promise<PublicationComment> {
-    const { data } = await api.delete(`/publication/${publicationId}/comment/${comment.c_id}`);
+async function deleteComment(commentId: string): Promise<PublicationComment> {
+    const { data } = await api.delete(`/comment/${commentId}`);
     return data as PublicationComment;
 }
 

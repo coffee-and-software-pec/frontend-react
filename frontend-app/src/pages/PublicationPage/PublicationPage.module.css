@@ -316,3 +316,87 @@
     height: 10rem;
     grid-area: space;
 }
+
+@media (max-width: 700px) {
+    .outsideContainer {
+        width: 100vw;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        padding: 1rem 0.5rem;
+        overflow-y: initial;
+    }
+
+    .container .mainContent .titlesContainer {
+        width: 50%;
+    }
+
+    .container .mainContent {
+        grid-template-areas:
+            ". metadata ."
+            ". reactions ."
+            ". main-content ."
+            ". related ."
+            ". make-comment ."
+            ". comments ."
+            "space space space";
+    }
+
+    .container .mainContent .publicationData {
+        grid-template-areas: 
+            "titles"
+            "author"
+            "date"
+        ;
+    }
+
+    .container .mainContent .publicationData .editDate {
+        justify-self: flex-start;
+    }
+
+    .container .mainContent .reactionsData {
+        grid-area: reactions;
+        justify-self: flex-start;
+
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+
+        margin-top: 1rem;
+    }
+
+    .container .mainContent .reactionsData .commentLink {
+        margin-left: 0.5rem;
+    }
+
+    .container .mainContent .publicationContent {
+        width: 50%;
+    }
+
+    .container .mainContent .publicationContent .contentContainer {
+        width: 80%;
+    }
+
+    .container .mainContent .publicationContent .contentContainer .markdownEditor {
+        width: 100%;
+    }
+
+    .container .mainContent .relatedPublications {
+        padding-left: 0;
+    }
+
+    .container .mainContent .makeCommentContainer textarea {
+        width: fit-content;
+    }
+
+    .container .mainContent .commentContainer {
+        width: fit-content;
+    }
+
+    .container .mainContent .makeCommentContainer .buttonsContainer {
+        justify-content: flex-start;
+    }
+}

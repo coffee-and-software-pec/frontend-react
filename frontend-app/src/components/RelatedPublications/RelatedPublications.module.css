@@ -56,3 +56,19 @@
 
     border-radius: 0 0.5rem 0.5rem 0;
 }
+
+@media (max-width: 600px) {
+
+    .container {
+    }
+
+    .publicationContainer {
+        width: fit-content;
+        justify-content: flex-start;
+    }
+
+    .publicationContainer img {
+        display: none;
+    }
+
+}

@@ -264,3 +264,56 @@
 .container .inputTag:focus {
     outline: none;
 }
+
+@media (max-width: 600px) {
+
+    .outsideContainer {
+        overflow-y: scroll;
+    }
+
+    .container {
+        overflow-y: initial;
+    }
+
+    .container h2 {
+        width: 90%;
+    }
+
+    .container .titleContainer {
+        width: 90%;
+    }
+
+    .container .subtitleThumbContainer {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .container .subtitleContainer {
+        width: 100%;
+    }
+
+    .container .subtitleContainer textarea {
+        height: 5rem;
+    }
+
+    .container .thumbnail {
+        width: 100%;
+    }
+
+    .container .fullTextContainer {
+        width: 90%;
+    }
+
+    .container .tags {
+        width: 90%;
+    }
+
+    .container .floatingButtonsContainer {
+        flex-direction: row;
+        bottom: 1rem;
+        left: auto;
+        right: auto;
+        gap: 1rem;
+    }
+
+}

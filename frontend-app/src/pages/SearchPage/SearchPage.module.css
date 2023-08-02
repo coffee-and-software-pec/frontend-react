@@ -149,3 +149,43 @@
     border: 0.1rem solid var(--secondary);
     transform: scale(1);
 }
+
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+
+        padding-bottom: 4rem;
+    }
+    
+    .mainContent {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        margin-top: 1rem;
+        padding: 0 1rem;
+
+        overflow-y: initial;
+    }   
+
+    .mainContent .publicationsContainer {
+        width: 100%;
+    }
+
+    .mainContent .publicationOrderContainer {
+        width: 100%;
+        gap: 1rem;
+        flex-direction: column;
+    }
+
+    .mainContent .createButtonLink > p {
+        display: none;
+    }
+
+    .mainContent .searchBarContainer {
+        width: 100%;
+    }
+}

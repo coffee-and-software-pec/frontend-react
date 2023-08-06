@@ -1,4 +1,5 @@
 import { api } from "../api/api";
+import UserStats from "../models/UserStats";
 import UserDTO from "./dtos/UserDTO";
 
 async function createUser(userDTO: UserDTO): Promise<UserDTO> {
@@ -16,7 +17,7 @@ async function getUserById(userId: string): Promise<UserDTO> {
 
 async function getUserByEmail(email: string): Promise<UserDTO> {
     const response = await api.get(`/user/getByEmail/${email}`);
-    if (response.status == 200) {
+    if (response.status === 200) {
         return response.data as UserDTO;
     }
     throw new Error("error while get user by email");
@@ -27,9 +28,29 @@ async function getAllUsers(): Promise<UserDTO[]> {
     return data as UserDTO[];
 }
 
+async function getUserStatsById(userId: string, requestUserId: string): Promise<UserStats> {
+    const { data } = await api.get(`/user/stats/${userId}`, {
+        headers: {
+            "REQUEST_USER_ID": requestUserId
+        }
+    });
+    return data as UserStats;
+}
+
+async function getUserStats(requestUserId: string): Promise<UserStats[]> {
+    const { data } = await api.get(`/user/stats`, {
+        headers: {
+            "REQUEST_USER_ID": requestUserId
+        }
+    });
+    return data as UserStats[];
+}
+
 export {
     createUser,
     getUserById,
     getUserByEmail,
-    getAllUsers
+    getAllUsers,
+    getUserStatsById,
+    getUserStats
 }

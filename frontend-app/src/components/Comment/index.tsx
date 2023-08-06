@@ -10,15 +10,18 @@ import User from '../../models/User';
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, ChakraProvider, IconButton, Menu, MenuButton, MenuItem, MenuList, useDisclosure } from '@chakra-ui/react';
 
 import { ReactComponent as MenuIcon } from '../../assets/menu_icon.svg';
-import { deleteComment, updateComment } from '../../services/CommentService';
+import { createComment, deleteComment, updateComment } from '../../services/CommentService';
 import { toast, TypeOptions } from 'react-toastify';
+import EditCommentDialog from '../EditCommentDialog';
 
 interface CommentProps {
     comment: PublicationComment,
+    publicationId: string,
     onDeleteComment: (commentId: string) => void;
+    onCreateComment: (comment: PublicationComment) => void;
 }
 
-function Comment({ comment, onDeleteComment }: CommentProps) {
+function Comment({ comment, onDeleteComment, onCreateComment, publicationId }: CommentProps) {
     const [commentState, setCommentState] = useState<PublicationComment>(comment);
     const { loadUser, user } = useAuth();
 
@@ -55,7 +58,17 @@ function Comment({ comment, onDeleteComment }: CommentProps) {
         onOpen();
     }
 
-    async function handleAlertDialogPositiveButton() {
+    function handleReplyButton() {
+        setAlertDialogConstants({
+            mode: 'reply',
+            title: 'Responder comentário',
+            subtitle: 'Digite seu comentário aqui',
+            positiveButtonText: 'Enviar'
+        })
+        onOpen();
+    }
+
+    async function handleAlertDialogPositiveButton(childrenCommentText?: string) {
         const toastConstants: { title: string, type: TypeOptions } = {
             title: 'Error desconhecido',
             type: 'error'
@@ -64,16 +77,28 @@ function Comment({ comment, onDeleteComment }: CommentProps) {
             const updatedComment: PublicationComment = await updateComment(
                 {text: commentState.c_text}, comment.c_id);
             setCommentState(updatedComment);
-            onClose();
             toastConstants.title = 'Comentário atualizado!';
             toastConstants.type = 'success';
         } else if (alertDialogConstants.mode === 'delete') {
             const _ = await deleteComment(comment.c_id);
-            onClose();
             onDeleteComment(comment.c_id);
             toastConstants.title = 'Comentário deletado!';
             toastConstants.type = 'success';
+        } else if (alertDialogConstants.mode === 'reply') {
+            try {
+                const savedComment = await createComment({
+                    author_id: user?.id!!,
+                    c_text: childrenCommentText!!,
+                    publication_id: publicationId,
+                    c_parent_id: commentState.c_id,
+                });
+                toastConstants.title = 'Comentário salvo!';
+                toastConstants.type = 'success';
+                onCreateComment(savedComment);
+            } catch (_) {}
         }
+
+        onClose();
         toast(toastConstants.title, {
             autoClose: 500,
             hideProgressBar: true,
@@ -87,87 +112,58 @@ function Comment({ comment, onDeleteComment }: CommentProps) {
 
     return (
         <ChakraProvider>
-            <div className={styles.container}>
-                <div className={styles.header}>
-                    <div className={styles.authorContainer}>
-                        {/* <img src={comment.author.photoURL} alt="" referrerPolicy='no-referrer' /> */}
-                        <DefaultImage 
-                            src={commentState.author.photoURL} 
-                            alt=""
-                            defaultImage={DefaultImageUser}
-                        />
-                        <p>{commentState.author.u_name}</p>
+            <div className={styles.containerWithoutBox}>
+                <div className={styles.container}>
+                    <div className={styles.header}>
+                        <div className={styles.authorContainer}>
+                            {/* <img src={comment.author.photoURL} alt="" referrerPolicy='no-referrer' /> */}
+                            <DefaultImage 
+                                src={commentState.author.photoURL} 
+                                alt=""
+                                defaultImage={DefaultImageUser}
+                            />
+                            <p>{commentState.author.u_name}</p>
+                        </div>
+                        <span className={styles.commentDate}>
+                            {getCommentDateTime(commentState.creation_date)}
+                        </span>
                     </div>
-                    <span className={styles.commentDate}>
-                        {getCommentDateTime(commentState.creation_date)}
-                    </span>
-                </div>
-                <div className={styles.content}>
-                    {commentState.c_text}
-                </div>
-                { user && user.id === commentState.author.u_id ? (
-                    <div className={styles.actionsContainer}>
-                        <Menu>
-                            <MenuButton 
-                                as={IconButton} 
-                                icon={<MenuIcon width={16} height={16} />}
-                                variant='outline'
-                            >
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem onClick={onEditCommentButton}>Editar</MenuItem>
-                                <MenuItem onClick={onDeleteCommentButton}>Deletar</MenuItem>
-                            </MenuList>
-                        </Menu>
+                    <div className={styles.content}>
+                        {commentState.c_text}
                     </div>
-                ) : "" }
+                    { user && user.id === commentState.author.u_id ? (
+                        <div className={styles.actionsContainer}>
+                            <Menu>
+                                <MenuButton 
+                                    as={IconButton} 
+                                    icon={<MenuIcon width={16} height={16} />}
+                                    variant='outline'
+                                >
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem onClick={onEditCommentButton}>Editar</MenuItem>
+                                    <MenuItem onClick={onDeleteCommentButton}>Deletar</MenuItem>
+                                </MenuList>
+                            </Menu>
+                        </div>
+                    ) : "" }
+                </div>
+                <div 
+                    className={styles.reply} 
+                    onClick={handleReplyButton}
+                >
+                    <span>responder</span>
+                </div>
             </div>
-            <AlertDialog
+            <EditCommentDialog 
                 isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
+                alertDialogConstants={alertDialogConstants}
+                cancelRef={cancelRef}
+                commentState={commentState}
+                setCommentState={setCommentState}
+                handleAlertDialogPositiveButton={handleAlertDialogPositiveButton}
                 onClose={onClose}
-                isCentered={true}
-            >
-                <AlertDialogOverlay>
-                <AlertDialogContent>
-                    <AlertDialogHeader fontSize='lg' fontWeight='bold' className={styles.alertDialogHeader}>
-                        {alertDialogConstants.title}
-                    </AlertDialogHeader>
-                    <AlertDialogBody className={styles.alertDialogBody}>
-                        {alertDialogConstants.mode === 'edit' ? (
-                            <textarea  
-                                className={styles.commentTextarea}
-                                name="alert-dialog-textarea" 
-                                id="alert-dialog-textarea" 
-                                cols={30}
-                                rows={10}
-                                value={commentState.c_text}
-                                onChange={e => setCommentState({
-                                    ...commentState,
-                                    c_text: e.target.value
-                                })}
-                            >
-                            </textarea>
-                        ) : (
-                            "Tem certeza? Você não poderá desfazer esta ação depois."
-                        )}
-                    </AlertDialogBody>
-
-                    <AlertDialogFooter>
-                        <Button ref={cancelRef} onClick={onClose} className={styles.alertDialogCancelButton}>
-                            Cancelar
-                        </Button>
-                        <Button 
-                            colorScheme={alertDialogConstants.mode === 'edit' ? 'blue' : 'red' } 
-                            onClick={handleAlertDialogPositiveButton} 
-                            ml={3}
-                        >
-                            {alertDialogConstants.positiveButtonText}
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
+            />
         </ChakraProvider>
     );
 }

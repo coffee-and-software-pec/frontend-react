@@ -34,6 +34,10 @@ function CommentList({ publicationId, commentCreated }: CommentListProps) {
         setComments(comments.filter(c => c.c_id !== commentId));
     }
 
+    function handleOnCreateComment(comment: PublicationComment) {
+        setComments([...comments, comment]);
+    }
+
     return (
         <>
             {
@@ -49,6 +53,8 @@ function CommentList({ publicationId, commentCreated }: CommentListProps) {
                                     key={comment.c_id} 
                                     comment={comment}
                                     onDeleteComment={handleOnDeleteComment}
+                                    onCreateComment={handleOnCreateComment}
+                                    publicationId={publicationId!!}
                                 />
                             );
                         })

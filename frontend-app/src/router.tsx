@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PublicationPage from "./pages/PublicationPage";
 import SearchPage from "./pages/SearchPage";
 import UserPublications from "./pages/UserPublications";
+import PerfilPage from "./pages/PerfilPage";
 
 function Router() {
   return (
@@ -21,6 +22,7 @@ function Router() {
           <Route path="/seguindo" element={<FollowPage />} />
           <Route path="/buscar" element={<SearchPage />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/perfil" element={<PerfilPage />} />
         </Routes>
     </BrowserRouter>
   );

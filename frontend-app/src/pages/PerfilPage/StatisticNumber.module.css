@@ -1,0 +1,15 @@
+.statisticContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.statisticContainer h1 {
+    font-size: 3rem;
+}
+
+.statisticContainer span {
+    font-weight: 400;
+}

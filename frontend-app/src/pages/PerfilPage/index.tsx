@@ -1,5 +1,6 @@
 import TopBar from "../../components/TopBar";
 import styles from './PerfilPage.module.css';
+import statsStyles from './StatisticNumber.module.css';
 import { useAuth } from '../../contexts/AuthContext';
 import React, { useEffect, useState } from "react"
 import colors from  '../../styles/colorsConfig.json';
@@ -7,12 +8,30 @@ import { ReactComponent as UserIcon } from '../../assets/user_icon.svg';
 import { getUserStatsById } from "../../services/UserService";
 import UserStats from "../../models/UserStats";
 import { getCommentDateTime } from "../../utils/CommentDateUtil";
+import DefaultImage from "../../components/DefaultImage";
+import DefaultUserImage from '../../assets/default-user.png';
+import UserActivity, { UserActivityModel } from "../../components/UserActivity";
+
+interface StatisticNumberProps {
+    statisticNumber: number;
+    statisticText: string;
+}
+
+function StatisticNumber({ statisticNumber, statisticText }: StatisticNumberProps) {
+    return (
+        <div className={statsStyles.statisticContainer}>
+            <h1>{statisticNumber}</h1>
+            <span>{statisticText}</span>
+        </div>
+    )
+}
 
 function PerfilPage() {
 
     const { user, loadUser } = useAuth();
     const [imageLoaded, setImageLoaded] = useState(false);
     const [statsUser, setStatsUser] = useState<UserStats>();
+    const [userActivityList, setUserActivityList] = useState<UserActivityModel[]>([]);
 
     useEffect(() => {
         const loadedUser = loadUser();
@@ -31,7 +50,86 @@ function PerfilPage() {
         }
 
         statsUser();
-
+        setUserActivityList([{
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "COMMENT",
+            activity_text: "Um comentário",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        }, {
+            author_name: 'Teste',
+            author_image: "",
+            activity_type: "LIKE",
+            activity_text: "",
+            activity_date: new Date().toString()
+        },
+        ]);
     }, [])
 
     function updateUser() {
@@ -46,14 +144,11 @@ function PerfilPage() {
                 <div className={styles.perfil}>
                     <div className={styles.userActionsContainer}>
                         <div className={styles.userIcon}>
-                                        {imageLoaded ? 
-                                            <img       
-                                                src={user?.photoURL}
-                                                alt=""
-                                                referrerPolicy='no-referrer'
-                                            /> :
-                                            <UserIcon color={colors.theme.white} />
-                                        }
+                            <DefaultImage 
+                                alt=""
+                                src={user?.photoURL!!}
+                                defaultImage={DefaultUserImage}
+                            />
                         </div> 
                     </div>
                     <div className={styles.userInfo}>
@@ -79,33 +174,35 @@ function PerfilPage() {
                     <div className={styles.estatisticas}>
                         <p>Estatísticas</p>
                         <div className={styles.numeros}>
-                            <h1>{statsUser?.posts}</h1>
-                            <h5>Publicações</h5>
-                            <h1>{statsUser?.likes}</h1>
-                            <h5>Likes</h5>
-                            <h1>{statsUser?.comments}</h1>
-                            <h5>Comentários</h5>
-                            <h1>{statsUser?.followersCount}</h1>
-                            <h5>Seguidores</h5>
-                            <h1>{statsUser?.followingCount}</h1>
-                            <h5>Seguindo</h5>
+                            <StatisticNumber 
+                                statisticNumber={statsUser?.posts!!}
+                                statisticText={"publicações"}
+                            />
+                            <StatisticNumber 
+                                statisticNumber={statsUser?.likes!!}
+                                statisticText={"likes"}
+                            />
+                            <StatisticNumber 
+                                statisticNumber={statsUser?.comments!!}
+                                statisticText={"comentários"}
+                            />
+                            <StatisticNumber 
+                                statisticNumber={statsUser?.followersCount!!}
+                                statisticText={"seguidores"}
+                            />
+                            <StatisticNumber 
+                                statisticNumber={statsUser?.followingCount!!}
+                                statisticText={"seguindo"}
+                            />
                         </div>
                     </div>
                 </div>
                 <div className={styles.atividades}>
                     <h1>Atividades recentes</h1>
                     <div className={styles.listaAtividades}>
-                        {imageLoaded ? 
-                            <img       
-                                src={user?.photoURL}
-                                alt=""
-                                referrerPolicy='no-referrer'
-                            /> :
-                            <UserIcon color={colors.theme.white} />
-                        }
-                        {statsUser?.name}
-                        <p>Comentou sua publicação.</p>
-                        {getCommentDateTime("2023-06-11T11:36:28.662931")}            
+                        {(userActivityList).map(activity => (
+                            <UserActivity userActivityModel={activity} />
+                        ))}
                     </div>
                 </div>
             </div>

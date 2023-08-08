@@ -1,21 +1,26 @@
 .container {
     width: 100vw;
     height: 100vh;
-}
 
-.mainContent {
     display: flex;
-    width: 100%;
-    height: 100%;
+    flex-direction: column;
 }
 
-.perfil {
+.container .mainContent {
     flex: 1;
+    max-height: calc(100% - 4rem);
+    display: flex;
+}
+
+.mainContent .perfil {
     border-right: 2px solid #D9D9D9;
     height: 100%;
     width: 30%;
-    overflow-y: scroll;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
 }
 
 .perfil:first-child {
@@ -23,9 +28,23 @@
 }
 
 .atividades {
-    width: 60%;
+    flex: 1;
     height: 100%;
+    max-height: 100%;
     overflow-y: scroll;
+
+    padding: 2rem;
+    padding-bottom: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.atividades .listaAtividades {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .container .userActionsContainer .userIcon {
@@ -35,20 +54,25 @@
 }
 
 .container .userIcon img {
-    width: 55%;
-    height: 55%;
+    width: 10rem;
+    height: 10rem;
+
     border-radius: 50%;
-    margin-top: 30px;
+    border: 4px solid var(--secondary);
 }
 
 .container .userInfo {
-    margin: 10px 2px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .container .userInfo p {
     color: #424242;
-    padding: 2px;
-    margin: 6px 8px; 
+    padding: 0.5rem;
+}
+
+.container .userInfo .nome {
 }
 
 .container .userInfo .email {
@@ -56,13 +80,22 @@
 }
 
 .container .userInfo input {
+    width: 100%;
+
+    padding: 0.85rem 0.85rem;
+    
     color: #424242;
-    padding: 6px 10px;
     border: 2px solid #D9D9D9;   
     border-radius: 10px;
 }
 
+.container .userInfo input:focus {
+    outline: none;
+}
+
 .mainContent .createButtonLink {
+    margin-top: 2rem;
+
     display: flex;
     gap: 0.5rem;
     justify-content: center;
@@ -73,6 +106,14 @@
     cursor: pointer;
     transition: transform 0.2s;
     font-size: 0.9rem;
+}
+
+.mainContent .createButtonLink button:hover {
+    transform: scale(1.05);
+}
+
+.mainContent .createButtonLink button:active {
+    transform: scale(1);
 }
 
 .mainContent .createButtonLink .sendButton {
@@ -91,25 +132,28 @@
 .mainContent .estatisticas {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
 }
 
-.mainContent .estatisticas p {
-    margin: 40px;
+.mainContent .estatisticas > p {
     display: flex;
     justify-content: center;
     color: #424242;
     font-weight: 500;
-    font-size: 2rem;
+    /* font-size: 2rem; */
+    color: var(--dark-gray);
 }
 
 .mainContent .estatisticas .numeros {
-    margin: 0px 30px;
-    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 4rem;
+
     color: #424242;
     font-weight: 500;
-    font-size: 3rem;
 }

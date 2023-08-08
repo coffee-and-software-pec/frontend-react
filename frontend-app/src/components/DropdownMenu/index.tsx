@@ -46,9 +46,9 @@ function DropdownMenu({active, setActive}: DropDownMenuProps) {
                         Perfil
                     </Link>
                 </div>
-                <div className={styles.menuOptionBox}>
+                {/* <div className={styles.menuOptionBox}>
                     <span className={styles.menuOption}>Configurações</span>
-                </div>
+                </div> */}
                 <span 
                     className={styles.menuOption}
                     onClick={handleClickLogoutButton}

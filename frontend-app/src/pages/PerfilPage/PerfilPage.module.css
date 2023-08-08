@@ -42,6 +42,7 @@
 }
 
 .atividades .listaAtividades {
+    width: 80%;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -152,8 +153,47 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 4rem;
+    column-gap: 4rem;
+    row-gap: 2rem;
 
     color: #424242;
     font-weight: 500;
+}
+
+.alertDialogHeader {
+    color: var(--dark-gray);
+}
+
+.alertDialogBody {
+    color: var(--dark-gray);
+    font-weight: 500;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.alertDialogBody img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+}
+
+.alertDialogBody input {
+    width: 100%;
+    background-color: var(--white);
+    border: 0;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.15);
+
+    padding: 0.5rem 0.5rem;
+}
+
+.alertDialogBody input:focus {
+    outline: none;
+}
+
+.alertDialogCancelButton {
+    color: var(--dark-gray);
 }

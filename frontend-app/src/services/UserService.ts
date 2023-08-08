@@ -1,4 +1,5 @@
 import { api } from "../api/api";
+import User from "../models/User";
 import UserStats from "../models/UserStats";
 import UserDTO from "./dtos/UserDTO";
 
@@ -46,11 +47,17 @@ async function getUserStats(requestUserId: string): Promise<UserStats[]> {
     return data as UserStats[];
 }
 
+async function updateUser(userId: string, userDto: UserDTO): Promise<UserDTO> {
+    const { data } = await api.patch(`/user/${userId}`, userDto);
+    return data as UserDTO;
+}
+
 export {
     createUser,
     getUserById,
     getUserByEmail,
     getAllUsers,
     getUserStatsById,
-    getUserStats
+    getUserStats,
+    updateUser
 }

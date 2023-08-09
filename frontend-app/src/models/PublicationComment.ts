@@ -7,4 +7,6 @@ export default interface PublicationComment {
     };
     creation_date: string;
     c_text: string;
+    c_parent_id: string;
+    replies?: PublicationComment[]
 }

@@ -30,12 +30,15 @@ function CommentList({ publicationId, commentCreated }: CommentListProps) {
         loadComments();
     }, [commentCreated]);
 
-    function handleOnDeleteComment(commentId: string) {
-        setComments(comments.filter(c => c.c_id !== commentId));
+    async function handleOnDeleteComment(commentId: string) {
+        // setComments(comments.filter(c => c.c_id !== commentId));
+        setComments([]);
+        await loadComments();
     }
 
-    function handleOnCreateComment(comment: PublicationComment) {
-        setComments([...comments, comment]);
+    async function handleOnCreateComment(comment: PublicationComment) {
+        setComments([]);
+        await loadComments();
     }
 
     return (

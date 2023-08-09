@@ -13,6 +13,7 @@ import { ReactComponent as MenuIcon } from '../../assets/menu_icon.svg';
 import { createComment, deleteComment, updateComment } from '../../services/CommentService';
 import { toast, TypeOptions } from 'react-toastify';
 import EditCommentDialog from '../EditCommentDialog';
+import CommentList from '../CommentList';
 
 interface CommentProps {
     comment: PublicationComment,
@@ -92,7 +93,7 @@ function Comment({ comment, onDeleteComment, onCreateComment, publicationId }: C
                     publication_id: publicationId,
                     c_parent_id: commentState.c_id,
                 });
-                toastConstants.title = 'Comentário salvo!';
+                toastConstants.title = 'Resposta a comentário salva!';
                 toastConstants.type = 'success';
                 onCreateComment(savedComment);
             } catch (_) {}
@@ -149,10 +150,21 @@ function Comment({ comment, onDeleteComment, onCreateComment, publicationId }: C
                     ) : "" }
                 </div>
                 <div 
-                    className={styles.reply} 
+                    className={`${commentState.c_parent_id !== "" ? styles.hidden : ""} ${styles.reply}`} 
                     onClick={handleReplyButton}
                 >
                     <span>responder</span>
+                </div>
+                <div className={styles.replies}>
+                    {commentState.replies?.map(c => (
+                        <Comment 
+                            key={c.c_id}
+                            comment={c}
+                            publicationId={publicationId}
+                            onCreateComment={() => {}}
+                            onDeleteComment={onDeleteComment}
+                        />
+                    ))}
                 </div>
             </div>
             <EditCommentDialog 

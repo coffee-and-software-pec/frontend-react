@@ -1,0 +1,199 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.container .mainContent {
+    flex: 1;
+    max-height: calc(100% - 4rem);
+    display: flex;
+}
+
+.mainContent .perfil {
+    border-right: 2px solid #D9D9D9;
+    height: 100%;
+    width: 30%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+.perfil:first-child {
+    margin-right: 10px;
+}
+
+.atividades {
+    flex: 1;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: scroll;
+
+    padding: 2rem;
+    padding-bottom: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.atividades .listaAtividades {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.container .userActionsContainer .userIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .userIcon img {
+    width: 10rem;
+    height: 10rem;
+
+    border-radius: 50%;
+    border: 4px solid var(--secondary);
+}
+
+.container .userInfo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .userInfo p {
+    color: #424242;
+    padding: 0.5rem;
+}
+
+.container .userInfo .nome {
+}
+
+.container .userInfo .email {
+    margin: 15px 0px; 
+}
+
+.container .userInfo input {
+    width: 100%;
+
+    padding: 0.85rem 0.85rem;
+    
+    color: #424242;
+    border: 2px solid #D9D9D9;   
+    border-radius: 10px;
+}
+
+.container .userInfo input:focus {
+    outline: none;
+}
+
+.mainContent .createButtonLink {
+    margin-top: 2rem;
+
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    
+}
+
+.mainContent .createButtonLink button {
+    cursor: pointer;
+    transition: transform 0.2s;
+    font-size: 0.9rem;
+}
+
+.mainContent .createButtonLink button:hover {
+    transform: scale(1.05);
+}
+
+.mainContent .createButtonLink button:active {
+    transform: scale(1);
+}
+
+.mainContent .createButtonLink .sendButton {
+    padding: 0.5rem 2rem;
+    background-color: var(--secondary);
+    color: var(--white);
+    border-radius: 0.5rem;
+    border: 0;
+    font-weight: 500;
+
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mainContent .estatisticas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.mainContent .estatisticas > p {
+    display: flex;
+    justify-content: center;
+    color: #424242;
+    font-weight: 500;
+    /* font-size: 2rem; */
+    color: var(--dark-gray);
+}
+
+.mainContent .estatisticas .numeros {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 4rem;
+    row-gap: 2rem;
+
+    color: #424242;
+    font-weight: 500;
+}
+
+.alertDialogHeader {
+    color: var(--dark-gray);
+}
+
+.alertDialogBody {
+    color: var(--dark-gray);
+    font-weight: 500;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.alertDialogBody img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+}
+
+.alertDialogBody input {
+    width: 100%;
+    background-color: var(--white);
+    border: 0;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.15);
+
+    padding: 0.5rem 0.5rem;
+}
+
+.alertDialogBody input:focus {
+    outline: none;
+}
+
+.alertDialogCancelButton {
+    color: var(--dark-gray);
+}

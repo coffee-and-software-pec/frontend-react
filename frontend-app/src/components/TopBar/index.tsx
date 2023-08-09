@@ -22,7 +22,8 @@ import { embraceWithLoading, embraceWithLoadingAndResolve } from '../../utils/Lo
 enum HomeRoutes {
     HOME = "/home",
     MY_PUBLICATIONS = "/minhaspublicacoes",
-    SEARCH = "/buscar"
+    SEARCH = "/buscar",
+    FOLLOWING = "/seguindo"
   }
 
 function TopBar() {
@@ -106,6 +107,16 @@ function TopBar() {
                                 to='/minhaspublicacoes'
                             >
                                 minhas publicações
+                            </Link>
+                        ) : ""
+                    }
+                    {
+                        user !== undefined ? (
+                            <Link 
+                                className={`${styles.menuButton} ${activeRoute === HomeRoutes.FOLLOWING ? styles.menuButtonActive : ""}`} 
+                                to='/seguindo'
+                            >
+                                seguindo
                             </Link>
                         ) : ""
                     }

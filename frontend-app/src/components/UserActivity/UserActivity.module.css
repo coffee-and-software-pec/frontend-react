@@ -1,0 +1,61 @@
+.container {
+    display: grid;
+    grid-template-areas: 
+        "userinfo type date"
+        "text text date"
+    ;
+    grid-template-columns: max-content 1fr max-content;
+
+    column-gap: 0.5rem;
+    row-gap: 1rem;
+
+    background-color: white;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
+    border-radius: 1rem;
+
+    padding: 1rem;
+}
+
+.container .userinfo {
+    justify-self: flex-start;
+    align-self: center;
+
+    grid-area: userinfo;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .userinfo img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.container .type {
+    grid-area: type;
+    align-self: center;
+    /* justify-self: center; */
+
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: var(--soft-black);
+}
+
+.container .date {
+    width: max-content;
+    grid-area: date;
+
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+    color: var(--dark-gray);
+}
+
+.container .text {
+    grid-area: text;
+
+    padding-left: 0.5rem;
+    color: var(--dark-gray);
+}

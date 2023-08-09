@@ -38,11 +38,17 @@ function DropdownMenu({active, setActive}: DropDownMenuProps) {
             </div>
             <div className={styles.menuOptionsContainer}>
                 <div className={styles.menuOptionBox}>
-                    <span className={styles.menuOption}>meu perfil</span>
+                    <Link 
+                        style={{textDecoration: 'none'}} 
+                        className={`${styles.menuOption}`} 
+                        to='/perfil'
+                    >
+                        Perfil
+                    </Link>
                 </div>
-                <div className={styles.menuOptionBox}>
-                    <span className={styles.menuOption}>configurações</span>
-                </div>
+                {/* <div className={styles.menuOptionBox}>
+                    <span className={styles.menuOption}>Configurações</span>
+                </div> */}
                 <span 
                     className={styles.menuOption}
                     onClick={handleClickLogoutButton}

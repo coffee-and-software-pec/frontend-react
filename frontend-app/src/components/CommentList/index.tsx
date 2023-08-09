@@ -30,8 +30,15 @@ function CommentList({ publicationId, commentCreated }: CommentListProps) {
         loadComments();
     }, [commentCreated]);
 
-    function handleOnDeleteComment(commentId: string) {
-        setComments(comments.filter(c => c.c_id !== commentId));
+    async function handleOnDeleteComment(commentId: string) {
+        // setComments(comments.filter(c => c.c_id !== commentId));
+        setComments([]);
+        await loadComments();
+    }
+
+    async function handleOnCreateComment(comment: PublicationComment) {
+        setComments([]);
+        await loadComments();
     }
 
     return (
@@ -49,6 +56,8 @@ function CommentList({ publicationId, commentCreated }: CommentListProps) {
                                     key={comment.c_id} 
                                     comment={comment}
                                     onDeleteComment={handleOnDeleteComment}
+                                    onCreateComment={handleOnCreateComment}
+                                    publicationId={publicationId!!}
                                 />
                             );
                         })

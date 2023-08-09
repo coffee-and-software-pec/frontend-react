@@ -2,33 +2,26 @@ import DefaultImage from '../DefaultImage';
 import styles from './UserActivity.module.css';
 import DefaultUserImage from '../../assets/default-user.png';
 import { getCommentDateTime } from '../../utils/CommentDateUtil';
-
-export interface UserActivityModel {
-    author_image: string;
-    author_name: string;
-    activity_type: "COMMENT" | "LIKE";
-    activity_text?: string;
-    activity_date: string;
-}
+import ActivityDTO from '../../services/dtos/ActivityDTO';
 
 interface UserActivityProps {
-    userActivityModel: UserActivityModel;
+    activityDto: ActivityDTO;
 }
 
-export default function UserActivity({userActivityModel}: UserActivityProps) {
+export default function UserActivity({activityDto}: UserActivityProps) {
     return (
         <div className={styles.container}>
             <div className={styles.userinfo}>
                 <DefaultImage 
                     alt=''
-                    src={userActivityModel.author_image}
+                    src={activityDto.authorPhoto}
                     defaultImage={DefaultUserImage}
                 />
-                <span>{userActivityModel.author_name}</span>
+                <span>{activityDto.authorName}</span>
             </div>
-            <span className={styles.type}>{userActivityModel.activity_type === "COMMENT" ? "comentou" : "curtiu"} sua publicação</span>
-            <span className={styles.text}>{userActivityModel.activity_text}</span>
-            <span className={styles.date}>{getCommentDateTime(userActivityModel.activity_date)}</span>
+            <span className={styles.type}>{activityDto.activityType === "COMMENT" ? "comentou" : "curtiu"} sua publicação</span>
+            <span className={styles.text}>{activityDto.text}</span>
+            <span className={styles.date}>{getCommentDateTime(activityDto.createdDate)}</span>
         </div>
     )
 }

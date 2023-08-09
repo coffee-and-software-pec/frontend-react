@@ -10,10 +10,12 @@ import UserStats from "../../models/UserStats";
 import { getCommentDateTime } from "../../utils/CommentDateUtil";
 import DefaultImage from "../../components/DefaultImage";
 import DefaultUserImage from '../../assets/default-user.png';
-import UserActivity, { UserActivityModel } from "../../components/UserActivity";
+import UserActivity from "../../components/UserActivity";
 import UserDTO from "../../services/dtos/UserDTO";
 import { toast } from "react-toastify";
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, ChakraProvider, useDisclosure } from "@chakra-ui/react";
+import ActivityDTO from "../../services/dtos/ActivityDTO";
+import { getActivitByUserId } from "../../services/ActivityService";
 
 interface StatisticNumberProps {
     statisticNumber: number;
@@ -34,7 +36,7 @@ function PerfilPage() {
     const { user, loadUser } = useAuth();
     const [imageLoaded, setImageLoaded] = useState(false);
     const [statsUser, setStatsUser] = useState<UserStats>();
-    const [userActivityList, setUserActivityList] = useState<UserActivityModel[]>([]);
+    const [userActivityList, setUserActivityList] = useState<ActivityDTO[]>([]);
 
     const [photoUrl, setPhotoUrl] = useState("");
 
@@ -59,86 +61,13 @@ function PerfilPage() {
         }
 
         statsUser();
-        setUserActivityList([{
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "COMMENT",
-            activity_text: "Um comentário",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        }, {
-            author_name: 'Teste',
-            author_image: "",
-            activity_type: "LIKE",
-            activity_text: "",
-            activity_date: new Date().toString()
-        },
-        ]);
+
+        async function fetchActivities() {
+            const activities = await getActivitByUserId(loadedUser.id!!);
+            setUserActivityList(activities);
+        }
+
+        fetchActivities();
     }, [])
 
     async function handleUpdateUser() {
@@ -241,7 +170,7 @@ function PerfilPage() {
                         <h1>Atividades recentes</h1>
                         <div className={styles.listaAtividades}>
                             {(userActivityList).map(activity => (
-                                <UserActivity userActivityModel={activity} />
+                                <UserActivity activityDto={activity} />
                             ))}
                         </div>
                     </div>

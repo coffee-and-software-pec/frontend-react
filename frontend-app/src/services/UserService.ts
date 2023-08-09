@@ -30,20 +30,12 @@ async function getAllUsers(): Promise<UserDTO[]> {
 }
 
 async function getUserStatsById(userId: string, requestUserId: string): Promise<UserStats> {
-    const { data } = await api.get(`/user/stats/${userId}`, {
-        headers: {
-            "REQUEST_USER_ID": requestUserId
-        }
-    });
+    const { data } = await api.get(`/user/stats/${userId}/${requestUserId}`);
     return data as UserStats;
 }
 
 async function getUserStats(requestUserId: string): Promise<UserStats[]> {
-    const { data } = await api.get(`/user/stats`, {
-        headers: {
-            "REQUEST_USER_ID": requestUserId
-        }
-    });
+    const { data } = await api.get(`/user/stats/${requestUserId}`);
     return data as UserStats[];
 }
 

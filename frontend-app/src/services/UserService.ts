@@ -52,6 +52,20 @@ async function updateUser(userId: string, userDto: UserDTO): Promise<UserDTO> {
     return data as UserDTO;
 }
 
+async function followUser(userId: string, followerId: string) {
+    const { data } = await api.post("/user/addFollower", {
+        id: userId,
+        followerId: followerId
+    });
+}
+
+async function unfollowUser(userId: string, followerId: string) {
+    const { data } = await api.patch("/user/removeFollower", {
+        id: userId,
+        followerId: followerId
+    });
+}
+
 export {
     createUser,
     getUserById,
@@ -59,5 +73,7 @@ export {
     getAllUsers,
     getUserStatsById,
     getUserStats,
-    updateUser
+    updateUser,
+    followUser,
+    unfollowUser
 }

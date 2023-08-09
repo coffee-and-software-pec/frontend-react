@@ -9,7 +9,7 @@ interface UserStats {
     likes?: number;
     comments?: number;
     bio: string;
-    isFollowing: boolean
+    following: boolean
 }
 
 export default UserStats;

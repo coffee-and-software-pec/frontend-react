@@ -5,19 +5,33 @@ import DefaultImageUser from "../../assets/default-user.png";
 import UserStats from '../../models/UserStats';
 import { useState } from 'react';
 import { convertNumberToThousands } from '../../utils/NumberFormat';
+import { followUser, unfollowUser } from '../../services/UserService';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface UserInfoProps {
     user: UserStats;
 }
 
 export default function UserInfo({ user }: UserInfoProps) {
+    const { loadUser } = useAuth();
     const [internalUser, setInternalUser] = useState(user);
 
-    function handleFollowClick() {
-        setInternalUser({
-            ...internalUser,
-            isFollowing: !internalUser.isFollowing
-        });
+    async function handleFollowClick() {
+        try {
+            const loadedUser = loadUser();
+
+            if (internalUser.following) {
+                const _ = await unfollowUser(loadedUser?.id!!, user.id!!);
+            } else {
+                const _ = await followUser(loadedUser?.id!!, user.id!!);
+            }
+            
+            setInternalUser({
+                ...internalUser,
+                following: !internalUser.following
+            });
+        } catch(_) {}
+        
     }    
 
     return (
@@ -40,10 +54,10 @@ export default function UserInfo({ user }: UserInfoProps) {
             </div>
             <div className={styles.button}>
                 <button 
-                    className={internalUser.isFollowing ? styles.disabled : ""}
+                    className={internalUser.following ? styles.disabled : ""}
                     onClick={handleFollowClick}
                 >
-                    {internalUser.isFollowing ? "SEGUINDO" : "SEGUIR" }
+                    {internalUser.following ? "SEGUINDO" : "SEGUIR" }
                 </button>
             </div>
         </div>

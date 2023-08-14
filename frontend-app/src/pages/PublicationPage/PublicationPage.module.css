@@ -317,6 +317,11 @@
     grid-area: space;
 }
 
+.review-mark {
+    width: fit-content;
+    background-color: var(--green-tag) !important;
+}
+
 @media (max-width: 700px) {
     .outsideContainer {
         width: 100vw;

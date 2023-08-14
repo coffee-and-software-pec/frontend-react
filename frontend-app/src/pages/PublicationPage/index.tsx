@@ -1,23 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { api } from "../../api/api";
 import TopBar from "../../components/TopBar";
 import Publication from "../../models/Publication";
-import { formatDateTimestamp, formatLocalDateTime } from "../../utils/DateUtil";
+import { formatLocalDateTime } from "../../utils/DateUtil";
 
 import styles from './PublicationPage.module.css';
 
-import { ReactComponent as UserIcon } from '../../assets/user_icon.svg';
-import { ReactComponent as EyeIcon } from '../../assets/eye_icon_filled.svg';
 import { ReactComponent as HeartIcon } from '../../assets/heart_icon.svg';
 import { ReactComponent as CommentIcon } from '../../assets/comment_icon_filled.svg';
 
 import colors from  '../../styles/colorsConfig.json';
 import { convertNumberToThousands } from "../../utils/NumberFormat";
 import Tag from "../../components/Tag";
-import MarkdownEditor from "@uiw/react-markdown-editor";
 import MarkdownPreview from '@uiw/react-markdown-preview';
-import Comment from "../../components/Comment";
 import RelatedPublications from "../../components/RelatedPublications";
 import { createComment } from "../../services/CommentService";
 import { useAuth } from "../../contexts/AuthContext";
@@ -29,8 +24,15 @@ import DefaultUserImage from '../../assets/default-user.png';
 
 import CommentList from "../../components/CommentList";
 import { toast } from "react-toastify";
-import { BeatLoader, ClipLoader } from "react-spinners";
-import { embraceWithLoading, embraceWithLoadingThen } from "../../utils/LoadingUtil";
+import { ClipLoader } from "react-spinners";
+import { embraceWithLoadingThen } from "../../utils/LoadingUtil";
+
+import { Root, Element, RootContent } from 'hast';
+
+interface Review {
+    authorName: string;
+    reviewText: string;
+}
 
 function PublicationPage() {
     const navigate = useNavigate();
@@ -43,6 +45,23 @@ function PublicationPage() {
 
     const [commentText, setCommentText] = useState("");
     const [commentCreated, setCommentCreated] = useState<boolean>(false);
+
+    const [key, setKey] = useState("false");
+
+    const [reviews, setReviews] = useState<Review[]>([
+        // {
+        //     authorName: "Teste",
+        //     reviewText: "Before jumping into a PR be sure to search existing PRs or issues for an open or closed "
+        // },
+        // {
+        //     authorName: "Teste2",
+        //     reviewText: "To contribute to our"
+        // },
+        // {
+        //     authorName: "Teste2",
+        //     reviewText: "Adding Examples"
+        // }
+    ]);
 
     const onLikeButtonClick = async () => { 
         let newPublication = publication;
@@ -145,6 +164,70 @@ function PublicationPage() {
         
     }, [params.id]);    
 
+    useEffect(() => {
+        setKey(key === "false" ? "true" : "false");
+    }, [reviews])
+
+    function handleOnMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        var highlightText = window.getSelection()?.toString();
+        if (highlightText) {
+            setReviews([...reviews, {
+                authorName: user?.name ?? "Unknown",
+                reviewText: highlightText 
+            }]);
+        }
+    }
+
+    let foundIndexes: number[] = [];
+
+    function getTextOfNode(node: any) {
+        var result = "";
+        if (node.children !== undefined) {
+            node.children.forEach((children: any) => {
+                result += getTextOfNode(children);
+            })
+        } else if (node.type === "text") {
+            result += node.value;
+        }
+        return result;
+    }
+
+    function rewriteElement(node: Root | RootContent, index: number | null, parent: Root | Element | null){
+        if (node.type === "element") {
+            node.children.forEach((children, childrenI) => {
+                if (children.type === "text") {
+                    if (node && node.properties !== undefined && children.value != "\n" && children.value != ".") {
+                        let foundIndex = -1;
+                        for (let i=0; i<reviews.length; i++) {
+                            if ((reviews[i].reviewText.startsWith(children.value) || children.value.startsWith(reviews[i].reviewText))
+                                && !foundIndexes.includes(i)) {
+                                node.properties!!.className = styles["review-mark"];
+                                node.children = [
+                                    ...node.children,
+                                    {
+                                        type: 'element',
+                                        tagName: 'a',
+                                        properties: {
+                                            "href": '#'
+                                        },
+                                        children: [
+                                            {type: 'text', value: `[revisão-${i+1}]`}
+                                        ]
+                                    }
+                                ]
+                                foundIndex = i;
+                                break;
+                            }
+                        }
+                        if (foundIndex !== -1) {
+                            foundIndexes.push(foundIndex);
+                        }
+                    }
+                }
+            })
+        }
+    }
+
     return (
         <div className={styles.outsideContainer}>
             <TopBar />
@@ -174,14 +257,24 @@ function PublicationPage() {
                         <p>{convertNumberToThousands(publication?.commentsCount)}</p>
                     </div>
                     <div className={styles.publicationContent}>
-                        <div className={styles.contentContainer}>
+                        <div className={styles.contentContainer} onMouseUp={e => handleOnMouseUp(e)}>
                             <div className={styles.tagsContainer}>
                                 {publication?.tags.map((tag, index) => <Tag key={index} name={tag.title} onClickTag={null}/>)}
                             </div>
                             <MarkdownPreview 
                                 source={publication?.continuous_text}
                                 className={styles.markdownEditor}
+                                key={key}
                                 wrapperElement={{"data-color-mode": "light"}}
+                                rehypeRewrite={rewriteElement}
+                            />
+                            <MarkdownPreview 
+                                wrapperElement={{"data-color-mode": "light"}}
+                                className={styles.markdownEditor}
+                                source={`
+                                    # Revisões
+                                    ${"teste"}
+                                `}
                             />
                         </div>
                     </div>

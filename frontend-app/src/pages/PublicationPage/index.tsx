@@ -53,6 +53,8 @@ function PublicationPage() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [highlightedText, setHighlightedText] = useState("");
 
+    const [reviewMode, setReviewMode] = useState(false);
+
     const onLikeButtonClick = async () => { 
         let newPublication = publication;
         if(newPublication != undefined) {
@@ -158,14 +160,18 @@ function PublicationPage() {
     }, [reviews])
 
     function handleOnMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-        var highlightText = window.getSelection()?.toString();
-        if (highlightText && highlightText.length >= 30) {
-            onOpen();
-            setHighlightedText(highlightText);
-        } else {
-            toast.error("Selecione um trecho de texto maior que 30 caracteres!", {
-                autoClose: 500
-            });
+        if (reviewMode) {
+            var highlightText = window.getSelection()?.toString();
+            if (highlightText && highlightText.length >= 30) {
+                onOpen();
+                setHighlightedText(highlightText);
+            } else {
+                if (highlightText !== "") {
+                    toast.error("Selecione um trecho de texto maior que 30 caracteres!", {
+                        autoClose: 500
+                    });
+                }
+            }
         }
     }
 
@@ -262,6 +268,9 @@ function PublicationPage() {
                                 <p className={styles.author}>{publication?.author.u_name}</p>
                             </div>
                             <p className={styles.editDate}>{formatLocalDateTime(publication?.creation_date!!)}</p>
+                            <button className={styles.reviewButton} onClick={() => setReviewMode(!reviewMode)}>
+                                {reviewMode ? "Voltar" : "Revisar"}
+                            </button>
                         </div>
                         <div className={styles.reactionsData}>
                             <HeartIcon className={isLike ? styles.liked : styles.heartIcon} onClick={onLikeButtonClick}/>
@@ -271,8 +280,8 @@ function PublicationPage() {
                             </a>
                             <p>{convertNumberToThousands(publication?.commentsCount)}</p>
                         </div>
-                        <div className={styles.publicationContent}>
-                            <div className={styles.contentContainer} onMouseUp={e => handleOnMouseUp(e)}>
+                        <div className={`${styles.publicationContent}`}>
+                            <div className={`${styles.contentContainer} ${reviewMode ? styles.reviewModeContainer : ""}`} onMouseUp={e => handleOnMouseUp(e)}>
                                 <div className={styles.tagsContainer}>
                                     {publication?.tags.map((tag, index) => <Tag key={index} name={tag.title} onClickTag={null}/>)}
                                 </div>

@@ -56,6 +56,7 @@
     grid-template-areas: 
         "titles titles"
         "author date"
+        "reviewButton reviewButton"
     ;
     gap: 1rem;
 }
@@ -113,6 +114,19 @@
     font-weight: 400;
     color: var(--soft-black);
     font-size: 0.95rem;
+}
+
+.container .mainContent .publicationData .reviewButton {
+    grid-area: reviewButton;
+    justify-self: flex-start;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+
+    color: var(--white);
+    font-weight: bold;
+
+    background-color: var(--secondary);
 }
 
 .container .mainContent .reactionsData {
@@ -194,6 +208,10 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+
+.container .mainContent .publicationContent .reviewModeContainer {
+    border: 1px solid var(--secondary);
 }
 
 .container .mainContent .publicationContent .contentContainer .markdownEditor {

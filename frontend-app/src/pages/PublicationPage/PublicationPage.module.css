@@ -33,6 +33,7 @@
         ". metadata ."
         "reactions main-content related"
         ". make-comment ."
+        ". reviews ."
         ". comments ."
         "space space space";
 }
@@ -310,6 +311,43 @@
     width: 100%;
     color: var(--dark-gray);
     text-align: center;
+}
+
+.container .mainContent .reviews {
+    grid-area: reviews;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container .mainContent .reviews .reviewsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container .mainContent .reviews h1 {
+    color: var(--dark-gray);
+    margin-bottom: 1rem;
+}
+
+.container .mainContent .reviews .reviewContainer {
+    border-radius: 1rem;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+    padding: 1rem;
+}
+
+.container .mainContent .reviews .reviewContainer span {
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+}
+
+.container .mainContent .reviews .reviewContainer p {
+    color: var(--soft-black);
+}
+
+.container .mainContent .reviews .reviewContainer .actionsContainer {
+    
 }
 
 .container .mainContent .space {

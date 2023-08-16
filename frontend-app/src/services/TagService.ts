@@ -7,6 +7,11 @@ async function getAllTags(): Promise<TagDTO[]> {
     return data as TagDTO[];
 }
 
+async function getAllTrendingTags(): Promise<TagDTO[]> {
+    const { data } = (await api.get("/tag/trendingTags"));
+    return data as TagDTO[];
+}
+
 async function createTag(tag: CreateTagDTO): Promise<TagDTO> {
     const { data } = await api.post("/tag", tag);
     return data as TagDTO;
@@ -14,5 +19,6 @@ async function createTag(tag: CreateTagDTO): Promise<TagDTO> {
 
 export {
     getAllTags,
-    createTag
+    createTag,
+    getAllTrendingTags
 }

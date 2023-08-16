@@ -1,18 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { api } from "../../api/api";
 import TopBar from "../../components/TopBar";
 import Publication from "../../models/Publication";
-import { formatLocalDateTime } from "../../utils/DateUtil";
+import { formatDateTimestamp, formatLocalDateTime } from "../../utils/DateUtil";
 
 import styles from './PublicationPage.module.css';
 
+import { ReactComponent as UserIcon } from '../../assets/user_icon.svg';
+import { ReactComponent as EyeIcon } from '../../assets/eye_icon_filled.svg';
 import { ReactComponent as HeartIcon } from '../../assets/heart_icon.svg';
 import { ReactComponent as CommentIcon } from '../../assets/comment_icon_filled.svg';
+import { ReactComponent as FlagIcon } from '../../assets/flag.svg';
 
 import colors from  '../../styles/colorsConfig.json';
 import { convertNumberToThousands } from "../../utils/NumberFormat";
 import Tag from "../../components/Tag";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import Comment from "../../components/Comment";
 import RelatedPublications from "../../components/RelatedPublications";
 import { createComment } from "../../services/CommentService";
 import { useAuth } from "../../contexts/AuthContext";
@@ -264,6 +270,10 @@ function PublicationPage() {
         setReviews(reviews.filter(review => review.r_id !== reviewId));
     }
 
+    function handleComplaintButton() {
+
+    }
+
     return (
         <ChakraProvider>
             <div className={styles.outsideContainer}>
@@ -300,6 +310,12 @@ function PublicationPage() {
                             <div className={`${styles.contentContainer} ${reviewMode ? styles.reviewModeContainer : ""}`} onMouseUp={e => handleOnMouseUp(e)}>
                                 <div className={styles.tagsContainer}>
                                     {publication?.tags.map((tag, index) => <Tag key={index} name={tag.title} onClickTag={null}/>)}
+                                    <div className={styles.denunciarButton}
+                                        onClick={handleComplaintButton}
+                                    >
+                                        <FlagIcon className={styles.flagIcon}/>
+                                        <span>denunciar</span>
+                                    </div>
                                 </div>
                                 <MarkdownPreview 
                                     source={publication?.continuous_text}

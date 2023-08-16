@@ -43,8 +43,27 @@
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
-
+    position: relative;
     grid-area: tags-container;
+}
+
+.container .mainContent .denunciarButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--dark-gray);
+    transition: transform 0.2s;   
+    cursor: pointer;
+    display: inline-flex;
+}
+
+.container .mainContent .denunciarButton span {
+    float: right;
+}
+
+.container .mainContent .denunciarButton:hover {
+    color: var(--soft-black);
+    transform: scale(1.15);
 }
 
 .container .mainContent .publicationData {

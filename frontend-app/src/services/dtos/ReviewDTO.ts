@@ -1,11 +1,12 @@
 export interface ReviewDTO {
-    id?: string;
-    author: {
-        authorId: string;
-        authorName?: string;
-        authorPhoto?: string;
+    r_id?: string;
+    authorId?: string;
+    author?: {
+        u_id: string;
+        u_name?: string;
+        photoURL?: string;
     },
-    reviewText: string;
-    markedText: string;
-    createdAt?: string;
+    comment: string;
+    text: string;
+    date?: string;
 }

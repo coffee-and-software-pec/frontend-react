@@ -1,14 +1,15 @@
 import { api } from "../api/api";
+import Publication from "../models/Publication";
 import { ReviewDTO } from "./dtos/ReviewDTO";
 
-async function createReview(publicationId: string, reviewDTO: ReviewDTO): Promise<ReviewDTO> {
+async function createReview(publicationId: string, reviewDTO: ReviewDTO): Promise<Publication> {
     const { data } = await api.post(`/review/${publicationId}`, reviewDTO);
-    return data as ReviewDTO;
+    return data as Publication;
 }
 
 async function getReviews(publicationId: string) {
     const { data } = await api.get(`/review/${publicationId}`);
-    return data as ReviewDTO;
+    return data as ReviewDTO[];
 }
 
 async function editReview(reviewId: string, reviewDTO: ReviewDTO) {

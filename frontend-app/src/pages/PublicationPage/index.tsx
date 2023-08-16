@@ -34,6 +34,7 @@ import { ReviewDTO } from "../../services/dtos/ReviewDTO";
 import { Review } from "../../components/Review";
 
 import {v4 as uuidv4} from 'uuid';
+import { createReview, getReviews } from "../../services/ReviewService";
 
 function PublicationPage() {
     const navigate = useNavigate();
@@ -146,11 +147,19 @@ function PublicationPage() {
             }
         }
 
+        async function loadReviews(publicationId?: string) {
+            if (publicationId !== undefined) {
+                const response = await getReviews(publicationId);
+                setReviews(response);
+            }
+        }
+
         if (params.id !== undefined) {
             const loadedUser = loadUser();
             setPublicationId(params.id);
             loadPublication(params.id);
             loadLike(loadedUser, params.id);
+            loadReviews(params.id);
         }
 
         
@@ -175,17 +184,24 @@ function PublicationPage() {
         }
     }
 
-    function handleSaveReview(reviewText: string, highlightedText: string) {
-        setReviews([...reviews, {
-            id: uuidv4(),
+    async function handleSaveReview(reviewText: string, highlightedText: string) {
+        const review: ReviewDTO = {
+            r_id: uuidv4(),
             author: {
-                authorId: user?.id ?? "",
-                authorName: user?.name ?? "Unknown",
-                authorPhoto: user?.photoURL
+                u_id: user?.id ?? "",
+                u_name: user?.name ?? "Unknown",
+                photoURL: user?.photoURL
             },
-            reviewText: reviewText,
-            markedText: highlightedText
-        }]);
+            comment: reviewText,
+            text: highlightedText
+        }
+        setReviews([...reviews, review]);
+
+        const _ = await createReview(publicationId!!, {
+            comment: reviewText,
+            text: highlightedText,
+            authorId: user?.id ?? ""
+        });
     }
 
     function getTextOfNode(node: any) {
@@ -208,7 +224,7 @@ function PublicationPage() {
                 if (children.type === "text") {
                     if (node && node.properties !== undefined && children.value != "\n" && children.value != ".") {
                         for (let i=0; i<reviews.length; i++) {
-                            const reviewText = reviews[i].markedText;
+                            const reviewText = reviews[i].text;
                             const childrenText = children.value;
                             if ((reviewText.startsWith(childrenText) || childrenText.startsWith(reviewText)) && node.properties.className !== styles["review-mark"]) {
                                 node.children[childrenI] = {
@@ -235,17 +251,17 @@ function PublicationPage() {
     }
 
     function handleOnEditReview(reviewId: string, reviewText: string) {
-        var editedReview = reviews.find(review => review.id === reviewId);
+        var editedReview = reviews.find(review => review.r_id === reviewId);
         if (editedReview) {
-            editedReview.reviewText = reviewText;
+            editedReview.comment = reviewText;
             setReviews(reviews.filter(review => {
-                return review.id === reviewId ? editedReview : review;
+                return review.r_id === reviewId ? editedReview : review;
             }))
         }
     }
 
     function handleOnDeleteReview(reviewId: string) {
-        setReviews(reviews.filter(review => review.id !== reviewId));
+        setReviews(reviews.filter(review => review.r_id !== reviewId));
     }
 
     return (
@@ -303,7 +319,7 @@ function PublicationPage() {
                                 {reviews.map((review,i) => 
                                     <Review 
                                         review={review} 
-                                        key={review.id} 
+                                        key={review.r_id} 
                                         onDelete={handleOnDeleteReview}
                                         onEdit={handleOnEditReview}
                                     />

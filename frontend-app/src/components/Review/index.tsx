@@ -34,17 +34,17 @@ export function Review({
 
     function handlePositiveButton(reviewText: string, highlightedText: string) {
         if (reviewDialogType === "EDIT") {
-            onEdit(review.id ?? "", reviewText)
+            onEdit(review.r_id ?? "", reviewText)
         } else if (reviewDialogType === "DELETE") {
-            onDelete(review.id ?? "");
+            onDelete(review.r_id ?? "");
         }
     }
 
     return (
         <ChakraProvider>
             <div className={styles.reviewContainer}>
-                <span>no trecho: {review.markedText}</span>
-                <p><strong>{review.author.authorName}</strong>: {review.reviewText}</p>
+                <span>no trecho: {review.text}</span>
+                <p><strong>{review.author?.u_name}</strong>: {review.comment}</p>
                 <div className={styles.actionsContainer}>
                     <Menu>
                         <MenuButton 
@@ -62,11 +62,11 @@ export function Review({
                 <ReviewDialog
                     cancelRef={cancelRef}
                     handleAlertDialogPositiveButton={handlePositiveButton}
-                    highlightedText={review.markedText}
+                    highlightedText={review.text}
                     isOpen={isOpen}
                     onClose={onClose}
                     reviewDialogType={reviewDialogType}
-                    reviewText={review.reviewText}
+                    reviewText={review.comment}
                 />
             </div>
         </ChakraProvider>

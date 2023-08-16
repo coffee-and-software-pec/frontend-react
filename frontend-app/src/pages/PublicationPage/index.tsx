@@ -184,8 +184,8 @@ function PublicationPage() {
     useEffect(() => {
     }, [reviews])
 
-    function loadReviewOrNot() {
-        return user?.id === publication?.author.u_id || reviews.find(r => r.author?.u_id === user?.id);
+    function loadReviewOrNot(userR: User, publicationR: Publication, reviewsR: ReviewDTO[]) {
+        return userR?.id === publicationR?.author.u_id || reviewsR.find(r => r.author?.u_id === userR?.id);
     }
 
     function handleOnMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
@@ -259,7 +259,7 @@ function PublicationPage() {
                             const reviewText = reviews[i].text;
                             const childrenText = children.value;
                             if ((reviewText.startsWith(childrenText) || childrenText.startsWith(reviewText)) && node.properties.className !== styles["review-mark"]
-                            && loadReviewOrNot()) {
+                            && loadReviewOrNot(user!!, publication!!, reviews)) {
                                 node.children[childrenI] = {
                                     type: 'element',
                                     tagName: 'span',
@@ -369,7 +369,7 @@ function PublicationPage() {
                             <h4>Artigos relacionados</h4>
                             <RelatedPublications />
                         </div>
-                        <div style={{display: loadReviewOrNot() ? "initial" : "none"}} className={styles.reviews}>
+                        <div style={{display: loadReviewOrNot(user!!, publication!!, reviews) ? "initial" : "none"}} className={styles.reviews}>
                             <h1>Revisões</h1>
                             <div className={styles.reviewsList}>
                                 {reviews.map((review,i) => 

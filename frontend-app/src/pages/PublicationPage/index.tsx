@@ -161,7 +161,12 @@ function PublicationPage() {
         async function loadReviews(publicationId?: string) {
             if (publicationId !== undefined) {
                 const response = await getReviews(publicationId);
-                setReviews(response);
+                if (user?.id === publication?.author.u_id) {
+                    setReviews(response);
+                } else {
+                    setReviews(response.filter(r => r.author?.u_id === user?.id));
+                }
+                
             }
         }
 
@@ -178,6 +183,10 @@ function PublicationPage() {
 
     useEffect(() => {
     }, [reviews])
+
+    function loadReviewOrNot() {
+        return user?.id === publication?.author.u_id || reviews.find(r => r.author?.u_id === user?.id);
+    }
 
     function handleOnMouseUp(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if (reviewMode) {
@@ -249,7 +258,8 @@ function PublicationPage() {
                         for (let i=0; i<reviews.length; i++) {
                             const reviewText = reviews[i].text;
                             const childrenText = children.value;
-                            if ((reviewText.startsWith(childrenText) || childrenText.startsWith(reviewText)) && node.properties.className !== styles["review-mark"]) {
+                            if ((reviewText.startsWith(childrenText) || childrenText.startsWith(reviewText)) && node.properties.className !== styles["review-mark"]
+                            && loadReviewOrNot()) {
                                 node.children[childrenI] = {
                                     type: 'element',
                                     tagName: 'span',
@@ -359,7 +369,7 @@ function PublicationPage() {
                             <h4>Artigos relacionados</h4>
                             <RelatedPublications />
                         </div>
-                        <div style={{display: user?.id === publication?.author.u_id ? "initial" : "none"}} className={styles.reviews}>
+                        <div style={{display: loadReviewOrNot() ? "initial" : "none"}} className={styles.reviews}>
                             <h1>Revisões</h1>
                             <div className={styles.reviewsList}>
                                 {reviews.map((review,i) => 
@@ -368,6 +378,7 @@ function PublicationPage() {
                                         key={review.r_id} 
                                         onDelete={handleOnDeleteReview}
                                         onEdit={handleOnEditReview}
+                                        loadEditButtons={user?.id === review.author?.u_id}
                                     />
                                 )}
                             </div>

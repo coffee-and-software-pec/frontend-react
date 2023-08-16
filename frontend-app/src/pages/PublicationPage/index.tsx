@@ -11,6 +11,7 @@ import { ReactComponent as UserIcon } from '../../assets/user_icon.svg';
 import { ReactComponent as EyeIcon } from '../../assets/eye_icon_filled.svg';
 import { ReactComponent as HeartIcon } from '../../assets/heart_icon.svg';
 import { ReactComponent as CommentIcon } from '../../assets/comment_icon_filled.svg';
+import { ReactComponent as FlagIcon } from '../../assets/flag.svg';
 
 import colors from  '../../styles/colorsConfig.json';
 import { convertNumberToThousands } from "../../utils/NumberFormat";
@@ -28,7 +29,7 @@ import DefaultImage from "../../components/DefaultImage";
 import DefaultUserImage from '../../assets/default-user.png';
 
 import CommentList from "../../components/CommentList";
-import { toast } from "react-toastify";
+import { toast, TypeOptions } from "react-toastify";
 import { BeatLoader, ClipLoader } from "react-spinners";
 import { embraceWithLoading, embraceWithLoadingThen } from "../../utils/LoadingUtil";
 
@@ -43,6 +44,7 @@ function PublicationPage() {
 
     const [commentText, setCommentText] = useState("");
     const [commentCreated, setCommentCreated] = useState<boolean>(false);
+
 
     const onLikeButtonClick = async () => { 
         let newPublication = publication;
@@ -143,7 +145,12 @@ function PublicationPage() {
         }
 
         
-    }, [params.id]);    
+    }, [params.id]);   
+    
+    function handleComplaintButton() {
+        
+    }
+
 
     return (
         <div className={styles.outsideContainer}>
@@ -177,7 +184,14 @@ function PublicationPage() {
                         <div className={styles.contentContainer}>
                             <div className={styles.tagsContainer}>
                                 {publication?.tags.map((tag, index) => <Tag key={index} name={tag.title} onClickTag={null}/>)}
+                                <div className={styles.denunciarButton}
+                                    onClick={handleComplaintButton}
+                                >
+                                    <FlagIcon className={styles.flagIcon}/>
+                                    <span>Denunciar</span>
+                                </div>
                             </div>
+                            
                             <MarkdownPreview 
                                 source={publication?.continuous_text}
                                 className={styles.markdownEditor}

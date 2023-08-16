@@ -53,6 +53,33 @@
     transform: scale(1);
 }
 
+.container .orderContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+.container .orderContainer button {
+    background-color: var(--gray);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: var(--dark-gray);
+    font-size: 1rem;
+    border: 0;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.container .orderContainer button:hover {
+    transform: scale(1.05);
+}
+
+.container .orderContainer button:active {
+    transform: scale(1);
+}
+
 @media (max-width: 600px) {
     .container .tagList {
         display: flex;

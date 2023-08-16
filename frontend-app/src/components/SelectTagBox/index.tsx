@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Tag from "../Tag";
 
 import styles from './SelectTagBox.module.css';
-import { getAllTags } from '../../services/TagService';
+import { getAllTags, getAllTrendingTags } from '../../services/TagService';
 import { BarLoader } from "react-spinners";
 
 import colors from '../../styles/colorsConfig.json';
@@ -43,9 +43,27 @@ function SelectTagBox({ onClickFilterButton }: SelectTagBoxProps) {
         }
     }
 
+    function handleOrderByName() {
+        embraceWithLoading(setLoading, async () => {
+            const data = await (getAllTags());
+            setTags(data.map(tagDTO => tagDTO.title).sort());
+        }, 1000);
+    }
+
+    function handleOrderByTrending() {
+        embraceWithLoading(setLoading, async () => {
+            const data = await (getAllTrendingTags());
+            setTags(data.map(tagDTO => tagDTO.title));
+        }, 1000);
+    }
+
     return (
         <div className={styles.container}>
             <p className={styles.title}>escolha uma ou mais tags para filtrar</p>
+            <div className={styles.orderContainer}>
+                <button onClick={handleOrderByName}>A-Z</button>
+                <button onClick={handleOrderByTrending}>trending</button>
+            </div>
             <div className={styles.tagList}>
                 {
                     loading ? (

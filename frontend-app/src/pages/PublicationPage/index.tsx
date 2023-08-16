@@ -254,6 +254,10 @@ function PublicationPage() {
         setReviews(reviews.filter(review => review.id !== reviewId));
     }
 
+    function handleComplaintButton() {
+
+    }
+
     return (
         <ChakraProvider>
             <div className={styles.outsideContainer}>
@@ -290,6 +294,12 @@ function PublicationPage() {
                             <div className={`${styles.contentContainer} ${reviewMode ? styles.reviewModeContainer : ""}`} onMouseUp={e => handleOnMouseUp(e)}>
                                 <div className={styles.tagsContainer}>
                                     {publication?.tags.map((tag, index) => <Tag key={index} name={tag.title} onClickTag={null}/>)}
+                                    <div className={styles.denunciarButton}
+                                        onClick={handleComplaintButton}
+                                    >
+                                        <FlagIcon className={styles.flagIcon}/>
+                                        <span>denunciar</span>
+                                    </div>
                                 </div>
                                 <MarkdownPreview 
                                     source={publication?.continuous_text}

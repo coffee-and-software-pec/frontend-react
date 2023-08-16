@@ -54,14 +54,17 @@
     color: var(--dark-gray);
     transition: transform 0.2s;   
     cursor: pointer;
+    display: inline-flex;
+}
+
+.container .mainContent .denunciarButton span {
+    float: right;
 }
 
 .container .mainContent .denunciarButton:hover {
     color: var(--soft-black);
     transform: scale(1.15);
 }
-
-
 
 .container .mainContent .publicationData {
     grid-area: metadata;
@@ -201,17 +204,6 @@
 }
 
 .container .mainContent .reactionsData .commentIcon:hover {
-    color: var(--soft-black);
-    transform: scale(1.15);
-}
-
-.container .mainContent .denunciarButton .flagIcon {
-    color: var(--dark-gray);
-    transition: transform 0.2s;   
-    cursor: pointer;
-}
-
-.container .mainContent .denunciarButton .flagIcon:hover {
     color: var(--soft-black);
     transform: scale(1.15);
 }

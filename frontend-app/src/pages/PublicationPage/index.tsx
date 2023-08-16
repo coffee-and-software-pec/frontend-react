@@ -40,7 +40,7 @@ import { ReviewDTO } from "../../services/dtos/ReviewDTO";
 import { Review } from "../../components/Review";
 
 import {v4 as uuidv4} from 'uuid';
-import { createReview, getReviews } from "../../services/ReviewService";
+import { createReview, deleteReview, editReview, getReviews } from "../../services/ReviewService";
 import ComplaintDialog from "../../components/ComplaintDialog";
 import { createComplaint } from "../../services/ComplaintService";
 
@@ -273,7 +273,7 @@ function PublicationPage() {
         }
     }
 
-    function handleOnEditReview(reviewId: string, reviewText: string) {
+    async function handleOnEditReview(reviewId: string, reviewText: string) {
         var editedReview = reviews.find(review => review.r_id === reviewId);
         if (editedReview) {
             editedReview.comment = reviewText;
@@ -281,10 +281,23 @@ function PublicationPage() {
                 return review.r_id === reviewId ? editedReview : review;
             }))
         }
+
+        try {
+            const review = await editReview(reviewId, reviewText);
+            toast("Revisão editada!");
+        } catch(_) {
+            toast.error("Error na edição");
+        }
     }
 
-    function handleOnDeleteReview(reviewId: string) {
+    async function handleOnDeleteReview(reviewId: string) {
         setReviews(reviews.filter(review => review.r_id !== reviewId));
+        try {
+            const _ = await deleteReview(reviewId);
+            toast("Revisão deletada!");
+        } catch (_) {
+            toast.error("Error na deleção");
+        }
     }
 
     function handleComplaintButton() {

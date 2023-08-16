@@ -12,14 +12,13 @@ async function getReviews(publicationId: string) {
     return data as ReviewDTO[];
 }
 
-async function editReview(reviewId: string, reviewDTO: ReviewDTO) {
-    const { data } = await api.patch(`/review/${reviewId}/edit`, reviewDTO);
+async function editReview(reviewId: string, reviewText: string) {
+    const { data } = await api.patch(`/review/${reviewId}`, {reviewText});
     return data as ReviewDTO;
 }
 
-async function deleteReview(reviewId: string) {
-    const { data } = await api.delete(`/review/${reviewId}/delete`);
-    return data as ReviewDTO;
+async function deleteReview(reviewId: string): Promise<void> {
+    const { data } = await api.delete(`/review/${reviewId}`);
 }
 
 export {

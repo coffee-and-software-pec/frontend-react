@@ -41,6 +41,8 @@ import { Review } from "../../components/Review";
 
 import {v4 as uuidv4} from 'uuid';
 import { createReview, getReviews } from "../../services/ReviewService";
+import ComplaintDialog from "../../components/ComplaintDialog";
+import { createComplaint } from "../../services/ComplaintService";
 
 function PublicationPage() {
     const navigate = useNavigate();
@@ -59,6 +61,9 @@ function PublicationPage() {
     const cancelRef = useRef(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [highlightedText, setHighlightedText] = useState("");
+
+    const cancelRef2 = useRef(null);
+    const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
 
     const [reviewMode, setReviewMode] = useState(false);
 
@@ -210,6 +215,18 @@ function PublicationPage() {
         });
     }
 
+    async function handleComplaintFromModal(text: string) {
+        try {
+            const _ = await createComplaint({
+                author: user?.id ?? "",
+                publication: publicationId ?? "",
+                text: text
+            })
+        } catch(e) {
+            toast.error("Você já denunciou esta publicação!");
+        }
+    }
+
     function getTextOfNode(node: any) {
         var result = "";
         if (node.children !== undefined) {
@@ -271,7 +288,7 @@ function PublicationPage() {
     }
 
     function handleComplaintButton() {
-
+        onOpen2();
     }
 
     return (
@@ -394,6 +411,12 @@ function PublicationPage() {
                 isOpen={isOpen}
                 onClose={onClose}
                 reviewDialogType={"CREATE"}
+            />
+            <ComplaintDialog 
+                cancelRef={cancelRef2}
+                handleAlertDialogPositiveButton={handleComplaintFromModal}
+                isOpen={isOpen2}
+                onClose={onClose2}
             />
         </ChakraProvider>
     );

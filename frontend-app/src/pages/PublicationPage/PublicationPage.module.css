@@ -397,6 +397,10 @@
     background-color: var(--green-tag) !important;
 }
 
+.flagIcon {
+    
+}
+
 @media (max-width: 700px) {
     .outsideContainer {
         width: 100vw;

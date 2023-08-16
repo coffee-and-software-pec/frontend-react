@@ -1,0 +1,29 @@
+.reviewContainer {
+    display: grid;
+    grid-template-areas: 
+        "text actions"
+        "author actions"
+    ;
+    grid-template-columns: 1fr max-content;
+    gap: 0.5rem;
+
+    border-radius: 1rem;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+    padding: 1rem 1.5rem;
+}
+
+.reviewContainer span {
+    grid-area: text;
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+}
+
+.reviewContainer p {
+    grid-area: author;
+    color: var(--soft-black);
+}
+
+.reviewContainer .actionsContainer {
+    grid-area: actions;
+    align-self: center;
+}

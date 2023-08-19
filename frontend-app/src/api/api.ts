@@ -1,7 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { checkAuthToken, TOKEN_KEY } from '../utils/TokenUtil';
+import axios from 'axios';
 
 const envBackendURL = process.env.REACT_APP_ENV === "dev" ? 
     process.env.REACT_APP_MOCKED_BACKENDAPI : 

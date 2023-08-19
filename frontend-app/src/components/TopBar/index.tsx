@@ -4,19 +4,15 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { ReactComponent as PublicationIcon } from '../../assets/publication_icon.svg';
-import { ReactComponent as UserIcon } from '../../assets/user_icon.svg';
-// import UserIcon from '../../assets/user_icon.svg';
 import { ReactComponent as BellIcon } from '../../assets/bell_icon.svg';
 import { ReactComponent as CarretDownIcon } from '../../assets/carret_down_icon.svg';
 
 import DropdownMenu from '../DropdownMenu';
 
-import colors from  '../../styles/colorsConfig.json';
 import { useAuth } from '../../contexts/AuthContext';
-import { api } from '../../api/api';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { toast, ToastContainer } from 'react-toastify';
-import { embraceWithLoading, embraceWithLoadingAndResolve } from '../../utils/LoadingUtil';
+import { embraceWithLoadingAndResolve } from '../../utils/LoadingUtil';
 import DefaultImage from '../DefaultImage';
 import DefaultImageUser from "../../assets/default-user.png";
 

@@ -1,4 +1,4 @@
-import { api, authenticatedApi } from "../api/api";
+import { authenticatedApi } from "../api/api";
 import ReactionDTO from "./dtos/ReactionDTO";
 
 async function createLikePublication(publicationId: string, reactionDTO: ReactionDTO): Promise<any> {

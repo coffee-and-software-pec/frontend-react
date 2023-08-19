@@ -1,5 +1,4 @@
 import { api, authenticatedApi } from "../api/api";
-import LandPublication from "../models/LandPublication";
 import Publication from "../models/Publication";
 import { RelatedPublication } from "../models/RelatedPublication";
 import CreatePublicationDTO from "./dtos/CreatePublicationDTO";

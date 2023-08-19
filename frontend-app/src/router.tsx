@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreatePublicationPage from "./pages/CreatePublicationPage";
 import FollowPage from "./pages/FollowPage";
 import HomePage from "./pages/HomePage";
@@ -35,7 +35,7 @@ function Router() {
       return config;
     });
 
-  }, []);
+  }, [logout]);
 
   return (
     <BrowserRouter>

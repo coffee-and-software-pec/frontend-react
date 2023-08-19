@@ -1,4 +1,4 @@
-import { api, authenticatedApi } from "../api/api";
+import { authenticatedApi } from "../api/api";
 import Publication from "../models/Publication";
 import { ReviewDTO } from "./dtos/ReviewDTO";
 
@@ -18,7 +18,7 @@ async function editReview(reviewId: string, reviewText: string) {
 }
 
 async function deleteReview(reviewId: string): Promise<void> {
-    const { data } = await authenticatedApi.delete(`/review/${reviewId}`);
+    await authenticatedApi.delete(`/review/${reviewId}`);
 }
 
 export {

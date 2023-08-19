@@ -44,14 +44,14 @@ async function updateUser(userId: string, userDto: UserDTO): Promise<UserDTO> {
 }
 
 async function followUser(userId: string, followerId: string) {
-    const { data } = await authenticatedApi.post("/user/addFollower", {
+    await authenticatedApi.post("/user/addFollower", {
         id: userId,
         followerId: followerId
     });
 }
 
 async function unfollowUser(userId: string, followerId: string) {
-    const { data } = await authenticatedApi.patch("/user/removeFollower", {
+    await authenticatedApi.patch("/user/removeFollower", {
         id: userId,
         followerId: followerId
     });

@@ -1,4 +1,4 @@
-import { api } from "../api/api";
+import { api, authenticatedApi } from "../api/api";
 import LandPublication from "../models/LandPublication";
 import Publication from "../models/Publication";
 import { RelatedPublication } from "../models/RelatedPublication";
@@ -6,17 +6,17 @@ import CreatePublicationDTO from "./dtos/CreatePublicationDTO";
 import UpdatePublicationDTO from "./dtos/UpdatePublicationDTO";
 
 async function createPublication(publication: CreatePublicationDTO): Promise<Publication> {
-    const response = await api.post("/publication", publication);
+    const response = await authenticatedApi.post("/publication", publication);
     return response.data;
 }
 
 async function updatePublication(publicationId: string, publication: UpdatePublicationDTO): Promise<Publication> {
-    const response = await api.patch(`/publication/${publicationId}`, publication);
+    const response = await authenticatedApi.patch(`/publication/${publicationId}`, publication);
     return response.data;
 }
 
 async function publishPublication(publicationId: string): Promise<Publication> {
-    const response = await api.patch(`/publication/${publicationId}/publish`);
+    const response = await authenticatedApi.patch(`/publication/${publicationId}/publish`);
     return response.data;
 }
 
@@ -26,7 +26,7 @@ async function getPublicationById(publicationId: string): Promise<Publication> {
 }
 
 async function deletePublication(publicationId: string): Promise<any> {
-    return await api.delete(`/publication/${publicationId}`);
+    return await authenticatedApi.delete(`/publication/${publicationId}`);
 }
 
 async function getSortedPublications(column: string = "date", order: string = "desc"): Promise<Publication[]> {
@@ -50,29 +50,6 @@ async function getSortedPublicationsByTags(tags: string[]): Promise<Publication[
 }
 
 async function getPublicationsBySearchText(searchText: string): Promise<Publication[]> {
-    // return new Promise((resolve, reject) => {
-    //     var publicationList: Publication[] = [];
-    //     publicationList.push({
-    //         p_id: "560f85f0-e4a2-4381-8916-7648f29c5f00",
-    //         title: "eins",
-    //         subtitle: "zwei",
-    //         commentsCount: 0,
-    //         continuous_text: "aaaaaaaaaaaaaaaaaaa",
-    //         visualizationsCount: 0,
-    //         main_img_url: '',
-    //         tags: [],
-    //         _draft: false,
-    //         _private: false,
-    //         creation_date: new Date().toString(),
-    //         heartsCount: 0,
-    //         author: {
-    //             photoURL: '',
-    //             u_id: 'b3770a5b-d53b-4025-a5a6-88254fbb1780',
-    //             u_name: 'teste'
-    //         }
-    //     })
-    //     resolve(publicationList);
-    // });
     const { data } = await api.get(`/publication/bySearch/${searchText}`);
     return data as Publication[];
 }
@@ -83,12 +60,12 @@ async function getLandingPublications(): Promise<Publication[]> {
 }
 
 async function getUserPublications(userId: string): Promise<Publication[]> {
-    const { data } = await api.get(`/publication/userPublications/${userId}`);
+    const { data } = await authenticatedApi.get(`/publication/userPublications/${userId}`);
     return data as Publication[];
 }
 
 async function getUserPublicationsByTags(userId: string, tags: string[]): Promise<Publication[]> {
-    const { data } = await api.get(`/publication/userPublications/${userId}/byTags?tags=${tags.join(',')}`);
+    const { data } = await authenticatedApi.get(`/publication/userPublications/${userId}/byTags?tags=${tags.join(',')}`);
     return data as Publication[];
 }
 

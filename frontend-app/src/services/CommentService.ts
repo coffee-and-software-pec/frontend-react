@@ -1,19 +1,19 @@
-import { api } from "../api/api";
+import { api, authenticatedApi } from "../api/api";
 import PublicationComment from "../models/PublicationComment";
 import CreateCommentDTO from "./dtos/CreateCommentDTO";
 
 async function createComment(comment: CreateCommentDTO): Promise<PublicationComment> {
-    const { data } = await api.post(`/comment`, comment);
+    const { data } = await authenticatedApi.post(`/comment`, comment);
     return data as PublicationComment;
 }
 
 async function updateComment(comment: { text: string }, commentId: string): Promise<PublicationComment> {
-    const { data } = await api.patch(`/comment/${commentId}`, comment);
+    const { data } = await authenticatedApi.patch(`/comment/${commentId}`, comment);
     return data as PublicationComment;
 }
 
 async function deleteComment(commentId: string): Promise<PublicationComment> {
-    const { data } = await api.delete(`/comment/${commentId}`);
+    const { data } = await authenticatedApi.delete(`/comment/${commentId}`);
     return data as PublicationComment;
 }
 

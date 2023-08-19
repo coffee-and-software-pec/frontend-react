@@ -17,7 +17,8 @@ import { api } from '../../api/api';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { toast, ToastContainer } from 'react-toastify';
 import { embraceWithLoading, embraceWithLoadingAndResolve } from '../../utils/LoadingUtil';
-
+import DefaultImage from '../DefaultImage';
+import DefaultImageUser from "../../assets/default-user.png";
 
 enum HomeRoutes {
     HOME = "/home",
@@ -134,14 +135,11 @@ function TopBar() {
                                 <BellIcon className={styles.notificationIcon} width={16} height={16} />
                                 <div className={styles.userContainer}>
                                     <div className={styles.userIcon}>
-                                        {imageLoaded ? 
-                                            <img       
-                                                src={user?.photoURL}
-                                                alt=""
-                                                referrerPolicy='no-referrer'
-                                            /> :
-                                            <UserIcon color={colors.theme.white} />
-                                        }
+                                        <DefaultImage 
+                                            src={user?.photoURL!!}
+                                            alt=""
+                                            defaultImage={DefaultImageUser}
+                                        />
                                     </div>  
                                     <CarretDownIcon 
                                         className={styles.dropdownMenuIcon} 

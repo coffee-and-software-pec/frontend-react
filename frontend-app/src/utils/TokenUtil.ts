@@ -1,7 +1,7 @@
 import User from "../models/User";
 
-const TOKEN_KEY = "@RCAuth:token";
-const TOKEN_KEY_USER = "@RCAuth:user";
+export const TOKEN_KEY = "@RCAuth:token";
+export const TOKEN_KEY_USER = "@RCAuth:user";
 
 function getAuthToken(): string | null {
     return window.localStorage.getItem(TOKEN_KEY) ;
@@ -16,15 +16,19 @@ function removeAuthToken() {
 }
 
 function checkAuthToken() {
+    let result = "invalid";
+
     let token = getAuthToken();
-    if (token) {
+    if (token && token !== "") {
         const currentTime = new Date().getTime() / 1000;
         const { exp } = parseAuthToken(token);
         if (currentTime >= exp) {
-            token = 'invalid';
+            result = 'invalid';
+        } else {
+            result = token;
         }
     }
-    return token;
+    return result;
 }
 
 function parseAuthToken(token: string) {

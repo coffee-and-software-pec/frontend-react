@@ -42,7 +42,7 @@
 }
 
 .atividades .listaAtividades {
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -196,4 +196,29 @@
 
 .alertDialogCancelButton {
     color: var(--dark-gray);
+}
+
+@media (max-width: 400px) {
+
+    .container .mainContent {
+        flex-direction: column;
+        overflow-y: scroll;
+        max-height: auto;
+    }
+
+    .mainContent .perfil {
+        width: 100%;
+        height: auto;
+    }
+
+    .atividades .listaAtividades {
+        width: 100%;
+    }
+
+    .atividades {
+        height: auto;
+        max-height: auto;
+        overflow-y: revert;
+    }
+    
 }

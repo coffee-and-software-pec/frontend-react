@@ -11,15 +11,17 @@ interface UserActivityProps {
 export default function UserActivity({activityDto}: UserActivityProps) {
     return (
         <div className={styles.container}>
-            <div className={styles.userinfo}>
-                <DefaultImage 
-                    alt=''
-                    src={activityDto.authorPhoto}
-                    defaultImage={DefaultUserImage}
-                />
-                <span>{activityDto.authorName}</span>
+            <div className={styles.content}>
+                <div className={styles.userinfo}>
+                    <DefaultImage 
+                        alt=''
+                        src={activityDto.authorPhoto}
+                        defaultImage={DefaultUserImage}
+                    />
+                    <span>{activityDto.authorName}</span>
+                </div>
+                <span className={styles.type}>{activityDto.activityType === "COMMENT" ? "comentou" : "curtiu"} sua publicação</span>
             </div>
-            <span className={styles.type}>{activityDto.activityType === "COMMENT" ? "comentou" : "curtiu"} sua publicação</span>
             <span className={styles.text}>{activityDto.text}</span>
             <span className={styles.date}>{getCommentDateTime(activityDto.createdDate)}</span>
         </div>

@@ -107,7 +107,7 @@ function LandingPage() {
                 </div>
                 <div className={styles.appInfo}>
                     <h1 className={styles.title}>Compartilhe seu know-how</h1>
-                    <h2 className={styles.subtitle}>Leia e escreva publicações sobre temas relacionados a computação. Crie tutoriais, guias ou discussões sobre a nossa área.</h2>
+                    <h2 className={styles.subtitle}>Leia e escreva publicações sobre temas relacionados à computação. Crie tutoriais, guias ou discussões sobre a nossa área.</h2>
                 </div>
                 <div className={styles.loginContainer}>
                     <p>Crie sua conta agora</p>

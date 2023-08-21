@@ -52,7 +52,7 @@ function DropdownMenu({active, setActive}: DropDownMenuProps) {
                 <span 
                     className={styles.menuOption}
                     onClick={handleClickLogoutButton}
-                >sair</span>
+                >Sair</span>
             </div>
         </div>
     )

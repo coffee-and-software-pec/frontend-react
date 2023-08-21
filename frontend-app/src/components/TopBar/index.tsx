@@ -95,7 +95,7 @@ function TopBar() {
                         className={`${styles.menuButton} ${activeRoute === HomeRoutes.HOME ? styles.menuButtonActive : ""}`} 
                         to='/home'
                     >
-                        home
+                        Home
                     </Link>
                     {
                         user !== undefined ? (
@@ -103,7 +103,7 @@ function TopBar() {
                                 className={`${styles.menuButton} ${activeRoute === HomeRoutes.MY_PUBLICATIONS ? styles.menuButtonActive : ""}`} 
                                 to='/minhaspublicacoes'
                             >
-                                minhas publicações
+                                Minhas Publicações
                             </Link>
                         ) : ""
                     }
@@ -113,7 +113,7 @@ function TopBar() {
                                 className={`${styles.menuButton} ${activeRoute === HomeRoutes.FOLLOWING ? styles.menuButtonActive : ""}`} 
                                 to='/seguindo'
                             >
-                                seguindo
+                                Seguindo
                             </Link>
                         ) : ""
                     }
@@ -121,7 +121,7 @@ function TopBar() {
                         className={`${styles.menuButton} ${activeRoute === HomeRoutes.SEARCH ? styles.menuButtonActive : ""}`}
                         to='/buscar'
                     >
-                        buscar
+                        Buscar
                     </Link>
                 </div>
                 <div className={styles.userActionsContainer}>

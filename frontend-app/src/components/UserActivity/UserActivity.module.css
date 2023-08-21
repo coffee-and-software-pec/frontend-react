@@ -1,18 +1,10 @@
 .container {
-    display: grid;
-    grid-template-areas: 
-        "userinfo type date"
-        "text text date"
-    ;
-    grid-template-columns: max-content 1fr max-content;
-
-    column-gap: 0.5rem;
-    row-gap: 1rem;
-
-    background-color: white;
-    box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background-color: #fff;
     border-radius: 1rem;
-
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.25);
     padding: 1rem;
 }
 
@@ -33,22 +25,12 @@
 }
 
 .container .type {
-    grid-area: type;
-    align-self: center;
-    /* justify-self: center; */
-
-    display: flex;
-    align-items: center;
     font-weight: bold;
     color: var(--soft-black);
 }
 
 .container .date {
-    width: max-content;
-    grid-area: date;
-
-    display: flex;
-    align-items: center;
+    align-self: flex-end;
     font-weight: 300;
     color: var(--dark-gray);
 }
@@ -58,4 +40,16 @@
 
     padding-left: 0.5rem;
     color: var(--dark-gray);
+}
+
+.container .content {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+
+@media (max-width: 400px) {
+    
 }

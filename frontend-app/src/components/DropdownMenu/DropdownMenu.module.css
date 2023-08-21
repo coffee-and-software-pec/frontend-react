@@ -65,3 +65,10 @@
     transform: scale(1.075);
     font-weight: 700;
 }
+
+@media (max-width: 600px) {
+    .container {
+        /* float: right; */
+        width: 50%;
+    }
+} 

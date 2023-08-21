@@ -35,9 +35,9 @@
 }
 
 .publicationContainer .publicationContent .subtitle {
-    display: -webkit-box;
     font-weight: 400;
     color: var(--dark-gray);
+    display: -webkit-box;
     width: 20rem;
     
     -webkit-line-clamp: 2;
@@ -69,6 +69,18 @@
 
     .publicationContainer img {
         display: none;
+    }
+
+}
+
+@media (max-width: 400px) {
+
+    .container {
+        width: 100%;
+    }
+
+    .publicationContainer {
+        width: 100%;
     }
 
 }

@@ -485,3 +485,37 @@
         justify-content: flex-start;
     }
 }
+
+@media (max-width:400px) {
+
+    .container .mainContent {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .container .mainContent .titlesContainer {
+        width: 100%;
+    }
+
+    .container .mainContent .publicationContent {
+        width: 100%;
+    }
+
+    .container .mainContent .publicationContent .contentContainer {
+        width: 100%;
+    }
+
+    .container .mainContent .relatedPublications {
+        width: 100%;
+    }
+
+    .container .mainContent .makeCommentContainer textarea {
+        width: 100%;
+    }
+
+    .container .mainContent .commentContainer {
+        width: 100%;
+    }
+    
+}

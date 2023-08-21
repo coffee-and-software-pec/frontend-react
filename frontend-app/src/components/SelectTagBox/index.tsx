@@ -59,7 +59,7 @@ function SelectTagBox({ onClickFilterButton }: SelectTagBoxProps) {
 
     return (
         <div className={styles.container}>
-            <p className={styles.title}>escolha uma ou mais tags para filtrar</p>
+            <p className={styles.title}>Escolha uma ou mais tags para filtrar</p>
             <div className={styles.orderContainer}>
                 <button onClick={handleOrderByName}>A-Z</button>
                 <button onClick={handleOrderByTrending}>trending</button>

@@ -85,3 +85,26 @@
     transform: scale(1);
 }
 
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+
+        grid-template-areas: 
+            "img"
+            "username"
+            "userbio"
+            "stats"
+            "button"
+        ;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto auto;
+        gap: 0;
+        column-gap: 0;
+        row-gap: 0.5rem;
+    }
+
+    .container .userImage {
+        width: 2rem;
+        height: 2rem;
+    }
+}

@@ -12,10 +12,10 @@
 
     display: grid;
     grid-template-areas: 
-        '. searchbar .'
-        '. userlist .'
+        'searchbar'
+        'userlist'
     ;
-    grid-template-columns: 0.5fr 1fr 0.5fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 3rem auto auto;
     gap: 4rem;
 
@@ -78,4 +78,26 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+
+    .mainContent {
+        gap: 0;
+        padding: 1rem 1rem;
+        row-gap: 2rem;
+    }
+
+    .mainContent .searchBarContainer {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .mainContent .searchBarContainer input {
+        flex: 1;
+    }
+
+    .mainContent .userListContainer {
+        width: 100%;
+    }
 }

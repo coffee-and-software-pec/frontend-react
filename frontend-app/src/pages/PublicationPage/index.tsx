@@ -42,7 +42,7 @@ import { Review } from "../../components/Review";
 import {v4 as uuidv4} from 'uuid';
 import { createReview, deleteReview, editReview, getReviews } from "../../services/ReviewService";
 import ComplaintDialog from "../../components/ComplaintDialog";
-import { createComplaint } from "../../services/ComplaintService";
+import { createComplaint, hasComplaintGet } from "../../services/ComplaintService";
 
 function PublicationPage() {
     const navigate = useNavigate();
@@ -66,6 +66,8 @@ function PublicationPage() {
     const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
 
     const [reviewMode, setReviewMode] = useState(false);
+
+    const [hasComplaint, setHasComplaint] = useState(false);
 
     const onLikeButtonClick = async () => { 
         let newPublication = publication;
@@ -182,7 +184,14 @@ function PublicationPage() {
     }, [params.id]);    
 
     useEffect(() => {
-    }, [reviews])
+        async function fetchComplaint() {
+            if (publicationId && user?.id) {
+                const result = await hasComplaintGet(user.id, publicationId);
+                setHasComplaint(result);
+            }
+        }
+        fetchComplaint();
+    }, [publicationId, user?.id]);
 
     function loadReviewOrNot(userR: User, publicationR: Publication, reviewsR: ReviewDTO[]) {
         return userR?.id === publicationR?.author.u_id || reviewsR.find(r => r.author?.u_id === userR?.id);
@@ -311,7 +320,9 @@ function PublicationPage() {
     }
 
     function handleComplaintButton() {
-        onOpen2();
+        if (!hasComplaint) {
+            onOpen2();
+        }
     }
 
     return (
@@ -350,11 +361,12 @@ function PublicationPage() {
                             <div className={`${styles.contentContainer} ${reviewMode ? styles.reviewModeContainer : ""}`} onMouseUp={e => handleOnMouseUp(e)}>
                                 <div className={styles.tagsContainer}>
                                     {publication?.tags.map((tag, index) => <Tag key={index} name={tag.title} onClickTag={null}/>)}
-                                    <div className={styles.denunciarButton}
+                                    <div 
+                                        className={`${styles.denunciarButton} ${hasComplaint ? styles.disableComplaint : ""}`}
                                         onClick={handleComplaintButton}
                                     >
                                         <FlagIcon className={styles.flagIcon}/>
-                                        <span>denunciar</span>
+                                        <span>{hasComplaint ? "denunciado" : "denunciar"}</span>
                                     </div>
                                 </div>
                                 <MarkdownPreview 

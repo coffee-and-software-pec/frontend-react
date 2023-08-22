@@ -57,6 +57,11 @@
     display: inline-flex;
 }
 
+.container .mainContent .denunciarButton.disableComplaint {
+    cursor: not-allowed;
+}
+
+
 .container .mainContent .denunciarButton span {
     float: right;
 }

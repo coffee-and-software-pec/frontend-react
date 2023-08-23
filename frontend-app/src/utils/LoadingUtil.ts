@@ -28,7 +28,9 @@ async function embraceWithLoadingAndResolve(
     try {
         await callback();
         end =  new Date().getTime();
-    } catch(_){}
+    } catch(_){
+        end =  new Date().getTime();
+    }
 
     const diff = end - start;
     const maxTimeToWait = diff > timeToWait ? 0 : Math.abs(diff - timeToWait);

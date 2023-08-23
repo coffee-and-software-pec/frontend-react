@@ -15,6 +15,7 @@
 }
 
 .container .mainContent {
+    width: 100%;
     grid-area: main;
 
     display: flex;
@@ -23,6 +24,7 @@
 
     cursor: pointer;
     transition: transform 0.2s;
+    overflow: hidden;
 }
 
 .container .mainContent .publicationContainer {
@@ -37,6 +39,7 @@
 
     gap: 0.75rem;
     padding: 1rem 1.5rem;
+    overflow: hidden;
 }
 
 .container .mainContent:hover {
@@ -44,16 +47,28 @@
 }
 
 .container .mainContent .publicationContainer .title {
+    width: 100%;
     grid-area: title;
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--soft-black);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
 }
 
 .container .mainContent .publicationContainer .subtitle {
+    width: 100%;
     color: var(--dark-gray);
     grid-area: subtitle;
     font-weight: 100;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
 }
 
 .container .mainContent .publicationContainer .tagContainer {

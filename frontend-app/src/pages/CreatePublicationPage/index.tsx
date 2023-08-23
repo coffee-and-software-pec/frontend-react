@@ -193,23 +193,22 @@ function CreatePublicationPage() {
                             setIsSaved(true);
                             setPublication(result)
                             setEditMode(EditMode.EDIT);
+                            toast.promise(
+                                resolveCreate,
+                                {
+                                    pending: 'Criando publicação...',
+                                    success: "Publicação criada com sucesso!",
+                                    error: 'Aconteceu algum erro no seu cadastro!'
+                                },
+                                {
+                                    position: "top-center",
+                                    autoClose: 1500
+                                }
+                            );
                         },
                         1000
                     );
                 });
-
-                toast.promise(
-                    resolveCreate,
-                    {
-                        pending: 'Criando publicação...',
-                        success: "Publicação criada com sucesso!",
-                        error: 'Aconteceu algum erro no seu cadastro!'
-                    },
-                    {
-                        position: "top-center",
-                        autoClose: 1500
-                    }
-                );
             } catch (e) {
                 toast("Erro ao salvar publicação!", {
                     autoClose: 500,

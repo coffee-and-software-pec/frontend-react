@@ -118,13 +118,6 @@ function LandingPage() {
                         onSuccess={handleGoogleSuccessLogin}
                         onError={handleGoogleLoginFailure}
                     />
-                    <p>ou</p>
-                    <div className={styles.formContainer}>
-                        <input type="text" placeholder="Nome Sobrenome"/>
-                        <input type="text" placeholder="email@email.com" />
-                        <button onClick={handleRegisterWithEmail}>CRIAR CONTA</button>
-                        <ToastContainer />
-                    </div>
                 </div>
                 <div className={styles.popularPublicationsContainer}>
                     <p>veja o que outras pessoas estão publicando agora</p>

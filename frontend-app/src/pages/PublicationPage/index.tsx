@@ -161,7 +161,7 @@ function PublicationPage() {
         }
 
         async function loadReviews(publicationId?: string) {
-            if (publicationId !== undefined) {
+            if (publicationId !== undefined && user?.id) {
                 const response = await getReviews(publicationId);
                 if (user?.id === publication?.author.u_id) {
                     setReviews(response);

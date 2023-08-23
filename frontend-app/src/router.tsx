@@ -13,6 +13,7 @@ import { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { authenticatedApi } from "./api/api";
 import { useAuth } from "./contexts/AuthContext";
 import { checkAuthToken, TOKEN_KEY } from "./utils/TokenUtil";
+import { toast } from "react-toastify";
 
 function Router() {
 
@@ -23,10 +24,17 @@ function Router() {
     instance.interceptors.response.use((res: AxiosResponse<any, any>) => {
       return res;
     }, (error: any) => {
-      const token = checkAuthToken();
-      if (token === "invalid") {
+      const status = error.response.status;
+      
+      if (status === 401) {
           logout();
           window.location.href = "/";
+      } else if (status === 403) {
+        toast("Você não tem autorização para fazer esta requisição!", {
+          type: "error",
+          autoClose: 1500
+        });
+        return Promise.reject(error);    
       }
       return Promise.reject(error);
     });
@@ -34,8 +42,7 @@ function Router() {
       config.headers.set("Authorization", `Bearer ${localStorage.getItem(TOKEN_KEY)}`);
       return config;
     });
-
-  }, [logout]);
+  }, []);
 
   return (
     <BrowserRouter>

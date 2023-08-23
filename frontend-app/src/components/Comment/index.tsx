@@ -75,11 +75,18 @@ function Comment({ comment, onDeleteComment, onCreateComment, publicationId }: C
             type: 'error'
         }
         if (alertDialogConstants.mode === 'edit') {
-            const updatedComment: PublicationComment = await updateComment(
-                {text: commentState.c_text}, comment.c_id);
-            setCommentState(updatedComment);
-            toastConstants.title = 'Comentário atualizado!';
-            toastConstants.type = 'success';
+            try {
+                const updatedComment: PublicationComment = await updateComment(
+                    {text: commentState.c_text}, comment.c_id);
+                setCommentState(updatedComment);
+                toastConstants.title = 'Comentário atualizado!';
+                toastConstants.type = 'success';
+            } catch(_) {
+                setCommentState(comment);
+                onClose();
+                throw _;
+            }
+            
         } else if (alertDialogConstants.mode === 'delete') {
             const _ = await deleteComment(comment.c_id);
             onDeleteComment(comment.c_id);
@@ -132,7 +139,8 @@ function Comment({ comment, onDeleteComment, onCreateComment, publicationId }: C
                     <div className={styles.content}>
                         {commentState.c_text}
                     </div>
-                    { user && user.id === commentState.author.u_id ? (
+                    {/* { user && user.id === commentState.author.u_id ? ( */}
+                    { true ? (
                         <div className={styles.actionsContainer}>
                             <Menu>
                                 <MenuButton 

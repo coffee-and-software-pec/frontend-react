@@ -35,7 +35,7 @@ function LandingPage() {
 
         function redirectIfExistsToken() {
             const token = checkAuthToken();
-            if (token) {
+            if (token !== "invalid") {
                 navigate('/home');
             } else {
                 fetchPublications();

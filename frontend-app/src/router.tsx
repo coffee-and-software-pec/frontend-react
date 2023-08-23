@@ -35,6 +35,12 @@ function Router() {
           autoClose: 1500
         });
         return Promise.reject(error);    
+      } else if (status === 412) {
+        toast("Você foi impedido de realizar esta ação, conteúdo impróprio foi identificado no seu texto!", {
+          type: "error",
+          autoClose: 2500
+        });
+        return Promise.reject(error);   
       }
       return Promise.reject(error);
     });

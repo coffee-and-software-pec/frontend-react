@@ -118,6 +118,7 @@ function LandingPage() {
                         onSuccess={handleGoogleSuccessLogin}
                         onError={handleGoogleLoginFailure}
                     />
+                    <ToastContainer />
                 </div>
                 <div className={styles.popularPublicationsContainer}>
                     <p>veja o que outras pessoas estão publicando agora</p>
